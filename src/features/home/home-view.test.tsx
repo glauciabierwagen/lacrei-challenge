@@ -1,0 +1,192 @@
+import { fireEvent, screen, within } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { LanguageProvider, useLanguage } from "@/components/layout/language-context";
+import { renderWithTheme } from "@/test/render";
+import { HomeView } from "./home-view";
+
+// jsdom has no native dialog lifecycle, focus trap, or Escape default action.
+// Only stub the lifecycle here; real modal/focus/Escape behavior is covered in E2E.
+const dialogPrototype = HTMLDialogElement.prototype;
+const originalShowModal = Object.getOwnPropertyDescriptor(dialogPrototype, "showModal");
+const originalClose = Object.getOwnPropertyDescriptor(dialogPrototype, "close");
+
+function LanguageControls() {
+  const { setLanguage } = useLanguage();
+  return <><button onClick={() => setLanguage("en")}>English</button><button onClick={() => setLanguage("pt")}>Português</button></>;
+}
+
+beforeEach(() => {
+  window.history.replaceState(null, "", "/");
+  Object.defineProperties(dialogPrototype, {
+    showModal: { configurable: true, value: vi.fn(function (this: HTMLDialogElement) {
+      this.open = true;
+    }) },
+    close: { configurable: true, value: vi.fn(function (this: HTMLDialogElement) {
+      this.open = false;
+      this.dispatchEvent(new Event("close"));
+    }) },
+  });
+});
+
+afterEach(() => {
+  for (const [name, descriptor] of [["showModal", originalShowModal], ["close", originalClose]] as const) {
+    if (descriptor) Object.defineProperty(dialogPrototype, name, descriptor);
+    else Reflect.deleteProperty(dialogPrototype, name);
+  }
+  vi.unstubAllGlobals();
+  window.history.replaceState(null, "", "/");
+  document.documentElement.lang = "pt-BR";
+});
+
+describe("HomeView", () => {
+  it("links both Portuguese team CTAs to the doctors route", () => {
+    renderWithTheme(<HomeView />);
+    expect(screen.getAllByRole("link", { name: "Conheça nosso time" })).toHaveLength(2);
+    for (const name of ["Nosso Propósito", "Impacto do Lacrei Saúde"]) {
+      expect(within(screen.getByRole("region", { name })).getByRole("link", { name: "Conheça nosso time" })).toHaveAttribute("href", "/medicos");
+    }
+  });
+
+  it("selects each banner exclusively and announces its heading", async () => {
+    const { user } = renderWithTheme(<HomeView />);
+    const banners = within(screen.getByRole("group", { name: "Escolher banner" })).getAllByRole("button");
+    const heading = screen.getByRole("heading", { level: 1 });
+    // Accessible-name whitespace at <br /> differs between jsdom and Chromium.
+    const titles = [/^Saúde que fortalece\s*e transforma vidas$/, /^Mudamos pessoas,\s*transformamos o mundo\.$/, /^Educação sem fronteiras,\s*transformação sem limites\.$/];
+    expect(heading).toHaveAttribute("aria-live", "polite");
+    expect(banners).toHaveLength(3);
+    expect(banners[0]).toHaveAttribute("aria-pressed", "true");
+    for (const index of [1, 2, 0]) {
+      banners[index].focus();
+      await user.keyboard("{Enter}");
+      expect(heading).toHaveAccessibleName(titles[index]);
+      banners.forEach((banner, candidate) => {
+        expect(banner).toHaveAttribute("aria-pressed", String(candidate === index));
+      });
+    }
+  });
+
+  it("announces the selected country without inventing impact data", async () => {
+    const { user } = renderWithTheme(<HomeView />);
+    const map = screen.getByRole("group", { name: "Explore os países destacados no mapa" });
+    const markers = within(map).getAllByRole("button");
+    const status = screen.getByRole("status");
+    expect(status).toBeEmptyDOMElement();
+    expect(markers).toHaveLength(4);
+    markers.forEach((marker) => expect(marker).toHaveAttribute("aria-pressed", "false"));
+    for (const country of ["Brasil", "Senegal", "Moçambique", "Madagáscar"]) {
+      const selected = within(map).getByRole("button", { name: `Explorar ${country}` });
+      await user.click(selected);
+      expect(status).toHaveTextContent(`${country} — destaque no mapa do projeto. Dados de impacto ainda não disponibilizados.`);
+      markers.forEach((marker) => expect(marker).toHaveAttribute("aria-pressed", String(marker === selected)));
+    }
+  });
+
+  it("translates selected content and accessible names through LanguageProvider, then switches back", async () => {
+    const { user } = renderWithTheme(<LanguageProvider><LanguageControls /><HomeView /></LanguageProvider>);
+    expect(document.documentElement).toHaveAttribute("lang", "pt-BR");
+    await user.click(screen.getByRole("button", { name: /^Banner 3:/ }));
+    await user.click(screen.getByRole("button", { name: "Explorar Moçambique" }));
+    await user.click(screen.getByRole("button", { name: "English" }));
+    expect(document.documentElement).toHaveAttribute("lang", "en");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Education without borders,\s*transformation without limits\.$/);
+    expect(screen.getByRole("region", { name: /^Education without borders,\s*transformation without limits\.$/ })).toHaveAttribute("aria-roledescription", "carousel");
+    expect(screen.getByRole("group", { name: "Choose a banner" })).toBeVisible();
+    expect(screen.getByRole("button", { name: /^Banner 3:/ })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("heading", { name: "Our Purpose" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "Build a more compassionate world" })).toBeVisible();
+    expect(screen.getByRole("img", { name: "A diverse team of health professionals" })).toBeVisible();
+    expect(screen.getByRole("group", { name: "Explore the countries highlighted on the map" })).toBeVisible();
+    expect(screen.getByRole("button", { name: "Explore Mozambique" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("status")).toHaveTextContent("Mozambique — highlighted in the design map. Impact details have not been provided.");
+    expect(screen.getByRole("region", { name: "History timeline — scroll to explore" })).toHaveAttribute("tabindex", "0");
+    expect(screen.getByRole("heading", { name: "Together for the cause!" })).toBeVisible();
+    expect(screen.getAllByRole("link", { name: "Meet our team" })).toHaveLength(2);
+    for (const name of ["Our Purpose", "The impact of Lacrei Saúde"]) {
+      expect(within(screen.getByRole("region", { name })).getByRole("link", { name: "Meet our team" })).toHaveAttribute("href", "/medicos");
+    }
+    await user.click(screen.getByRole("button", { name: "How to register" }));
+    const dialog = screen.getByRole("dialog", { name: "How to register" });
+    expect(within(dialog).getByText(/Registration and appointments are not available here/)).toBeVisible();
+    expect(within(dialog).getByRole("link", { name: "Official website (new tab)" })).toHaveAttribute("href", "https://lacreisaude.com.br/");
+    await user.click(within(dialog).getByRole("button", { name: "Close" }));
+    await user.click(screen.getByRole("button", { name: "Português" }));
+    expect(document.documentElement).toHaveAttribute("lang", "pt-BR");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Educação sem fronteiras,\s*transformação sem limites\.$/);
+    expect(screen.getByRole("button", { name: "Explorar Moçambique" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByRole("status")).toHaveTextContent("Moçambique — destaque no mapa do projeto.");
+    expect(screen.getByRole("button", { name: "Como cadastrar" })).toBeVisible();
+  });
+
+  it.each([false, true])("scrolls the timeline both ways with reduced motion = %s", async (reducedMotion) => {
+    const matchMedia = vi.fn((query: string) => ({ matches: reducedMotion, media: query }));
+    vi.stubGlobal("matchMedia", matchMedia);
+    const { user } = renderWithTheme(<HomeView />);
+    const timeline = screen.getByRole("region", { name: "Linha do tempo — role para explorar" });
+    const scrollBy = vi.fn();
+    Object.defineProperty(timeline, "scrollBy", { configurable: true, value: scrollBy });
+    expect(timeline).toHaveAttribute("tabindex", "0");
+    expect(within(timeline).getAllByRole("listitem")).toHaveLength(6);
+    for (const year of [2018, 2019, 2020, 2023, 2024, 2025]) {
+      expect(within(timeline).getByText(String(year))).toHaveAttribute("datetime", String(year));
+    }
+    await user.click(screen.getByRole("button", { name: "Próximas histórias" }));
+    await user.click(screen.getByRole("button", { name: "Histórias anteriores" }));
+    expect(scrollBy).toHaveBeenCalledTimes(2);
+    expect(scrollBy).toHaveBeenNthCalledWith(1, { left: 544, behavior: reducedMotion ? "instant" : "smooth" });
+    expect(scrollBy).toHaveBeenNthCalledWith(2, { left: -544, behavior: reducedMotion ? "instant" : "smooth" });
+    expect(matchMedia).toHaveBeenCalledWith("(prefers-reduced-motion: reduce)");
+  });
+
+  it.each(["hero", "stories"])("opens and closes registration from %s, restoring the triggering control", async (entry) => {
+    const { user } = renderWithTheme(<HomeView />);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    const trigger = entry === "hero" ? screen.getByRole("button", { name: "Como cadastrar" }) : screen.getByRole("link", { name: "Crie novas histórias" });
+    if (entry === "stories") expect(trigger).toHaveAttribute("href", "#cadastro");
+    await user.click(trigger);
+    const dialog = screen.getByRole("dialog", { name: "Como cadastrar" });
+    expect(dialogPrototype.showModal).toHaveBeenCalledTimes(1);
+    expect(dialog).toHaveAttribute("open");
+    expect(within(dialog).getByText(/Cadastros e agendamentos não estão disponíveis aqui/)).toBeVisible();
+    const official = within(dialog).getByRole("link", { name: "Site oficial (nova aba)" });
+    expect(official).toHaveAttribute("target", "_blank");
+    expect(official).toHaveAttribute("rel", "noopener noreferrer");
+    await user.click(within(dialog).getByRole("button", { name: "Fechar" }));
+    expect(dialogPrototype.close).toHaveBeenCalledTimes(1);
+    expect(dialog).not.toHaveAttribute("open");
+    expect(trigger).toHaveFocus();
+    expect(window.location.hash).toBe("");
+  });
+
+  it("opens an initial registration hash, ignores hash changes while open, and clears the hash on close", async () => {
+    window.history.replaceState(null, "", "/#cadastro");
+    const { user } = renderWithTheme(<HomeView />);
+    expect(screen.getByRole("dialog", { name: "Como cadastrar" })).toHaveAttribute("open");
+    fireEvent(window, new HashChangeEvent("hashchange"));
+    expect(dialogPrototype.showModal).toHaveBeenCalledTimes(1);
+    await user.click(screen.getByRole("button", { name: "Fechar" }));
+    expect(window.location.hash).toBe("");
+    expect(window.location.pathname).toBe("/");
+  });
+
+  it("handles repeated registration hash events and removes the listener on unmount", async () => {
+    const removeListener = vi.spyOn(window, "removeEventListener");
+    const { user, unmount } = renderWithTheme(<HomeView />);
+    window.history.replaceState(null, "", "/#impacto");
+    fireEvent(window, new HashChangeEvent("hashchange"));
+    expect(dialogPrototype.showModal).not.toHaveBeenCalled();
+    for (let attempt = 0; attempt < 2; attempt++) {
+      window.history.replaceState(null, "", "/#cadastro");
+      fireEvent(window, new HashChangeEvent("hashchange"));
+      expect(screen.getByRole("dialog", { name: "Como cadastrar" })).toHaveAttribute("open");
+      await user.click(screen.getByRole("button", { name: "Fechar" }));
+      expect(window.location.hash).toBe("");
+    }
+    expect(dialogPrototype.showModal).toHaveBeenCalledTimes(2);
+    unmount();
+    expect(removeListener).toHaveBeenCalledWith("hashchange", expect.any(Function));
+    window.history.replaceState(null, "", "/#cadastro");
+    fireEvent(window, new HashChangeEvent("hashchange"));
+    expect(dialogPrototype.showModal).toHaveBeenCalledTimes(2);
+  });
+});
