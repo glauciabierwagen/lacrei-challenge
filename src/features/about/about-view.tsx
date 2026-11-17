@@ -5,6 +5,7 @@ import { Accordion, type AccordionItem } from "@/components/ui/accordion";
 import { ButtonLink } from "@/components/ui/button-link";
 import { Actions, Card, CardGrid, Container, Eyebrow, Lead, Notice, Section, SectionHeading, Stack } from "@/components/ui/primitives";
 
+// Estilos da apresentação e dos blocos de leitura da página Sobre.
 const Intro = styled(Container)`
   display: grid;
   gap: ${({ theme }) => theme.space.xxl};
@@ -27,12 +28,14 @@ const Reading = styled(Container)`
   gap: ${({ theme }) => theme.space.xl};
 `;
 
+// Perguntas e respostas sobre o escopo do protótipo.
 const questions: AccordionItem[] = [
   { id: "design", question: "De onde vem esta proposta visual?", answer: "A composição, a ilustração e os textos foram criados como uma proposta provisória para este exercício. Nenhum arquivo Figma foi disponibilizado; não se trata da implementação de um layout oficial." },
   { id: "acessibilidade", question: "Como a acessibilidade aparece no protótipo?", answer: "A interface inclui navegação por teclado, indicação de foco, link para pular ao conteúdo, menu com estado anunciado e perguntas expansíveis. Essas escolhas são um ponto de partida e não representam certificação de acessibilidade." },
   { id: "dados", question: "É preciso informar algum dado pessoal?", answer: "Não. Esta demonstração não possui formulários, contas ou agendamento. Não envie informações pessoais ou de saúde por este protótipo." },
 ];
 
+// Apresenta os princípios e os limites do projeto demonstrativo.
 export function AboutView() {
   return (
     <>

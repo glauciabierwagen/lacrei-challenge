@@ -7,6 +7,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import styled from "styled-components";
 import { useLanguage } from "./language-context";
 
+// Estilos do cabeçalho, do menu responsivo e dos botões de idioma.
 const Shell = styled.header<{ $home: boolean }>`
   position: ${({ $home }) => $home ? "absolute" : "relative"};
   inset: 0 0 auto;
@@ -93,6 +94,7 @@ const navigation = {
 };
 const destinations = ["/", "/sobre", "/medicos", "/#historias", "/#impacto", "/#cadastro"];
 
+// Mostra a navegação e permite trocar o idioma do site.
 export function Header() {
   const pathname = usePathname();
   const { language, setLanguage } = useLanguage();
@@ -101,6 +103,7 @@ export function Header() {
   const navigationId = useId();
   const english = language === "en";
 
+  // Fecha o menu móvel com Escape e devolve o foco ao botão.
   useEffect(() => {
     if (!open) return;
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -132,6 +135,7 @@ export function Header() {
                     if (index === 5 && pathname === "/") {
                       event.preventDefault();
                       if (window.matchMedia("(max-width: 1199px)").matches) buttonRef.current?.focus();
+                      // Reabre o aviso de cadastro mesmo quando a URL já tem essa âncora.
                       window.history.pushState(null, "", "/#cadastro");
                       window.dispatchEvent(new Event("lacrei:register"));
                     }

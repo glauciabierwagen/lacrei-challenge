@@ -4,8 +4,8 @@ import { LanguageProvider, useLanguage } from "@/components/layout/language-cont
 import { renderWithTheme } from "@/test/render";
 import { HomeView } from "./home-view";
 
-// jsdom has no native dialog lifecycle, focus trap, or Escape default action.
-// Only stub the lifecycle here; real modal/focus/Escape behavior is covered in E2E.
+// O jsdom não oferece o ciclo nativo do modal, a contenção de foco nem a ação de Escape.
+// Simula apenas abrir e fechar; foco e Escape reais são verificados nos testes de navegador.
 const dialogPrototype = HTMLDialogElement.prototype;
 const originalShowModal = Object.getOwnPropertyDescriptor(dialogPrototype, "showModal");
 const originalClose = Object.getOwnPropertyDescriptor(dialogPrototype, "close");
@@ -38,6 +38,7 @@ afterEach(() => {
   document.documentElement.lang = "pt-BR";
 });
 
+// Verifica banners, mapa, idioma, linha do tempo e abertura do aviso de cadastro.
 describe("HomeView", () => {
   it("links both Portuguese team CTAs to the doctors route", () => {
     renderWithTheme(<HomeView />);
@@ -51,7 +52,7 @@ describe("HomeView", () => {
     const { user } = renderWithTheme(<HomeView />);
     const banners = within(screen.getByRole("group", { name: "Escolher banner" })).getAllByRole("button");
     const heading = screen.getByRole("heading", { level: 1 });
-    // Accessible-name whitespace at <br /> differs between jsdom and Chromium.
+    // Os espaços no nome acessível junto ao <br /> diferem entre jsdom e Chromium.
     const titles = [/^Saúde que fortalece\s*e transforma vidas$/, /^Mudamos pessoas,\s*transformamos o mundo\.$/, /^Educação sem fronteiras,\s*transformação sem limites\.$/];
     expect(heading).toHaveAttribute("aria-live", "polite");
     expect(banners).toHaveLength(3);

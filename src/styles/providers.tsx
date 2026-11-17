@@ -7,6 +7,7 @@ import { GlobalStyles } from "./global-styles";
 import { StyledComponentsRegistry } from "./registry";
 import { theme } from "./theme";
 
+// Disponibiliza os estilos, o tema e o idioma para todas as páginas.
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <StyledComponentsRegistry>

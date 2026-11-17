@@ -7,6 +7,7 @@ import { Footer } from "./footer";
 import { Header } from "./header";
 import { LanguageProvider } from "./language-context";
 
+// Verifica o menu, as rotas, a troca de idioma e a acessibilidade do cabeçalho.
 describe("Header", () => {
   let originalLocation: string;
 
@@ -115,8 +116,8 @@ describe("Header", () => {
       await user.click(toggle);
       focus.mockClear();
       const registration = screen.getByRole("link", { name: "Como cadastrar" });
-      // jsdom does not apply desktop media queries when matchMedia is mocked.
-      // Keep navigation visible as the real desktop CSS does after closing state.
+      // O jsdom não aplica as regras de desktop ao simular matchMedia.
+      // Mantém a navegação visível após fechar o estado do menu, como no CSS de desktop.
       if (!matches) screen.getByRole("navigation").style.display = "flex";
       await user.click(registration);
       expect(toggle).toHaveAttribute("aria-expanded", "false");

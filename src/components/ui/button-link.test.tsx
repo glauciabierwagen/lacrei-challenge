@@ -4,6 +4,7 @@ import { renderWithTheme } from "@/test/render";
 import { theme } from "@/styles/theme";
 import { ButtonLink, type ButtonLinkVariant } from "./button-link";
 
+// Verifica as variantes visuais, o uso pelo teclado e os atributos dos links.
 describe("ButtonLink", () => {
   it.each<{ variant: ButtonLinkVariant | undefined; secondary: boolean }>([
     { variant: undefined, secondary: false },

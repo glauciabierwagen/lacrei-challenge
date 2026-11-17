@@ -2,6 +2,7 @@
 
 import { createGlobalStyle } from "styled-components";
 
+// Define fontes, estilos básicos, foco visível e redução de movimento.
 export const GlobalStyles = createGlobalStyle`
   @font-face { font-family: "TrashHand"; src: url("/fonts/trashhand.woff") format("woff"); font-weight: 400; font-style: normal; font-display: swap; }
   *, *::before, *::after { box-sizing: border-box; }

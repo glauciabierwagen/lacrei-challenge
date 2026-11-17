@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 export type ButtonLinkVariant = "primary" | "secondary";
 
+// Mantém a navegação de um link com aparência de botão em duas variantes.
 export const ButtonLink = styled(Link)<{ $variant?: ButtonLinkVariant }>`
   display: inline-flex;
   align-items: center;

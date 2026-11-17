@@ -10,7 +10,7 @@ const assets = "/images/figma/";
 const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at risus neque. Cras sit amet ligula ut justo commodo porta id ut enim. Nulla est lectus, mollis sit amet vehicula id, volutpat eget mauris.";
 const years = [2018, 2019, 2020, 2023, 2024, 2025];
 const photos = ["imgFrame4556.png", "imgTextContent.png", "imgTextContent1.png", "imgTextContent.png", "imgFrame4556.png", "imgTextContent.png"];
-// Original Figma image placement, including source-image whitespace cropping.
+// Mantém os recortes do Figma, incluindo a remoção de espaços vazios das imagens.
 const crops = [
   { width: "167.66%", height: "206.18%", left: "-33.7%", top: "-45.15%" },
   { width: "150.11%", height: "138.29%", left: "-22.66%", top: "-27.26%" },
@@ -26,6 +26,7 @@ const locations = [
   { pt: "Madagáscar", en: "Madagascar", x: 92.24, y: 62.48 },
 ];
 
+// Monta a página inicial com banners, mapa, histórias e aviso de cadastro.
 export function HomeView() {
   const { language } = useLanguage();
   const en = language === "en";
@@ -35,6 +36,7 @@ export function HomeView() {
   const dialog = useRef<HTMLDialogElement>(null);
   const registrationLink = useRef<HTMLElement | null>(null);
 
+  // Abre o modal pela âncora ou evento de cadastro e remove os ouvintes ao sair.
   useEffect(() => {
     const openFromHash = () => {
       if (window.location.hash === "#cadastro" && !dialog.current?.open) {
@@ -60,6 +62,7 @@ export function HomeView() {
     dialog.current?.close();
   }
 
+  // Ao fechar o modal, limpa a âncora de cadastro e devolve o foco à origem.
   function restoreFocus() {
     if (window.location.hash === "#cadastro") window.history.replaceState(null, "", window.location.pathname);
     registrationLink.current?.focus();
@@ -109,7 +112,7 @@ export function HomeView() {
         <S.ImpactContent>
           <S.CenterHeading><h2 id="impact-title">{en ? "The impact of Lacrei Saúde" : "Impacto do Lacrei Saúde"}</h2><p>{lorem}</p></S.CenterHeading>
           <S.MapCanvas role="group" aria-label={en ? "Explore the countries highlighted on the map" : "Explore os países destacados no mapa"}>
-            {/* SVG dimensions from Figma are preserved; the design's overflow is intentional. */}
+            {/* Usa SVG em img nativo com as medidas do Figma; a sobra para fora do mapa é intencional. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={`${assets}imgMap.svg`} alt={en ? "Map highlighting countries in South America and Africa" : "Mapa com países destacados na América do Sul e na África"} width={900} height={568} loading="lazy" />
             {locations.map((item, index) => <button key={item.en} type="button" style={{ left: `${item.x}%`, top: `${item.y}%` }} aria-label={`${en ? "Explore" : "Explorar"} ${en ? item.en : item.pt}`} aria-pressed={location === index} onClick={() => setLocation(index)}>

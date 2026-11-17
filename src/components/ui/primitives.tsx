@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 
+// Elementos básicos de estrutura e acesso ao conteúdo pelo teclado.
 export const Main = styled.main`
   min-height: 65vh;
   scroll-margin-top: 1rem;
@@ -19,6 +20,7 @@ export const SkipLink = styled.a`
   &:focus { transform: translateY(0); }
 `;
 
+// Organiza a largura, as seções e os textos compartilhados pelas páginas.
 export const Container = styled.div`
   width: min(calc(100% - 2rem), ${({ theme }) => theme.layout.maxWidth});
   margin-inline: auto;
@@ -60,6 +62,7 @@ export const Actions = styled.div`
   > a { max-width: 100%; }
 `;
 
+// Estilos dos cartões, títulos de seção e avisos.
 export const CardGrid = styled.div`
   display: grid;
   gap: ${({ theme }) => theme.space.lg};

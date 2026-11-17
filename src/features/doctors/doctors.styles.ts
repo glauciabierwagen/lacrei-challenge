@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Container } from "@/components/ui/primitives";
 import * as Home from "@/features/home/home.styles";
 
+// Adapta os estilos da página inicial para o banner e a missão dos médicos.
 export const Hero = styled(Home.Hero)`
   h1 { max-width: 53.125rem; }
 `;
@@ -30,6 +31,7 @@ export const Heading = styled(Home.CenterHeading)`
   h2 { line-height: 1.3; }
 `;
 
+// Organiza os depoimentos em cartões que se ajustam ao tamanho da tela.
 export const Testimonials = styled(Home.HomeSection)`
   background: #fff;
   ${Heading} { margin-bottom: .875rem; }
@@ -54,6 +56,7 @@ export const TestimonialCard = styled.article`
   > p + p { margin-top: .5rem; }
 `;
 
+// Define o fundo decorativo e os cartões com as fotos da equipe.
 export const Team = styled(Home.HomeSection)`
   position: relative; isolation: isolate; overflow: clip;
   > img:first-child { z-index: -2; object-fit: cover; opacity: .12; pointer-events: none; }

@@ -5,10 +5,12 @@ import { LanguageProvider } from "@/components/layout/language-context";
 import { renderWithTheme } from "@/test/render";
 import { DoctorsView } from "./doctors-view";
 
+// Restaura o idioma do documento após cada teste.
 afterEach(() => {
   document.documentElement.lang = "pt-BR";
 });
 
+// Verifica banners, cartões, links de cadastro e troca de idioma da página de médicos.
 describe("DoctorsView", () => {
   it("selects each hero banner exclusively by keyboard and announces its heading", async () => {
     const { user } = renderWithTheme(<DoctorsView />);

@@ -8,9 +8,8 @@ function TestTheme({ children }: { children: ReactNode }) {
   return (
     <StyleSheetManager stylisPlugins={[
       function mobileViewport(element) {
-        // jsdom 31 fixes CSS viewport width at 1024px; innerWidth/matchMedia
-        // overrides cannot change it. Omit desktop-only rules for mobile units.
-        // Responsive breakpoint evaluation belongs in browser-based E2E tests.
+        // O jsdom 31 fixa o CSS em 1024px, mesmo alterando innerWidth/matchMedia.
+        // Remove regras de desktop nos testes móveis; a responsividade é testada no navegador.
         if (element.type === "@media" && element.value.includes("min-width:")) {
           element.children = [];
         }
@@ -21,6 +20,7 @@ function TestTheme({ children }: { children: ReactNode }) {
   );
 }
 
+// Renderiza com o tema do site e prepara as interações do usuário.
 export function renderWithTheme(
   ui: ReactElement,
   options?: Omit<RenderOptions, "wrapper">,

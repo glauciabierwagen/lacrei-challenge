@@ -7,8 +7,10 @@ type LanguageContextValue = { language: Language; setLanguage: (language: Langua
 
 const LanguageContext = createContext<LanguageContextValue>({ language: "pt", setLanguage: () => {} });
 
+// Compartilha o idioma escolhido entre os componentes.
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("pt");
+  // Atualiza o idioma do documento para os leitores de tela.
   useEffect(() => {
     document.documentElement.lang = language === "pt" ? "pt-BR" : "en";
   }, [language]);
@@ -16,6 +18,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 
+// Permite consultar e trocar o idioma nos componentes.
 export function useLanguage() {
   return useContext(LanguageContext);
 }

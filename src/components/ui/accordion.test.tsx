@@ -9,6 +9,7 @@ const items: readonly AccordionItem[] = [
   { id: "details", question: "Como saber mais?", answer: <a href="/sobre">Conheça o projeto</a> },
 ];
 
+// Busca o painel ligado ao botão pelo atributo aria-controls.
 function panelFor(trigger: HTMLElement) {
   const id = trigger.getAttribute("aria-controls");
   expect(id).toBeTruthy();
@@ -17,6 +18,7 @@ function panelFor(trigger: HTMLElement) {
   return panel!;
 }
 
+// Verifica a abertura independente dos painéis, o teclado e a acessibilidade.
 describe("Accordion", () => {
   it("starts collapsed with labelled, controlled, hidden panels", () => {
     renderWithTheme(<Accordion items={items} />);

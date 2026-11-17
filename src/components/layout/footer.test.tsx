@@ -6,6 +6,7 @@ import { Footer } from "./footer";
 import { Header } from "./header";
 import { LanguageProvider } from "./language-context";
 
+// Verifica contatos, newsletter demonstrativa, idioma e acessibilidade do rodapé.
 describe("Footer", () => {
   it("provides a newsletter, actual brand asset, copyright and back-to-top link", () => {
     renderWithTheme(<Footer />);
@@ -70,7 +71,7 @@ describe("Footer", () => {
     await user.type(input, "invalid-email");
     await user.click(screen.getByRole("button", { name: "Assinar" }));
     expect(input).toBeInvalid();
-    // Defensively reject programmatic submission that bypasses browser validation.
+    // Confere se um envio por código também rejeita valores inválidos.
     fireEvent.submit(input.closest("form")!);
     expect(input).toHaveValue("invalid-email");
     expect(status).toBeEmptyDOMElement();

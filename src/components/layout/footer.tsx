@@ -5,6 +5,7 @@ import { useId, useState, type FormEvent } from "react";
 import styled from "styled-components";
 import { useLanguage } from "./language-context";
 
+// Estilos do rodapé, do formulário e dos canais de contato.
 const Shell = styled.footer`
   box-sizing: border-box;
   min-height: 470px;
@@ -100,7 +101,7 @@ const Status = styled.p`
   min-height: 1.5em;
 `;
 
-// Published links verified against https://lacreisaude.com.br/.
+// Links publicados conferidos em https://lacreisaude.com.br/.
 const channels = [
   { name: "Instagram", icon: "imgInstagram.svg", href: "https://www.instagram.com/lacrei.saude" },
   { name: "YouTube", icon: "imgGroup4529.svg", href: null },
@@ -132,6 +133,7 @@ const copy = {
   },
 };
 
+// Mostra a newsletter demonstrativa e os contatos no idioma escolhido.
 export function Footer() {
   const { language } = useLanguage();
   const text = copy[language];
@@ -143,6 +145,7 @@ export function Footer() {
   const [submitted, setSubmitted] = useState(false);
   const [unavailable, setUnavailable] = useState(false);
 
+  // Valida e limpa o campo sem enviar nem armazenar o e-mail.
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!event.currentTarget.checkValidity()) return;

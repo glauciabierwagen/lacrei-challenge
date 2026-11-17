@@ -36,11 +36,12 @@ const Panel = styled.div`
   color: ${({ theme }) => theme.colors.muted};
 `;
 
-/** Item IDs must be unique within an instance. Multiple panels may be open. */
+// Exibe perguntas expansíveis; os IDs devem ser únicos na lista e vários painéis podem ficar abertos.
 export function Accordion({ items }: AccordionProps) {
   const instanceId = useId();
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
 
+  // Abre ou fecha apenas o painel escolhido, sem alterar os demais.
   function toggle(id: string) {
     setExpanded((previous) => {
       const next = new Set(previous);

@@ -1,3 +1,4 @@
+// Reúne as cores, fontes e medidas usadas no site.
 export const theme = {
   colors: {
     primary: "#087b6b",

@@ -9,7 +9,7 @@ Projeto em **Next.js App Router + TypeScript + Styled-Components**. Páginas do 
 - [Home](https://lacrei-challenge-three.vercel.app/)
 - [Médicos](https://lacrei-challenge-three.vercel.app/medicos)
 
-URL pública informada pelo responsável pelo projeto. Os resultados de testes locais não substituem a auditoria dessa versão publicada.
+URL pública informada pelo responsável pelo projeto. Auditoria Lighthouse pública registrada em 17/11/2026; veja os [relatórios completos](docs/audits/2026-11-17-vercel/README.md). Os testes locais e o Lighthouse não substituem a revisão manual com leitor de tela.
 
 ## Página Médicos e navegação
 
@@ -132,12 +132,25 @@ Validação realizada após implementar Médicos e padronizar a tipografia em Nu
 | Testes E2E | 38 aprovados | Chromium desktop/mobile, rotas, links de equipe, idiomas, banners, mapa, linha do tempo, diálogo, newsletter, teclado e recarregamento direto. |
 | Responsividade | Sem overflow nos cenários automatizados | Larguras de 320, 375, 768, 1024 e 1440 px. |
 | axe | Sem violações detectadas nos estados auditados | Verificações automatizadas WCAG A/AA, incluindo estados abertos de menu e diálogo. |
-| Lighthouse da versão final | Pendente de nova execução | As medições abaixo são históricas, anteriores a Médicos e à última alteração de fontes. |
-| NVDA/VoiceOver e auditoria do deploy público | Pendentes | URL pública informada; testes manuais de leitor de tela e auditorias dessa URL ainda não registrados. |
+| Lighthouse no deploy público | Executado em 17/11/2026 | Três medições mobile por página; Performance mediana 89 na Home e 93 em Médicos; Acessibilidade 100 em todas. Uma execução da Home ficou em 76. |
+| NVDA/VoiceOver | Pendente — não executado | NVDA não encontrado nos locais e registros verificados; sem acesso à interface/fala do leitor nesta sessão. [Roteiro e registro pendente](docs/screen-reader-review.md). |
 
 Para reproduzir, instalar as dependências, executar `npm run check`, instalar o navegador com `npx playwright install chromium` e executar `npm run test:e2e`. O build precisa estar atualizado; encerrar qualquer servidor antigo para evitar testar outra versão. Os testes E2E não incluem Safari/WebKit ou Firefox.
 
 Os relatórios de cobertura HTML/LCOV são gerados na pasta de cobertura; o relatório HTML do Playwright, na pasta de relatórios de navegador; o Lighthouse produz seus relatórios na pasta de auditorias. Essas saídas são ignoradas pelo Git e disponibilizadas como artefatos pelo pipeline quando ele é executado no GitHub. Este registro corresponde à execução local, não comprova uma execução do workflow na nuvem.
+
+### Lighthouse na Vercel — 17/11/2026
+
+Auditoria feita diretamente no domínio público, com **Lighthouse 13.6.0**, **Chromium 159**, emulação **mobile**, throttling simulado e perfil novo do navegador em cada execução. O cache da CDN/Vercel não é controlado pela coleta. Foram auditadas as categorias Performance e Acessibilidade; não se afirma aprovação de categorias não executadas.
+
+| Página | Performance (3 execuções) | Mediana | Acessibilidade (3 execuções) | Contraste |
+| --- | --- | --- | --- | --- |
+| [Home](https://lacrei-challenge-three.vercel.app/) | 89 / 96 / 76 | **89** | 100 / 100 / 100 | Aprovado nas três |
+| [Médicos](https://lacrei-challenge-three.vercel.app/medicos) | 97 / 80 / 93 | **93** | 100 / 100 / 100 | Aprovado nas três |
+
+**As medianas atendem às metas configuradas**, mas a Home não atingiu Performance 80 em todas as execuções. A medição de 76 permanece registrada; se o critério de avaliação exigir mínimo de 80 por execução, ainda há uma pendência de estabilidade de performance. Não foi confirmado o commit/deployment ID servido pelo domínio; os resultados representam o conteúdo entregue durante a coleta, não qualquer alteração futura.
+
+Os [seis relatórios HTML/JSON e o resumo](docs/audits/2026-11-17-vercel/README.md) foram preservados para consulta. A coleta pode ser repetida com `node scripts/audit-public.mjs`, após instalar as dependências e disponibilizar Chrome/Chromium (ou definir `CHROME_PATH`). O script não inicia o servidor local e uma nova execução no mesmo dia sobrescreve os relatórios daquela data.
 
 ### Histórico de auditorias
 
@@ -176,7 +189,7 @@ Não cobrem navegadores não testados, leitor de tela manual ou URL pública. Re
 - Respeito a movimento reduzido e imagens decorativas com `alt=""`.
 - axe no navegador verifica WCAG A/AA e contraste; o Lighthouse exige acessibilidade ≥90 e aprovação específica de contraste.
 
-**Teste manual de leitor de tela ainda necessário**, preferencialmente com NVDA + Firefox/Chrome no Windows ou VoiceOver + Safari no macOS/iOS:
+**Teste manual de leitor de tela ainda necessário.** Em 17/11/2026, não foi encontrado NVDA instalado/em execução nos locais e registros verificados. VoiceOver não está disponível neste Windows, e as ferramentas desta sessão não permitem operar a interface nativa nem avaliar a fala de um leitor. Portanto, essa revisão **não foi executada nem aprovada**. O [roteiro completo e a ficha de resultados](docs/screen-reader-review.md) estão preparados para execução com NVDA + Firefox/Chrome no Windows ou VoiceOver + Safari no macOS/iOS:
 
 1. Percorrer landmarks e títulos; confirmar um conteúdo principal e um `h1` por página.
 2. Usar Tab/Shift+Tab; confirmar ordem lógica e foco sempre visível.

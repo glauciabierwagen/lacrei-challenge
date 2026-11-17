@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Container } from "@/components/ui/primitives";
 import { ButtonLink } from "@/components/ui/button-link";
 
+// Estilos do banner inicial, dos botões e dos indicadores de seleção.
 export const Hero = styled.section`
   position: relative; isolation: isolate; min-height: 45rem;
   display: grid; align-items: center; padding: 9rem 0 5rem;
@@ -40,6 +41,7 @@ export const Dots = styled.div`
   button[aria-pressed="true"] span { background: #fff; }
   @media (max-width: 47.99rem) { bottom: 1rem; }
 `;
+// Organiza as seções de apresentação, os valores e os títulos.
 export const HomeSection = styled.section`
   position: relative; padding-block: clamp(3rem, 6vw, 5rem);
 `;
@@ -71,6 +73,7 @@ export const Handwritten = styled.p`
   && { color: ${({ theme }) => theme.colors.primary}; font-family: "TrashHand", "Nunito", cursive;
     font-size: 2rem; line-height: 1; text-transform: uppercase; }
 `;
+// Posiciona o mapa, seus marcadores e as imagens decorativas.
 export const ImpactContent = styled(Container)`
   display: grid; justify-items: center; gap: 3.5rem;
 `;
@@ -94,6 +97,7 @@ export const ImpactStatus = styled.p`
   min-height: 1.6em; text-align: center; color: ${({ theme }) => theme.colors.primary};
   margin-top: -2rem;
 `;
+// Define a linha do tempo horizontal e os cartões com imagens recortadas.
 export const HistorySection = styled(HomeSection)`
   padding-top: 0; overflow: clip;
   > div:first-child h2 { font-family: ${({ theme }) => theme.fonts.heading}; }
@@ -123,6 +127,7 @@ export const HistoryActions = styled(Container)`
   button { width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid #087b6b; background: #fff; color: #087b6b; font-size: 1.5rem; }
   button:hover { background: #fafbeb; }
 `;
+// Estilos dos parceiros e da janela de aviso sobre cadastro.
 export const PartnerSection = styled(HomeSection)`
   padding-bottom: 5rem;
   h2 { font-family: ${({ theme }) => theme.fonts.heading}; }

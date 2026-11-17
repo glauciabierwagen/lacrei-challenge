@@ -16,13 +16,15 @@ const volunteers = [
   { name: "Débora", avatar: "imgEllipse24.png" },
 ];
 const doctors = ["Fernanda", "Marcelo", "Fernanda", "Fernanda", "Marcelo", "Fernanda", "Fernanda", "Fernanda", "Marcelo"];
-// Keep the source image placements from Figma, including its deliberate stretching.
+// Mantém os recortes e o alongamento intencional das imagens do Figma.
 const fernandaCrop = { position: "absolute", width: "100%", height: "156.61%", left: "0", top: "-12.48%" } as const;
 const marceloCrop = { position: "absolute", width: "126.58%", height: "162.92%", left: "-13.26%", top: "-13.25%" } as const;
 
+// Apresenta a missão, os voluntários e os médicos no idioma escolhido.
 export function DoctorsView() {
   const { language } = useLanguage();
   const en = language === "en";
+  // Guarda o banner selecionado sem perder a seleção ao trocar o idioma.
   const [slide, setSlide] = useState(0);
   const register = en ? "How to register" : "Como cadastrar";
   const join = en ? "Join us" : "Junte-se a nós";
