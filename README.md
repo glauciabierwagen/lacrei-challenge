@@ -2,6 +2,15 @@
 
 Projeto em **Next.js App Router + TypeScript + Styled-Components**. Páginas do Figma: `/` e `/medicos`. A rota `/sobre` foi preservada como demonstração adicional.
 
+## Aplicação publicada
+
+**Acesse na Vercel:** [https://lacrei-challenge-three.vercel.app/](https://lacrei-challenge-three.vercel.app/)
+
+- [Home](https://lacrei-challenge-three.vercel.app/)
+- [Médicos](https://lacrei-challenge-three.vercel.app/medicos)
+
+URL pública informada pelo responsável pelo projeto. Os resultados de testes locais não substituem a auditoria dessa versão publicada.
+
 ## Página Médicos e navegação
 
 A rota `/medicos` implementa o [frame Médicos](https://www.figma.com/design/rvDbI6SujvrVj71ldR4c8I/LacreiChallenge?node-id=6-644): hero, missão, depoimentos, grade de nove profissionais, parceiros e rodapé compartilhado.
@@ -19,8 +28,8 @@ A rota `/medicos` implementa o [frame Médicos](https://www.figma.com/design/rvD
 
 - Hero com foto original, navegação sobreposta e três mensagens selecionáveis, sem autoplay.
 - Seção Nosso Propósito, mapa com países selecionáveis, linha do tempo rolável e parceiros.
-- Cabeçalho e rodapé compartilhados adaptados ao frame; a segunda página ainda não foi redesenhada.
-- Alternância PT/EN na Home, cabeçalho e rodapé. O conteúdo da segunda página permanece em português.
+- Cabeçalho e rodapé compartilhados entre Home, Médicos e a demonstração adicional.
+- Alternância PT/EN na Home, em Médicos, no cabeçalho e no rodapé. Apenas o conteúdo da rota adicional `/sobre` permanece em português.
 - Diálogo nativo de orientações de cadastro, com foco contido e retorno ao acionador.
 - Newsletter validada no navegador; o status informa explicitamente que não envia nem armazena dados.
 - Os textos Lorem Ipsum e as imagens repetidas de parceiros foram mantidos conforme o arquivo fornecido; não foram inventados dados de impacto ou marcos históricos.
@@ -28,6 +37,25 @@ A rota `/medicos` implementa o [frame Médicos](https://www.figma.com/design/rvD
 - Verde de botões escurecido para contraste com branco; destaque do hero clareado e textos sobre fotos receberam fundo mais opaco por acessibilidade.
 
 Assets originais foram baixados localmente. Por decisão de tipografia do projeto, todos os textos usam **Nunito**, exceto as chamadas manuscritas, que mantêm **TrashHand**. Nunito é distribuída por `@fontsource`, com licença no respectivo pacote; TrashHand foi obtida de https://fonts.cdnfonts.com/s/441/TrashHand.woff. Revisar a autorização de uso das fotos, marcas e fontes antes do deploy público.
+
+## Escolhas e justificativas visuais e técnicas
+
+| Decisão | Justificativa |
+| --- | --- |
+| Hierarquia, fotos e composição orientadas pelos dois frames do Figma | Preservar a identidade visual e a relação entre as páginas, sem substituir assets por imagens genéricas. |
+| Nunito nos textos e TrashHand nas chamadas manuscritas | Padronização solicitada para melhorar a consistência de leitura, mantendo o contraste expressivo das chamadas. |
+| Ajustes de verde, destaque do hero e fundos de texto sobre fotos | Priorizar contraste e legibilidade sem abandonar a paleta do design. A fidelidade visual não deve impedir o atendimento à acessibilidade. |
+| Mobile-first, Grid/Flex e medidas fluidas | Adaptar a hierarquia desktop a telas menores, sem depender de larguras fixas que causem overflow; validar de 320 a 1440 px. |
+| Banners sem autoplay e respeito a movimento reduzido | Evitar troca inesperada de conteúdo e permitir que cada pessoa controle a leitura. |
+| HTML semântico, foco visível, botões nativos e diálogo modal nativo | Favorecer teclado e tecnologias assistivas, reduzindo a necessidade de recriar comportamentos nativos com ARIA. |
+| Next.js App Router e TypeScript | Organizar rotas e metadados, obter pré-renderização e detectar incompatibilidades de tipos antes do deploy. |
+| Styled-Components com tema e registry de SSR | Centralizar decisões visuais e inserir os estilos durante a renderização no servidor, evitando depender apenas da aplicação de CSS após a hidratação. |
+| Fontes e assets locais, `next/image`, dimensões e `sizes` | Evitar dependências externas em runtime, reduzir mudanças de layout e permitir otimização das imagens. A imagem principal recebe prioridade; as demais mantêm lazy loading. |
+| Vitest/Testing Library, Playwright e axe | Combinar testes isolados de componentes com verificação de navegação, responsividade e acessibilidade no navegador real. |
+| Metas automatizadas de Lighthouse e pipeline de qualidade | Detectar regressões; as notas são medições de uma versão e ambiente, não uma certificação permanente. |
+| Cadastro e newsletter explicitamente demonstrativos | Não simular integrações inexistentes nem coletar dados pessoais sem infraestrutura, finalidade e política adequadas. |
+
+**Limites conhecidos:** textos Lorem Ipsum, nomes e imagens repetidos permanecem conforme o Figma. Ainda são necessárias revisão editorial, validação manual com leitor de tela e auditoria da URL pública. A adaptação mobile foi derivada dos frames desktop disponíveis.
 
 ## Ambiente e execução
 
@@ -45,9 +73,11 @@ Na preparação inicial foi usado Node portátil na pasta temporária, porque o 
 | --- | --- |
 | [src/app/layout.tsx](src/app/layout.tsx) | Idioma, metadados, skip link e estrutura compartilhada |
 | [src/app/page.tsx](src/app/page.tsx) | Entrada da página inicial |
-| [src/app/sobre/page.tsx](src/app/sobre/page.tsx) | Entrada da segunda página |
+| [src/app/medicos/page.tsx](src/app/medicos/page.tsx) | Entrada da página Médicos |
+| [src/app/sobre/page.tsx](src/app/sobre/page.tsx) | Entrada da demonstração adicional |
 | [src/features/home/home-view.tsx](src/features/home/home-view.tsx) | Composição visual da primeira página |
-| [src/features/about/about-view.tsx](src/features/about/about-view.tsx) | Composição visual da segunda página |
+| [src/features/doctors/doctors-view.tsx](src/features/doctors/doctors-view.tsx) | Composição visual de Médicos |
+| [src/features/about/about-view.tsx](src/features/about/about-view.tsx) | Composição da demonstração adicional |
 | [src/components/layout/header.tsx](src/components/layout/header.tsx) | Navegação responsiva compartilhada |
 | [src/components/layout/footer.tsx](src/components/layout/footer.tsx) | Rodapé compartilhado |
 | [src/components/ui/button-link.tsx](src/components/ui/button-link.tsx) | Link de navegação com aparência de botão |
@@ -82,13 +112,36 @@ O acesso ao arquivo e a leitura do frame Home foram confirmados via Figma MCP ne
 | `npm run test:coverage` | Cobertura; mínimo de 80% por componente selecionado |
 | `npm run check` | Lint + tipos + cobertura + build |
 | `npm run test:e2e` | Chromium desktop/mobile contra o build de produção |
-| `npm run lighthouse` | Auditoria das duas páginas; exige build pronto e Chrome/Chromium |
+| `npm run lighthouse` | Auditoria de `/`, `/medicos` e `/sobre`; exige build pronto e Chrome/Chromium |
 
 Antes do primeiro E2E, instalar o navegador com `npx playwright install chromium` e gerar o build. O Playwright inicia e encerra o servidor automaticamente. São verificados 320, 375, 768, 1024 e 1440 px, o atalho para o conteúdo, navegação e acordeão.
 
 Há testes para **quatro componentes**: link-botão, Header, Footer e Accordion. Cobrem semântica, destinos, estado expandido, teclado, Escape, retorno do foco e verificações com axe. A cobertura declarada refere-se a esses componentes, não à aplicação inteira.
 
 O [pipeline](.github/workflows/quality.yml) executa verificações, E2E e Lighthouse. Os relatórios são guardados como artefatos, sem publicação externa automática.
+
+### Registro mais recente — 17/11/2026
+
+Validação realizada após implementar Médicos e padronizar a tipografia em Nunito e TrashHand:
+
+| Verificação | Resultado registrado | Abrangência |
+| --- | --- | --- |
+| `npm run check` | Aprovado | ESLint, tipos, testes com cobertura e build de produção. |
+| Testes unitários | 57 aprovados em seis arquivos | Header, Footer, link-botão, acordeão e interações das views Home/Médicos. |
+| Cobertura | 100% de linhas, instruções, funções e branches nos quatro componentes selecionados | Não representa cobertura de toda a aplicação nem certificação de acessibilidade. |
+| Testes E2E | 38 aprovados | Chromium desktop/mobile, rotas, links de equipe, idiomas, banners, mapa, linha do tempo, diálogo, newsletter, teclado e recarregamento direto. |
+| Responsividade | Sem overflow nos cenários automatizados | Larguras de 320, 375, 768, 1024 e 1440 px. |
+| axe | Sem violações detectadas nos estados auditados | Verificações automatizadas WCAG A/AA, incluindo estados abertos de menu e diálogo. |
+| Lighthouse da versão final | Pendente de nova execução | As medições abaixo são históricas, anteriores a Médicos e à última alteração de fontes. |
+| NVDA/VoiceOver e auditoria do deploy público | Pendentes | URL pública informada; testes manuais de leitor de tela e auditorias dessa URL ainda não registrados. |
+
+Para reproduzir, instalar as dependências, executar `npm run check`, instalar o navegador com `npx playwright install chromium` e executar `npm run test:e2e`. O build precisa estar atualizado; encerrar qualquer servidor antigo para evitar testar outra versão. Os testes E2E não incluem Safari/WebKit ou Firefox.
+
+Os relatórios de cobertura HTML/LCOV são gerados na pasta de cobertura; o relatório HTML do Playwright, na pasta de relatórios de navegador; o Lighthouse produz seus relatórios na pasta de auditorias. Essas saídas são ignoradas pelo Git e disponibilizadas como artefatos pelo pipeline quando ele é executado no GitHub. Este registro corresponde à execução local, não comprova uma execução do workflow na nuvem.
+
+### Histórico de auditorias
+
+As próximas seções preservam resultados anteriores para rastreabilidade. **Não usar essas notas como medição da versão final ou da Vercel.**
 
 ### Validação inicial — 17/11/2026
 
@@ -109,7 +162,7 @@ Os resultados acima pertencem à base demonstrativa anterior à implementação 
 - 50 testes unitários em cinco arquivos: aprovados; 100% de cobertura nos quatro componentes compartilhados selecionados. A Home tem testes adicionais, mas não integra esse percentual.
 - 26 testes E2E: aprovados em desktop/mobile, incluindo menu, idiomas, mapa, banners, rolagem, diálogo, newsletter e verificações axe em estados abertos.
 - Lint, TypeScript e build de produção: aprovados.
-- Lighthouse mobile local, três execuções por rota: Home Performance **67/90/91**, mediana **90**; segunda página **100/100/100**, mediana **100**. A primeira execução da Home, com cache frio, ficou abaixo de 80; a meta configurada usa a mediana, não todas as execuções.
+- Lighthouse mobile local, três execuções por rota: Home Performance **67/90/91**, mediana **90**; demonstração `/sobre` **100/100/100**, mediana **100**. A primeira execução da Home, com cache frio, ficou abaixo de 80; a meta configurada usa a mediana, não todas as execuções. Essa auditoria ainda não incluía `/medicos`.
 - Acessibilidade **100** e contraste aprovado em todas as execuções.
 
 Não cobrem navegadores não testados, leitor de tela manual ou URL pública. Revalidar após alterações e no deploy. A execução fria da Home ainda merece otimização adicional antes da publicação final.
@@ -136,7 +189,7 @@ Registrar navegador, leitor, versões, data e problemas encontrados. Testes auto
 
 ## Performance e assets
 
-- As duas rotas são pré-renderizadas no build e o Next.js divide o JavaScript por rota.
+- As rotas `/`, `/medicos` e `/sobre` são pré-renderizadas no build e o Next.js divide o JavaScript por rota.
 - Fontes Nunito e TrashHand são servidas localmente; não há request de fontes a provedores externos em runtime.
 - Usar `next/image` com dimensões e `sizes` adequados; imagens abaixo da dobra devem manter o lazy loading padrão.
 - A imagem do hero tem `preload` intencional: aplicar lazy load à imagem principal prejudicaria o LCP. Imagens das demais seções mantêm carregamento adiado.
@@ -150,8 +203,67 @@ Registrar navegador, leitor, versões, data e problemas encontrados. Testes auto
 1. Publicar este repositório na sua conta GitHub.
 2. Na Vercel, escolher **Add New → Project** e importar o repositório.
 3. Usar o preset **Next.js**, raiz do repositório, Node.js **24.x**, instalação `npm ci` e build `npm run build`.
-4. Fazer o deploy e conferir `/` e `/sobre` na URL pública, incluindo acesso direto e recarregamento.
-5. Reexecutar Lighthouse e a revisão com leitor de tela na URL final, após integração com Figma.
-6. Substituir este trecho pela URL pública e pelo registro das auditorias quando publicados.
+4. Manter a **Output Directory** padrão do preset e conferir a branch de produção configurada, normalmente `main`. Não são necessárias variáveis de ambiente na implementação atual.
+5. Fazer o deploy e conferir `/` e `/medicos` na URL pública, incluindo acesso direto e recarregamento; verificar também `/sobre` se essa rota adicional continuar publicada.
+6. Reexecutar Lighthouse e a revisão com leitor de tela na URL final. O workflow de qualidade não constitui, sozinho, bloqueio automático do deploy da Vercel: configurar as proteções/checks necessários antes de adotar esse fluxo em produção.
+7. Registrar a URL pública, o commit e o deployment aprovado. Guardar a referência da versão estável para recuperação.
 
-**Nenhum deploy foi realizado automaticamente.** A publicação exige acesso à conta e ao repositório do responsável. O protótipo usa `robots: noindex`; revisar metadados, identidade, conteúdo provisório e essa opção antes de publicar uma versão final indexável.
+**URL pública informada:** [lacrei-challenge-three.vercel.app](https://lacrei-challenge-three.vercel.app/). O deploy não foi realizado automaticamente pelo assistente; sua gestão exige acesso à conta e ao repositório do responsável. O protótipo usa `robots: noindex`; revisar metadados, identidade, conteúdo provisório e essa opção antes de publicar uma versão final indexável.
+
+## Proposta de rollback simples e funcional
+
+**Situação atual:** procedimento documentado, ainda não executado na Vercel. Para um rollback real, são necessários acesso autorizado ao projeto e um deployment anterior estável disponível. O primeiro deploy, isoladamente, não oferece uma versão anterior para restaurar.
+
+### 1. Prevenção com Preview Deployments
+
+1. Criar uma branch para a alteração e abrir um pull request, sem alterar diretamente a branch de produção.
+2. Com a integração GitHub/Vercel habilitada, acessar a URL de **Preview** correspondente ao commit e aguardar os checks de qualidade.
+3. Na Preview, validar Home, Médicos, navegação pelos três pontos de entrada, idiomas, menu mobile, teclado, diálogo e newsletter demonstrativa. Conferir console, imagens e layout mobile.
+4. Aprovar e integrar o pull request somente após a validação. Confirmar também o deployment de produção: ambientes e builds podem diferir.
+5. Registrar o commit, a URL e o ID do deployment estável. Não excluir essa versão antes de encerrar a validação da próxima entrega; conferir as políticas de retenção do plano.
+
+Preview é uma proteção antes da publicação, **não um rollback automático**. Uma Preview que nunca recebeu tráfego de produção não é um alvo elegível de Instant Rollback. A opção **Promote to Production** é outro fluxo e pode gerar um rebuild com as variáveis de produção.
+
+### 2. Restaurar rapidamente uma versão anterior na Vercel
+
+Usar este caminho quando uma alteração publicada quebrar navegação, carregamento, layout ou uma interação essencial:
+
+1. Identificar e registrar o deployment com problema e o último deployment de produção comprovadamente estável, usando o commit e a data.
+2. No painel da Vercel, abrir o projeto e selecionar **Instant Rollback** no cartão de produção. Alternativamente, acessar **Deployments → ⋮ → Instant Rollback** quando a opção estiver disponível.
+3. Selecionar o deployment anterior elegível, conferir os domínios envolvidos e avançar em **Continue**.
+4. Revisar o resumo e selecionar **Confirm Rollback**. A Vercel redireciona os domínios de produção ao build existente, sem recompilar o projeto.
+5. Aguardar a confirmação e validar o domínio de produção, não apenas a URL imutável do deployment antigo.
+
+**Limites do plano:** na documentação consultada, Hobby permite retornar ao deployment imediatamente anterior; Pro/Enterprise permitem escolher outros deployments elegíveis. Disponibilidade, permissões e retenção precisam ser conferidas na conta utilizada. Se a versão desejada não estiver disponível, seguir a recuperação via Git abaixo.
+
+### 3. Checklist de verificação após o rollback
+
+- Confirmar no painel que o domínio aponta para o deployment/commit esperado.
+- Abrir `/` e `/medicos` diretamente e recarregar ambas, preferencialmente também em janela privada para reduzir interferência do cache local.
+- Testar **Médicos** na navbar e os dois links **Conheça nosso time**, além do retorno ao início.
+- Conferir menu mobile, troca de idioma, banners, diálogo de cadastro e validação da newsletter.
+- Verificar se imagens e fontes carregam e se não há erros novos no console.
+- Reavaliar acessibilidade e desempenho quando o incidente envolver essas áreas.
+- Registrar responsável, motivo, horário, deployment de origem, deployment restaurado e resultado dos testes. Não registrar credenciais ou dados pessoais.
+
+### 4. Corrigir o Git e retomar publicações
+
+O rollback da plataforma **não reverte o código do repositório**. Para evitar republicar a regressão:
+
+1. Abrir uma branch de correção a partir da branch de produção e desfazer a alteração problemática por um **commit de reversão (`git revert`)**, preservando o histórico. Se for um merge, revisar qual alteração deve ser revertida; não escolher parâmetros de merge sem verificar os pais.
+2. Alternativamente, implementar uma correção direta em novo commit quando reverter prejudicaria outras alterações válidas.
+3. Executar `npm run check` e `npm run test:e2e`, revisar a Preview e integrar o pull request aprovado. Evitar `reset --hard` e force push na branch compartilhada.
+4. **Após Instant Rollback, a Vercel desativa a atribuição automática dos domínios de produção.** Um novo push pode gerar um deployment sem substituir a versão restaurada. Conferir esse estado em vez de presumir que o push já foi publicado.
+5. No cartão de produção, usar **Manage**, selecionar o deployment corrigido adequado e confirmar a promoção para desfazer o estado de rollback e reativar a atribuição automática. Validar o resumo, o commit e o domínio antes de confirmar.
+6. Repetir o checklist no domínio público e registrar o encerramento do incidente.
+
+Se não houver um build anterior elegível, o commit de reversão também serve como alternativa de recuperação: gerar um novo build do código restaurado e publicá-lo pelo fluxo normal. Esse caminho depende do tempo de build, não é uma restauração instantânea. Se o projeto já estiver em estado de rollback, ainda é necessário gerenciar a promoção conforme o passo anterior.
+
+### 5. Limitações e ensaio do procedimento
+
+- Instant Rollback reaproveita o build e sua configuração anterior; não recompila com alterações recentes de variáveis de ambiente. Conferir compatibilidade de configuração e serviços externos.
+- Reverter o frontend não restaura bancos de dados, conteúdo de CMS, APIs externas ou dados já enviados. O projeto atual não possui banco, cadastro nem envio de newsletter; integrações futuras exigirão um plano próprio para dados e migrações.
+- Testar o procedimento primeiro em um projeto de homologação: publicar uma versão A conhecida, publicar uma versão B identificável, voltar para A, conferir as rotas e depois promover uma versão corrigida. Registrar evidências e tempo de recuperação observado, sem prometer um prazo que ainda não foi medido.
+- Não simular incidentes nem executar rollback na produção real sem autorização. Esta documentação não afirma que o ensaio já ocorreu.
+
+Referências oficiais: [Instant Rollback](https://vercel.com/docs/instant-rollback) e [promoção de deployments](https://vercel.com/docs/deployments/promoting-a-deployment), consultadas em 17/11/2026. A interface e as condições dos planos podem mudar.
