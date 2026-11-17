@@ -1,6 +1,17 @@
 # Lacrei Challenge — base de desenvolvimento
 
-Base para duas páginas interativas em **Next.js App Router + TypeScript + Styled-Components**. Rotas iniciais: `/` e `/sobre`.
+Projeto em **Next.js App Router + TypeScript + Styled-Components**. Páginas do Figma: `/` e `/medicos`. A rota `/sobre` foi preservada como demonstração adicional.
+
+## Página Médicos e navegação
+
+A rota `/medicos` implementa o [frame Médicos](https://www.figma.com/design/rvDbI6SujvrVj71ldR4c8I/LacreiChallenge?node-id=6-644): hero, missão, depoimentos, grade de nove profissionais, parceiros e rodapé compartilhado.
+
+- O item **Médicos** da navbar aponta para `/medicos`, com identificação de página atual.
+- Os dois botões **Conheça nosso time** da Home apontam para essa mesma rota, em PT e EN.
+- Os links são internos: abrem a página implementada, não o editor do Figma.
+- Cadastros continuam demonstrativos; os CTAs abrem as orientações já existentes na Home.
+- Nomes repetidos e textos Lorem Ipsum foram mantidos conforme o frame; não representam uma lista verificada de profissionais disponíveis.
+- Validação desta integração: **57 testes unitários**, **38 testes E2E** desktop/mobile, lint, tipos e build aprovados. Os testes cobrem os três pontos de entrada, recarregamento direto de `/medicos`, idiomas, contraste automatizado, teclado e ausência de overflow de 320 a 1440 px.
 
 **Home implementada a partir do [frame Home do Figma](https://www.figma.com/design/rvDbI6SujvrVj71ldR4c8I/LacreiChallenge?node-id=1-476).** A rota `/sobre` continua demonstrativa, aguardando seu próprio frame. Não há cadastro, agendamento ou envio real de newsletter.
 
@@ -16,7 +27,7 @@ Base para duas páginas interativas em **Next.js App Router + TypeScript + Style
 - O frame fornecido é desktop; a adaptação mobile foi derivada de sua hierarquia e testada de 320 a 1440 px, não reproduz um frame mobile específico.
 - Verde de botões escurecido para contraste com branco; destaque do hero clareado e textos sobre fotos receberam fundo mais opaco por acessibilidade.
 
-Assets originais foram baixados localmente. Nunito e Poppins são distribuídas por `@fontsource`, com licença nos respectivos pacotes; TrashHand foi obtida de https://fonts.cdnfonts.com/s/441/TrashHand.woff para corresponder ao design. Revisar a autorização de uso das fotos, marcas e fontes antes do deploy público.
+Assets originais foram baixados localmente. Por decisão de tipografia do projeto, todos os textos usam **Nunito**, exceto as chamadas manuscritas, que mantêm **TrashHand**. Nunito é distribuída por `@fontsource`, com licença no respectivo pacote; TrashHand foi obtida de https://fonts.cdnfonts.com/s/441/TrashHand.woff. Revisar a autorização de uso das fotos, marcas e fontes antes do deploy público.
 
 ## Ambiente e execução
 
@@ -126,7 +137,7 @@ Registrar navegador, leitor, versões, data e problemas encontrados. Testes auto
 ## Performance e assets
 
 - As duas rotas são pré-renderizadas no build e o Next.js divide o JavaScript por rota.
-- Fontes Nunito, Poppins e TrashHand são servidas localmente; não há request de fontes a provedores externos em runtime.
+- Fontes Nunito e TrashHand são servidas localmente; não há request de fontes a provedores externos em runtime.
 - Usar `next/image` com dimensões e `sizes` adequados; imagens abaixo da dobra devem manter o lazy loading padrão.
 - A imagem do hero tem `preload` intencional: aplicar lazy load à imagem principal prejudicaria o LCP. Imagens das demais seções mantêm carregamento adiado.
 - Para futuras seções pesadas fora da dobra, usar importação dinâmica quando houver benefício medido, sem atrasar conteúdo essencial ou acessível.

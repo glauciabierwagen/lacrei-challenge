@@ -2,7 +2,7 @@ module.exports = {
   ci: {
     collect: {
       startServerCommand: "npm run start",
-      url: ["http://localhost:3000/", "http://localhost:3000/sobre"],
+      url: ["http://localhost:3000/", "http://localhost:3000/medicos", "http://localhost:3000/sobre"],
       numberOfRuns: 3,
       settings: { chromeFlags: "--no-sandbox --headless" },
     },

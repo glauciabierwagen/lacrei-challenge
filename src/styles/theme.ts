@@ -14,7 +14,7 @@ export const theme = {
   radii: { sm: "0.75rem", md: "1.5rem", lg: "2.5rem", pill: "999px" },
   breakpoints: { tablet: "48rem", desktop: "64rem" },
   layout: { maxWidth: "78rem", target: "3rem" },
-  fonts: { body: '"Nunito", Arial, Helvetica, sans-serif', heading: '"Poppins", "Nunito", sans-serif' },
+  fonts: { body: '"Nunito", Arial, Helvetica, sans-serif', heading: '"Nunito", Arial, Helvetica, sans-serif' },
 } as const;
 
 export type AppTheme = typeof theme;

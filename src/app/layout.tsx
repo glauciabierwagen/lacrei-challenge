@@ -8,8 +8,6 @@ import "@fontsource/nunito/latin-400.css";
 import "@fontsource/nunito/latin-500.css";
 import "@fontsource/nunito/latin-600.css";
 import "@fontsource/nunito/latin-700.css";
-import "@fontsource/poppins/latin-400.css";
-import "@fontsource/poppins/latin-500.css";
 
 export const metadata: Metadata = {
   title: { default: "Lacrei Saúde | Saúde que fortalece e transforma vidas", template: "%s | Lacrei Saúde" },
