@@ -34,13 +34,17 @@ describe("DoctorsView", () => {
     }
   });
 
-  it("renders mission headings and named volunteer testimonials separately from the nine doctor cards", () => {
+  it("renders the shared purpose section and named volunteer testimonials separately from doctor cards", () => {
     renderWithTheme(<DoctorsView />);
-    const mission = within(screen.getByRole("region", { name: "Nossa Missão" }));
-    for (const name of ["Construir um mundo mais fraterno", "Unir corações e valorizar vidas", "Promover educação sustentável e inclusiva"]) {
-      expect(mission.getByRole("heading", { level: 3, name })).toBeVisible();
+    const careIntro = screen.getByRole("heading", { level: 2, name: "Conheça o jeito Lacrei Saúde de cuidar" });
+    expect(screen.getByText("Atendimento de qualidade e inclusivo")).toBeVisible();
+    const purpose = within(screen.getByRole("region", { name: "Nossa Missão" }));
+    expect(careIntro.compareDocumentPosition(purpose.getByRole("heading", { level: 2, name: "Nossa Missão" })) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(purpose.getByText("Conectar a comunidade LGBTQIAPN+ a profissionais que oferecem cuidado sem preconceitos.")).toBeVisible();
+    for (const name of ["Saúde inclusiva", "Diversidade", "Fim do preconceito"]) {
+      expect(purpose.getByRole("heading", { level: 3, name })).toBeVisible();
     }
-    expect(mission.getByRole("img", { name: "Pessoas reunidas em um evento do Orgulho LGBTQIA+" })).toBeVisible();
+    expect(purpose.getByRole("img", { name: "Equipe diversa de profissionais de saúde" })).toBeVisible();
     const testimonials = within(screen.getByRole("region", { name: "Depoimentos inspiradores" }));
     expect(testimonials.getAllByRole("article")).toHaveLength(3);
     for (const name of ["Fernanda", "Silvia", "Débora"]) {

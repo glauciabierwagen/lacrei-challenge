@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/primitives";
 import { useLanguage } from "@/components/layout/language-context";
+import { PurposeSection } from "./purpose-section";
 import * as S from "./home.styles";
 
 const assets = "/images/figma/";
-const purposeIcons = ["inclusion-handshake.svg", "diversity-people.svg", "equality-scale.svg"] as const;
 const partnerSymbols = [
   { file: "health-professional.svg", pt: "Profissional de saúde", en: "Healthcare professional" },
   { file: "clinic-care.svg", pt: "Clínica de saúde", en: "Healthcare clinic" },
@@ -49,27 +49,6 @@ const locations = [
   { pt: "Moçambique", en: "Mozambique", x: 85.66, y: 54.81 },
   { pt: "Madagáscar", en: "Madagascar", x: 92.24, y: 62.48 },
 ];
-const purposeCopy = {
-  pt: {
-    title: "Nosso Propósito",
-    introduction: "Conectar a comunidade LGBTQIAPN+ a profissionais que oferecem cuidado sem preconceitos.",
-    values: [
-      { title: "Saúde inclusiva", description: "Cuidados físicos e mentais para todas as pessoas, sem discriminação." },
-      { title: "Diversidade", description: "Capacitar profissionais para um atendimento respeitoso e adaptado a cada paciente." },
-      { title: "Fim do preconceito", description: "Usar educação e empatia para derrubar barreiras históricas na saúde." },
-    ],
-  },
-  en: {
-    title: "Our Purpose",
-    introduction: "We exist to transform access to healthcare by connecting the LGBTQIAPN+ community with qualified, compassionate health professionals. We are committed to safe, inclusive, prejudice-free care, celebrating diversity in all its forms and ensuring every person is welcomed with dignity and respect for their whole self.",
-    values: [
-      { title: "Promote inclusive healthcare", description: "We make physical and mental health services accessible while respecting and welcoming the diversity of bodies, identities, and lived experiences, ensuring dignified, discrimination-free care for the entire LGBTQIAPN+ community." },
-      { title: "Value diversity", description: "We believe plurality is our greatest strength. We work to raise awareness and equip professionals, bringing hearts and knowledge together to build care that recognizes, respects, and celebrates each patient's individual differences." },
-      { title: "Challenge prejudice", description: "We help dismantle historical barriers to healthcare through information and empathy, promoting ongoing education that transforms society and enables truly safe, compassionate, and human-centered medical care for everyone." },
-    ],
-  },
-};
-
 // Monta a página inicial com banners, mapa, histórias e aviso de cadastro.
 export function HomeView() {
   const { language } = useLanguage();
@@ -142,24 +121,7 @@ export function HomeView() {
         <p>{en ? "Quality and inclusive healthcare" : "Atendimento de qualidade e inclusivo"}</p>
       </S.CareIntro>
 
-      <S.HomeSection id="proposito" aria-labelledby="purpose-title">
-        <S.AboutGrid>
-          <S.AboutImageCard>
-            <Image src={`${assets}medicos/Médicos.png`} alt={en ? "A diverse team of health professionals" : "Equipe diversa de profissionais de saúde"} fill sizes="(min-width: 64rem) 55vw, (min-width: 48rem) 50vw, calc(100vw - 3rem)" />
-          </S.AboutImageCard>
-          <S.PurposeContent>
-            <div><h2 id="purpose-title">{purposeCopy[en ? "en" : "pt"].title}</h2><p>{purposeCopy[en ? "en" : "pt"].introduction}</p></div>
-            <S.Values>
-              {purposeCopy[en ? "en" : "pt"].values.map(({ title, description }, index) => <li key={title}>
-                <span aria-hidden="true"><Image src={`/images/purpose/${purposeIcons[index]}`} width={48} height={48} alt="" /></span>
-                <div><h3>{title}</h3><p>{description}</p></div>
-              </li>)}
-            </S.Values>
-            <S.HomeButton href="/medicos" $variant="secondary">{en ? "Meet our team" : "Conheça nosso time"}</S.HomeButton>
-            <Image src={`${assets}imgMisc09.svg`} width={24} height={93} alt="" />
-          </S.PurposeContent>
-        </S.AboutGrid>
-      </S.HomeSection>
+      <PurposeSection />
 
       <S.ImpactSection id="impacto" aria-labelledby="impact-title">
         <S.ImpactContent>

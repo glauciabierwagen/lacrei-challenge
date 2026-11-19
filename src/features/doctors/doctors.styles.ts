@@ -7,18 +7,12 @@ import * as Home from "@/features/home/home.styles";
 // Adapta os estilos da página inicial para o banner e a missão dos médicos.
 export const Hero = styled(Home.Hero)`
   h1 { max-width: 53.125rem; }
+  @media (min-width: 48rem) { h1 { font-size: 3.25rem; } }
+  @media (min-width: 75rem) { h1 { font-size: 3.75rem; } }
 `;
 
 export const RegisterLink = styled(Home.HomeButton)`
   font-size: 1.25rem;
-`;
-
-export const Mission = styled(Home.HomeSection)`
-  background: ${({ theme }) => theme.colors.white};
-`;
-
-export const MissionContent = styled(Home.AboutContent)`
-  > div:first-child { padding-right: 0; }
 `;
 
 export const SectionContent = styled(Container)`

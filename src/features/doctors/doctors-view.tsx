@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useLanguage } from "@/components/layout/language-context";
 import { Container } from "@/components/ui/primitives";
 import * as Home from "@/features/home/home.styles";
+import { PurposeSection } from "@/features/home/purpose-section";
 import * as S from "./doctors.styles";
 
 const assets = "/images/figma/medicos/";
@@ -39,16 +40,6 @@ export function DoctorsView() {
     ["Mudamos pessoas,", "transformamos o mundo."],
     ["Saúde sem fronteiras,", "transformação sem limites."],
   ];
-  const values = en ? [
-    "Build a more compassionate world",
-    "Bring hearts together and value lives",
-    "Promote sustainable and inclusive education",
-  ] : [
-    "Construir um mundo mais fraterno",
-    "Unir corações e valorizar vidas",
-    "Promover educação sustentável e inclusiva",
-  ];
-
   return (
     <>
       <S.Hero aria-labelledby="doctors-title" aria-roledescription={en ? "carousel" : "carrossel"}>
@@ -65,22 +56,12 @@ export function DoctorsView() {
         </Home.Dots>
       </S.Hero>
 
-      <S.Mission aria-labelledby="mission-title">
-        <Home.AboutGrid>
-          <Image src={`${assets}imgVector.png`} alt={en ? "People together at a Pride event" : "Pessoas reunidas em um evento do Orgulho LGBTQIA+"} width={630} height={669} sizes="(min-width: 1440px) 630px, (min-width: 1024px) 44vw, (min-width: 768px) 630px, calc(100vw - 32px)" />
-          <S.MissionContent>
-            <div><h2 id="mission-title">{en ? "Our Mission" : "Nossa Missão"}</h2><p>{lorem}</p></div>
-            <Home.Values>
-              {values.map(title => <li key={title}>
-                <span aria-hidden="true"><Image src={`${assets}imgHeartRewardSocialRatingMediaHeartItLikeFavoriteLove.svg`} width={27} height={23} alt="" /></span>
-                <div><h3>{title}</h3><p>{lorem}</p></div>
-              </li>)}
-            </Home.Values>
-            <Home.HomeButton href="/#cadastro" $variant="secondary">{register}<Image src={`${assets}imgWhatsapp1.svg`} width={18} height={18} alt="" /></Home.HomeButton>
-            <Image src={`${assets}imgMisc09.svg`} width={24} height={93} alt="" />
-          </S.MissionContent>
-        </Home.AboutGrid>
-      </S.Mission>
+      <Home.CareIntro aria-labelledby="care-intro-title">
+        <h2 id="care-intro-title">{en ? "Discover the Lacrei Saúde way of caring" : "Conheça o jeito Lacrei Saúde de cuidar"}</h2>
+        <p>{en ? "Quality and inclusive healthcare" : "Atendimento de qualidade e inclusivo"}</p>
+      </Home.CareIntro>
+
+      <PurposeSection title={en ? "Our Mission" : "Nossa Missão"} />
 
       <S.Testimonials aria-labelledby="testimonials-title">
         <S.SectionContent>
