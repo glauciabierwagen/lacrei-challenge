@@ -26,7 +26,7 @@ const purposeCopy = {
   },
 };
 
-export function PurposeSection({ title }: { title?: string }) {
+export function PurposeSection({ title, introduction }: { title?: string; introduction?: string }) {
   const { language } = useLanguage();
   const en = language === "en";
   const content = purposeCopy[en ? "en" : "pt"];
@@ -38,7 +38,7 @@ export function PurposeSection({ title }: { title?: string }) {
           <Image src="/images/figma/medicos/Médicos.png" alt={en ? "A diverse team of health professionals" : "Equipe diversa de profissionais de saúde"} fill sizes="(min-width: 64rem) 55vw, (min-width: 48rem) 50vw, calc(100vw - 3rem)" />
         </S.AboutImageCard>
         <S.PurposeContent>
-          <div><h2 id="purpose-title">{title ?? content.title}</h2><p>{content.introduction}</p></div>
+          <div><h2 id="purpose-title">{title ?? content.title}</h2><p>{introduction ?? content.introduction}</p></div>
           <S.Values>
             {content.values.map(({ title, description }, index) => <li key={title}>
               <span aria-hidden="true"><Image src={`/images/purpose/${purposeIcons[index]}`} width={48} height={48} alt="" /></span>

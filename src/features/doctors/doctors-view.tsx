@@ -61,7 +61,10 @@ export function DoctorsView() {
         <p>{en ? "Quality and inclusive healthcare" : "Atendimento de qualidade e inclusivo"}</p>
       </Home.CareIntro>
 
-      <PurposeSection title={en ? "Our Mission" : "Nossa Missão"} />
+      <PurposeSection
+        title={en ? "Our Mission" : "Nossa Missão"}
+        introduction={en ? "We care about every detail of your experience." : "Nos preocupamos com cada detalhe de sua experiência"}
+      />
 
       <S.Testimonials aria-labelledby="testimonials-title">
         <S.SectionContent>
