@@ -74,7 +74,7 @@ test("Médicos abre pela navegação, recarrega diretamente e permite voltar ao 
   await gotoHome(page);
   await expect(page.getByRole("banner")).toHaveCSS("position", "absolute");
   const navigation = await openNavigation(page);
-  const doctors = navigation.getByRole("link", { name: "Médicos", exact: true });
+  const doctors = navigation.getByRole("link", { name: "Profissionais", exact: true });
   await expect(doctors).toHaveAttribute("href", "/medicos");
   await doctors.click();
   await expect(page).toHaveURL(/\/medicos$/);
@@ -82,14 +82,14 @@ test("Médicos abre pela navegação, recarrega diretamente e permite voltar ao 
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByRole("banner")).toHaveCSS("position", "absolute");
   const currentNavigation = await openNavigation(page);
-  await expect(currentNavigation.getByRole("link", { name: "Médicos", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(currentNavigation.getByRole("link", { name: "Profissionais", exact: true })).toHaveAttribute("aria-current", "page");
   await expect(currentNavigation.locator('[aria-current="page"]')).toHaveCount(1);
   await page.reload();
   await page.waitForLoadState("networkidle");
   await expect(page).toHaveURL(/\/medicos$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Saúde que cuida\s*e transforma vidas$/);
   const reloadedNavigation = await openNavigation(page);
-  await expect(reloadedNavigation.getByRole("link", { name: "Médicos", exact: true })).toHaveAttribute("aria-current", "page");
+  await expect(reloadedNavigation.getByRole("link", { name: "Profissionais", exact: true })).toHaveAttribute("aria-current", "page");
   await reloadedNavigation.getByRole("link", { name: "Início", exact: true }).click();
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Saúde que fortalece\s*e transforma vidas$/);
@@ -118,7 +118,7 @@ for (const language of ["pt", "en"] as const) {
       await expect(page.getByRole("heading", { name: en ? "Meet our professionals" : "Conheça nossos profissionais", exact: true })).toBeVisible();
       await expect(page.getByRole("region", { name: en ? "Meet our professionals" : "Conheça nossos profissionais", exact: true }).getByRole("article")).toHaveCount(9);
       await openNavigation(page);
-      await expect(page.getByRole("navigation", { name: en ? "Main navigation" : "Navegação principal", exact: true }).getByRole("link", { name: en ? "Doctors" : "Médicos", exact: true })).toHaveAttribute("aria-current", "page");
+      await expect(page.getByRole("navigation", { name: en ? "Main navigation" : "Navegação principal", exact: true }).getByRole("link", { name: en ? "Professionals" : "Profissionais", exact: true })).toHaveAttribute("aria-current", "page");
       const close = page.getByRole("button", { name: en ? "Close menu" : "Fechar menu", exact: true });
       if (await close.isVisible()) await close.click();
       await page.goBack();

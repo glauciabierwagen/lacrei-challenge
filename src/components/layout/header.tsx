@@ -116,8 +116,8 @@ const NavigationDialog = styled.dialog`
 `;
 
 const navigation = {
-  pt: ["Início", "Quem Somos", "Médicos", "Blog", "Unidades", "Entrar"],
-  en: ["Home", "About Us", "Doctors", "Blog", "Locations", "Sign in"],
+  pt: ["Início", "Quem Somos", "Profissionais", "Blog", "Unidades", "Entrar"],
+  en: ["Home", "About Us", "Professionals", "Blog", "Locations", "Sign in"],
 };
 const destinations = ["/", "https://lacreisaude.com.br/quem-somos/", "/medicos", "/#historias", "/#impacto", "/#cadastro"];
 const navigationDialogCopy = {
