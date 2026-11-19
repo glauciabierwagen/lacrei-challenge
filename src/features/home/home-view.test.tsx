@@ -64,9 +64,15 @@ describe("HomeView", () => {
     }
   });
 
-  it("scales the partner seal to match the neighboring logos", () => {
+  it("uses the same Lacrei logo at equal sizes across the partner row", () => {
     renderWithTheme(<HomeView />);
-    expect(screen.getByRole("img", { name: "Selo parceiro Lacrei Saúde" })).toHaveStyle({ transform: "scale(2)" });
+    const partners = within(screen.getByRole("region", { name: "Juntos pela causa!" }));
+    const logos = partners.getAllByRole("img", { name: "Lacrei Saúde" });
+    expect(logos).toHaveLength(4);
+    for (const logo of logos) {
+      expect(logo).toHaveAttribute("sizes", "(min-width: 64rem) 208px, (min-width: 48rem) 176px, calc(50vw - 1.5rem)");
+      expect(logo.getAttribute("src")).toContain("imgLogo.png");
+    }
   });
 
   it("selects each banner exclusively and announces its heading", async () => {
@@ -94,6 +100,7 @@ describe("HomeView", () => {
 
   it("announces the selected country without inventing impact data", async () => {
     const { user } = renderWithTheme(<HomeView />);
+    expect(within(screen.getByRole("region", { name: "Impacto do Lacrei Saúde" })).getByText("Lacrei Saúde")).toBeVisible();
     const map = screen.getByRole("group", { name: "Explore os países destacados no mapa" });
     const markers = within(map).getAllByRole("button");
     const status = screen.getByRole("status");
@@ -186,8 +193,10 @@ describe("HomeView", () => {
 
   it("links the hero CTAs to the official patient and professional portals", () => {
     renderWithTheme(<HomeView />);
-    expect(screen.getByRole("link", { name: "Para Pacientes" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
-    expect(screen.getByRole("link", { name: "Para Profissionais" })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
+    const patients = screen.getByRole("link", { name: "Para Pacientes" });
+    const professionals = screen.getByRole("link", { name: "Para Profissionais" });
+    expect(patients).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+    expect(professionals).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     expect(screen.queryByRole("button", { name: "Como cadastrar" })).not.toBeInTheDocument();
   });
 

@@ -16,7 +16,7 @@ export const Hero = styled.section`
 `;
 export const HeroContent = styled(Container)`
   display: grid; gap: 2rem;
-  h1 { max-width: 50rem; line-height: 1.3; min-height: 3.9em; }
+  h1 { max-width: 50rem; font-size: clamp(2rem, 3.44vw, 3rem); font-weight: 700; line-height: 1.2; min-height: 3.9em; }
   h1[data-slide="2"] { max-width: 56rem; }
   h1[data-slide="2"] span { white-space: nowrap; }
   h1 span { color: ${({ theme }) => theme.colors.primary}; font-weight: 600; }
@@ -27,18 +27,18 @@ export const HeroContent = styled(Container)`
   }
 `;
 export const HomeButton = styled(ButtonLink)`
-  border-radius: 5px; font-size: 1rem; font-weight: 600;
-  width: fit-content; min-height: 3.5rem; padding: .8rem 1rem;
+  border-radius: 8px; font-size: 1.125rem; font-weight: 700;
+  width: fit-content; min-height: 3rem; padding: .5rem 1.5rem;
   img { width: auto; height: auto; }
 `;
 export const RegisterActions = styled.div`
-  display: flex; flex-wrap: wrap; gap: .75rem;
+  display: flex; flex-wrap: wrap; gap: 1.5rem;
 `;
 export const RegisterLink = styled.a`
   display: inline-flex; gap: .6rem; align-items: center; justify-content: center;
-  width: fit-content; min-height: 3.5rem; padding: .8rem 1rem;
-  border: 0; border-radius: 5px; background: ${({ theme }) => theme.colors.primary};
-  color: #fff; font-size: 1.25rem; font-weight: 600;
+  width: fit-content; min-height: 3rem; padding: .5rem 1rem;
+  border: 2px solid ${({ theme }) => theme.colors.primary}; border-radius: 8px; background: ${({ theme }) => theme.colors.primary};
+  color: #fff; font-size: 1.125rem; font-weight: 700; line-height: 1.5; letter-spacing: .02em;
   text-decoration: none;
   &:hover { background: ${({ theme }) => theme.colors.primaryHover}; }
 `;
@@ -61,8 +61,8 @@ export const AboutGrid = styled(Container)`
 `;
 export const AboutContent = styled.div`
   display: grid; gap: 2rem; min-width: 0;
-  h2 { font-size: clamp(2rem, 3.4vw, 3rem); }
-  p { color: ${({ theme }) => theme.colors.muted}; line-height: 1.3; }
+  h2 { font-size: clamp(1.5rem, 2.87vw, 2.5rem); font-weight: 700; line-height: 1.2; }
+  p { color: ${({ theme }) => theme.colors.muted}; line-height: 1.5; }
   > div:first-child { display: grid; gap: 1rem; padding-right: 1.25rem; }
   > img { position: absolute; right: 3%; top: 6px; width: 24px; height: 93px; }
   @media (max-width: 63.99rem) { > img { display: none; } }
@@ -76,7 +76,8 @@ export const Values = styled.ul`
 `;
 export const CenterHeading = styled.div`
   display: grid; justify-items: center; gap: 1rem; text-align: center;
-  p { color: ${({ theme }) => theme.colors.muted}; max-width: 26rem; line-height: 1.3; }
+  h2 { font-size: clamp(1.5rem, 2.87vw, 2.5rem); font-weight: 700; line-height: 1.2; }
+  p { color: ${({ theme }) => theme.colors.muted}; max-width: 26rem; line-height: 1.5; }
 `;
 export const Handwritten = styled.p`
   && { color: ${({ theme }) => theme.colors.primary}; font-family: "TrashHand", "Nunito", cursive;
@@ -149,14 +150,13 @@ export const PartnerSection = styled(HomeSection)`
   h2 { font-family: ${({ theme }) => theme.fonts.heading}; }
 `;
 export const PartnerLogos = styled.div`
-  width: min(100%, 51.875rem); margin: 2rem auto 0;
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; align-items: center;
-  > div { position: relative; height: 10rem; overflow: hidden; }
+  width: min(100%, 58rem); margin: 2rem auto 0;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 2.5rem; align-items: center;
+  > div { position: relative; height: 8rem; overflow: hidden; }
   img { object-fit: contain; }
-  > div:nth-child(2) img { transform: scale(2); }
   @media (min-width: 48rem) {
-    grid-template-columns: 138fr 208fr 218fr 243fr; gap: .5rem;
-    > div { height: 17rem; }
+    grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem;
+    > div { height: 10rem; }
   }
 `;
 export const RegistrationDialog = styled.dialog`

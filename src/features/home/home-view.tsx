@@ -148,7 +148,7 @@ export function HomeView() {
 
       <S.ImpactSection id="impacto" aria-labelledby="impact-title">
         <S.ImpactContent>
-          <S.CenterHeading><h2 id="impact-title">{en ? "The impact of Lacrei Saúde" : "Impacto do Lacrei Saúde"}</h2><p>{impactIntroduction}</p></S.CenterHeading>
+          <S.CenterHeading><S.Handwritten>Lacrei Saúde</S.Handwritten><h2 id="impact-title">{en ? "The impact of Lacrei Saúde" : "Impacto do Lacrei Saúde"}</h2><p>{impactIntroduction}</p></S.CenterHeading>
           <S.MapCanvas role="group" aria-label={en ? "Explore the countries highlighted on the map" : "Explore os países destacados no mapa"}>
             {/* Usa SVG em img nativo com as medidas do Figma; a sobra para fora do mapa é intencional. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -183,10 +183,10 @@ export function HomeView() {
       <S.PartnerSection id="parceiros" aria-labelledby="partners-title"><Container>
         <S.CenterHeading><S.Handwritten>{en ? "Our partners" : "Nossos parceiros"}</S.Handwritten><h2 id="partners-title">{en ? "Together for the cause!" : "Juntos pela causa!"}</h2></S.CenterHeading>
         <S.PartnerLogos>
-          <div><Image src={`${assets}imgLogo.png`} alt="Lacrei Saúde" fill sizes="138px" style={{ padding: "0" }} /></div>
-          <div><Image src={`${assets}imgPrancheta121.png`} alt={en ? "Lacrei Saúde partner seal" : "Selo parceiro Lacrei Saúde"} fill sizes="208px" /></div>
-          <div><Image src={`${assets}imgLogo.png`} alt="Lacrei Saúde" fill sizes="124px" style={{ padding: "3.5rem 1.5rem" }} /></div>
-          <div><Image src={`${assets}imgLogo.png`} alt="Lacrei Saúde" fill sizes="116px" style={{ padding: "3.5rem 2rem" }} /></div>
+          <div><Image src={`${assets}imgLogo.png`} alt="Lacrei Saúde" fill sizes="(min-width: 64rem) 208px, (min-width: 48rem) 176px, calc(50vw - 1.5rem)" /></div>
+          <div><Image src={`${assets}imgLogo.png`} alt="Lacrei Saúde" fill sizes="(min-width: 64rem) 208px, (min-width: 48rem) 176px, calc(50vw - 1.5rem)" /></div>
+          <div><Image src={`${assets}imgLogo.png`} alt="Lacrei Saúde" fill sizes="(min-width: 64rem) 208px, (min-width: 48rem) 176px, calc(50vw - 1.5rem)" /></div>
+          <div><Image src={`${assets}imgLogo.png`} alt="Lacrei Saúde" fill sizes="(min-width: 64rem) 208px, (min-width: 48rem) 176px, calc(50vw - 1.5rem)" /></div>
         </S.PartnerLogos>
       </Container></S.PartnerSection>
 
