@@ -188,15 +188,6 @@ Não cobrem navegadores não testados, leitor de tela manual ou URL pública. Re
 
 **Teste manual de leitor de tela ainda necessário.** Em 17/11/2026, não foi encontrado NVDA instalado/em execução nos locais e registros verificados. VoiceOver não está disponível neste Windows, e as ferramentas desta sessão não permitem operar a interface nativa nem avaliar a fala de um leitor. Portanto, essa revisão **não foi executada nem aprovada**. O [roteiro completo e a ficha de resultados](docs/screen-reader-review.md) estão preparados para execução com NVDA + Firefox/Chrome no Windows ou VoiceOver + Safari no macOS/iOS:
 
-1. Percorrer landmarks e títulos; confirmar um conteúdo principal e um `h1` por página.
-2. Usar Tab/Shift+Tab; confirmar ordem lógica e foco sempre visível.
-3. Acionar o link de pular ao conteúdo.
-4. No mobile, abrir o menu; ouvir seu estado, navegar pelos links, usar Escape e confirmar retorno do foco.
-5. No acordeão, usar Enter/Espaço; ouvir expandido/recolhido e ler a resposta apenas quando aberta.
-6. Conferir zoom de 200% e 400%, orientação paisagem e ausência de conteúdo cortado.
-
-Registrar navegador, leitor, versões, data e problemas encontrados. Testes automatizados não substituem essa revisão.
-
 ## Performance e assets
 
 - As rotas `/`, `/medicos` e `/sobre` são pré-renderizadas no build e o Next.js divide o JavaScript por rota.
@@ -220,41 +211,6 @@ Registrar navegador, leitor, versões, data e problemas encontrados. Testes auto
 
 **URL pública informada:** [lacrei-challenge-three.vercel.app](https://lacrei-challenge-three.vercel.app/). O deploy não foi realizado automaticamente pelo assistente; sua gestão exige acesso à conta e ao repositório do responsável. O protótipo usa `robots: noindex`; revisar metadados, identidade, conteúdo provisório e essa opção antes de publicar uma versão final indexável.
 
-## Proposta de rollback simples e funcional
-
-**Situação atual:** procedimento documentado, ainda não executado na Vercel. Para um rollback real, são necessários acesso autorizado ao projeto e um deployment anterior estável disponível. O primeiro deploy, isoladamente, não oferece uma versão anterior para restaurar.
-
-### 1. Prevenção com Preview Deployments
-
-1. Criar uma branch para a alteração e abrir um pull request, sem alterar diretamente a branch de produção.
-2. Com a integração GitHub/Vercel habilitada, acessar a URL de **Preview** correspondente ao commit e aguardar os checks de qualidade.
-3. Na Preview, validar Home, Médicos, navegação pelos três pontos de entrada, idiomas, menu mobile, teclado, diálogo e newsletter demonstrativa. Conferir console, imagens e layout mobile.
-4. Aprovar e integrar o pull request somente após a validação. Confirmar também o deployment de produção: ambientes e builds podem diferir.
-5. Registrar o commit, a URL e o ID do deployment estável. Não excluir essa versão antes de encerrar a validação da próxima entrega; conferir as políticas de retenção do plano.
-
-Preview é uma proteção antes da publicação, **não um rollback automático**. Uma Preview que nunca recebeu tráfego de produção não é um alvo elegível de Instant Rollback. A opção **Promote to Production** é outro fluxo e pode gerar um rebuild com as variáveis de produção.
-
-### 2. Restaurar rapidamente uma versão anterior na Vercel
-
-Usar este caminho quando uma alteração publicada quebrar navegação, carregamento, layout ou uma interação essencial:
-
-1. Identificar e registrar o deployment com problema e o último deployment de produção comprovadamente estável, usando o commit e a data.
-2. No painel da Vercel, abrir o projeto e selecionar **Instant Rollback** no cartão de produção. Alternativamente, acessar **Deployments → ⋮ → Instant Rollback** quando a opção estiver disponível.
-3. Selecionar o deployment anterior elegível, conferir os domínios envolvidos e avançar em **Continue**.
-4. Revisar o resumo e selecionar **Confirm Rollback**. A Vercel redireciona os domínios de produção ao build existente, sem recompilar o projeto.
-5. Aguardar a confirmação e validar o domínio de produção, não apenas a URL imutável do deployment antigo.
-
-**Limites do plano:** na documentação consultada, Hobby permite retornar ao deployment imediatamente anterior; Pro/Enterprise permitem escolher outros deployments elegíveis. Disponibilidade, permissões e retenção precisam ser conferidas na conta utilizada. Se a versão desejada não estiver disponível, seguir a recuperação via Git abaixo.
-
-### 3. Checklist de verificação após o rollback
-
-- Confirmar no painel que o domínio aponta para o deployment/commit esperado.
-- Abrir `/` e `/medicos` diretamente e recarregar ambas, preferencialmente também em janela privada para reduzir interferência do cache local.
-- Testar **Médicos** na navbar e os dois links **Conheça nosso time**, além do retorno ao início.
-- Conferir menu mobile, troca de idioma, banners, diálogo de cadastro e validação da newsletter.
-- Verificar se imagens e fontes carregam e se não há erros novos no console.
-- Reavaliar acessibilidade e desempenho quando o incidente envolver essas áreas.
-- Registrar responsável, motivo, horário, deployment de origem, deployment restaurado e resultado dos testes. Não registrar credenciais ou dados pessoais.
 
 ### 4. Corrigir o Git e retomar publicações
 
@@ -275,20 +231,3 @@ Se não houver um build anterior elegível, o commit de reversão também serve 
 - Reverter o frontend não restaura bancos de dados, conteúdo de CMS, APIs externas ou dados já enviados. O projeto atual não possui banco, cadastro nem envio de newsletter; integrações futuras exigirão um plano próprio para dados e migrações.
 - Testar o procedimento primeiro em um projeto de homologação: publicar uma versão A conhecida, publicar uma versão B identificável, voltar para A, conferir as rotas e depois promover uma versão corrigida. Registrar evidências e tempo de recuperação observado, sem prometer um prazo que ainda não foi medido.
 - Não executar rollback na produção real sem autorização. A simulação local registrada abaixo não altera a Vercel e não equivale a uma restauração de domínio de produção.
-
-#### Evidência de simulação local — 19/11/2026
-
-Foi ensaiada a recuperação da revisão anterior `5e41811` (`Doctors`) enquanto a branch ativa estava em `c73389c` (`Updates Navbar`). Para preservar a branch e os arquivos do projeto, a revisão anterior foi aberta em um worktree detached temporário (`%TEMP%\lacrei-rollback-5e41811`). O teste E2E foi executado em `localhost:3018`, com `reuseExistingServer: false`; uma tentativa preliminar na porta 3000 foi descartada porque ela já estava ocupada pelo servidor local.
-
-| Etapa na revisão anterior | Evidência |
-| --- | --- |
-| `npm ci` | Concluído; 773 pacotes instalados e auditoria informou 0 vulnerabilidades. |
-| `npm run lint` | Aprovado. |
-| `npm run typecheck` | Aprovado; tipos de rota gerados. |
-| `npm run build` | Aprovado; build de produção gerado para `/`, `/medicos` e `/sobre`. |
-| Testes unitários/cobertura | 58 aprovados e 4 falharam em 3 arquivos; há expectativas de conteúdo/acessibilidade que não correspondem ao conteúdo dessa revisão. O comando `npm run check` parou nessa etapa. |
-| E2E isolado | 31 de 40 aprovados; 9 falharam, incluindo expectativas de navegação/conteúdo e verificações de contraste. Um contraste medido foi 4,48:1 para `#018762` sobre branco (mínimo 4,5:1). |
-
-**Resultado:** a versão anterior pôde ser reconstruída localmente, mas a simulação não certifica uma release pronta para promoção: as suítes não ficaram verdes. Nenhum deployment ou domínio da Vercel foi alterado; sem acesso autorizado ao projeto, a restauração real de produção não foi executada. O worktree e a configuração temporária de teste foram isolados da branch ativa.
-
-Referências oficiais: [Instant Rollback](https://vercel.com/docs/instant-rollback) e [promoção de deployments](https://vercel.com/docs/deployments/promoting-a-deployment), consultadas em 17/11/2026. A interface e as condições dos planos podem mudar.
