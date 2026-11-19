@@ -80,6 +80,7 @@ describe("DoctorsView", () => {
       ["Bianca Ferreira", "Neurologia", "M9.png"],
     ];
     expect(cards).toHaveLength(9);
+    expect(cards[cards.length - 1].compareDocumentPosition(team.getByText("Perfis demonstrativos; nomes e especialidades são ilustrativos.")) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     cards.forEach((card, index) => {
       const [name, specialty, image] = profiles[index];
       expect(within(card).getByRole("heading", { level: 3, name })).toBeVisible();
@@ -89,6 +90,10 @@ describe("DoctorsView", () => {
       if (image === "M5.png") expect(photo?.getAttribute("style")).toContain("object-position: center top");
     });
     expect(screen.getByRole("heading", { level: 2, name: "Juntos pela causa!" })).toBeVisible();
+    const partners = within(screen.getByRole("region", { name: "Juntos pela causa!" }));
+    expect(partners.getAllByRole("img").map((image) => image.getAttribute("alt"))).toEqual([
+      "Profissional de saúde", "Clínica de saúde", "Cuidado e bem-estar", "Saúde",
+    ]);
   });
 
   it("links all audience CTAs to the appropriate official portals", () => {
@@ -121,7 +126,10 @@ describe("DoctorsView", () => {
       expect(screen.getByRole("heading", { level: 3, name })).toBeVisible();
     }
     expect(screen.getByRole("img", { name: "People together at a Pride event" })).toBeVisible();
-    expect(screen.getByRole("img", { name: "Lacrei Saúde partner seal" })).toBeVisible();
+    const partners = within(screen.getByRole("region", { name: "Together for the cause!" }));
+    expect(partners.getAllByRole("img").map((image) => image.getAttribute("alt"))).toEqual([
+      "Healthcare professional", "Healthcare clinic", "Care and wellbeing", "Health",
+    ]);
     expect(screen.getByText("Illustrative profiles and stories; these are not real testimonials.")).toBeVisible();
     for (const [name, profession] of [["Fernanda", "Teacher"], ["Silvia", "Psychologist"], ["Débora", "Nurse"]]) {
       const card = within(screen.getByRole("article", { name: `Testimonial from ${name}` }));

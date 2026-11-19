@@ -5,15 +5,10 @@ import { useEffect, useRef, useState } from "react";
 import { Container } from "@/components/ui/primitives";
 import { useLanguage } from "@/components/layout/language-context";
 import { PurposeSection } from "./purpose-section";
+import { PartnerSection } from "./partner-section";
 import * as S from "./home.styles";
 
 const assets = "/images/figma/";
-const partnerSymbols = [
-  { file: "health-professional.svg", pt: "Profissional de saúde", en: "Healthcare professional" },
-  { file: "clinic-care.svg", pt: "Clínica de saúde", en: "Healthcare clinic" },
-  { file: "heart-care.svg", pt: "Cuidado e bem-estar", en: "Care and wellbeing" },
-  { file: "health-mark.svg", pt: "Saúde", en: "Health" },
-];
 const years = [2018, 2019, 2020, 2023, 2024, 2025];
 const photos = [`${assets}imgFrame4556.png`, "/images/history/pexels-7108401.webp", `${assets}hospital.jpg`, `${assets}imgTextContent.png`, "/images/history/pexels-6129681.webp", "/images/history/pexels-6129507.webp"];
 const stories = {
@@ -182,12 +177,7 @@ export function HomeView() {
         </S.AudienceCard>
       </S.AudienceSection>
 
-      <S.PartnerSection id="parceiros" aria-labelledby="partners-title"><Container>
-        <S.CenterHeading><S.Handwritten>{en ? "Our partners" : "Nossos parceiros"}</S.Handwritten><h2 id="partners-title">{en ? "Together for the cause!" : "Juntos pela causa!"}</h2></S.CenterHeading>
-        <S.PartnerLogos>
-          {partnerSymbols.map((symbol) => <div key={symbol.file}><Image src={`/images/partners/${symbol.file}`} alt={en ? symbol.en : symbol.pt} width={96} height={96} /></div>)}
-        </S.PartnerLogos>
-      </Container></S.PartnerSection>
+      <PartnerSection />
 
       <S.RegistrationDialog ref={dialog} id="cadastro" aria-labelledby="registration-title" onClose={restoreFocus}>
         <h2 id="registration-title">{en ? "How to register" : "Como cadastrar"}</h2>

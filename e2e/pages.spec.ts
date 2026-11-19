@@ -140,7 +140,9 @@ test("os CTAs de Médicos direcionam aos portais oficiais de pacientes e profiss
   await findCare.hover();
   await expect(findCare).toHaveCSS("background-color", "rgb(17, 136, 119)");
   await expect(main.getByRole("link", { name: "Para Profissionais", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
-  await expect(main.getByRole("link", { name: "Oferecer atendimento", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
+  const offerCare = main.getByRole("link", { name: "Oferecer atendimento", exact: true });
+  await expect(offerCare).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
+  await expect(offerCare).toHaveCSS("box-shadow", "rgba(0, 0, 0, 0.2) 3px 3px 5px 0px");
   await expect(main.getByRole("link", { name: "Junte-se a nós", exact: true })).not.toBeVisible();
   await expect(page.getByRole("dialog")).not.toBeVisible();
 });

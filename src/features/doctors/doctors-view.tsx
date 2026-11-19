@@ -3,13 +3,12 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useLanguage } from "@/components/layout/language-context";
-import { Container } from "@/components/ui/primitives";
 import * as Home from "@/features/home/home.styles";
+import { PartnerSection } from "@/features/home/partner-section";
 import { PurposeSection } from "@/features/home/purpose-section";
 import * as S from "./doctors.styles";
 
 const assets = "/images/figma/medicos/";
-const partnerAssets = "/images/figma/";
 const testimonials = [
   {
     name: "Fernanda", avatar: "imgEllipse22.png",
@@ -122,7 +121,6 @@ export function DoctorsView() {
             <Home.Handwritten>{en ? "Our team" : "Nosso time"}</Home.Handwritten>
             <h2 id="team-title">{en ? "Meet our professionals" : "Conheça nossos profissionais"}</h2>
             <p>{en ? "Professionals committed to quality, inclusive care." : "Profissionais comprometidos com um atendimento de qualidade e inclusivo."}</p>
-            <small>{en ? "Demonstration profiles; names and specialties are illustrative." : "Perfis demonstrativos; nomes e especialidades são ilustrativos."}</small>
           </S.TeamHeading>
           <S.DoctorGrid>
             {doctors.map((doctor) => <S.DoctorCard key={doctor.image}>
@@ -131,19 +129,12 @@ export function DoctorsView() {
               <p>{en ? doctor.specialty.en : doctor.specialty.pt}</p>
             </S.DoctorCard>)}
           </S.DoctorGrid>
-          <Home.HomeButton href="https://profissional.lacreisaude.com.br/">{offerCare}</Home.HomeButton>
+          <S.ProfileDisclosure>{en ? "Demonstration profiles; names and specialties are illustrative." : "Perfis demonstrativos; nomes e especialidades são ilustrativos."}</S.ProfileDisclosure>
+          <S.OfferCareButton href="https://profissional.lacreisaude.com.br/">{offerCare}</S.OfferCareButton>
         </S.SectionContent>
       </S.Team>
 
-      <Home.PartnerSection id="parceiros" aria-labelledby="partners-title"><Container>
-        <S.Heading><Home.Handwritten>{en ? "Our partners" : "Nossos parceiros"}</Home.Handwritten><h2 id="partners-title">{en ? "Together for the cause!" : "Juntos pela causa!"}</h2></S.Heading>
-        <Home.PartnerLogos>
-          <div><Image src={`${partnerAssets}imgLogo.png`} alt="Lacrei Saúde" fill sizes="138px" style={{ padding: "0" }} /></div>
-          <div><Image src={`${partnerAssets}imgPrancheta121.png`} alt={en ? "Lacrei Saúde partner seal" : "Selo parceiro Lacrei Saúde"} fill sizes="208px" /></div>
-          <div><Image src={`${partnerAssets}imgLogo.png`} alt="Lacrei Saúde" fill sizes="124px" style={{ padding: "3.5rem 1.5rem" }} /></div>
-          <div><Image src={`${partnerAssets}imgLogo.png`} alt="Lacrei Saúde" fill sizes="116px" style={{ padding: "3.5rem 2rem" }} /></div>
-        </Home.PartnerLogos>
-      </Container></Home.PartnerSection>
+      <PartnerSection />
     </>
   );
 }

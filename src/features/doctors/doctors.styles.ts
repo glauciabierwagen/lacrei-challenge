@@ -18,6 +18,9 @@ export const FindCareButton = styled(Home.HomeButton)`
   box-shadow: 4px 4px 4px rgba(0, 0, 0, .2);
   &:hover { border-color: #118877; background: #118877; color: #fff; }
 `;
+export const OfferCareButton = styled(Home.HomeButton)`
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+`;
 
 export const SectionContent = styled(Container)`
   position: relative; display: grid; justify-items: center;
@@ -37,8 +40,14 @@ export const TeamHeading = styled(Heading)`
   gap: .75rem;
   h2::after { content: ""; display: block; width: 10rem; height: 2px; margin: .75rem auto 0; background: #018762; }
   p { max-width: 56rem; color: #515151; font-size: 1.125rem; line-height: 1.5; }
-  small { color: #575757; font-size: .875rem; line-height: 1.4; }
   @media (min-width: 64rem) { p { font-size: 1.5rem; } }
+`;
+export const ProfileDisclosure = styled.p`
+  margin: 0;
+  color: #575757;
+  font-size: .75rem;
+  line-height: 1.4;
+  text-align: center;
 `;
 
 // Organiza os depoimentos em cartões que se ajustam ao tamanho da tela.
