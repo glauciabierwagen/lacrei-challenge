@@ -242,7 +242,7 @@ export const AudienceCard = styled(Container)<{ $reverse?: boolean }>`
 `;
 // Define a linha do tempo horizontal e os cartões com imagens recortadas.
 export const HistorySection = styled(HomeSection)`
-  padding-block: 0 clamp(3rem, calc(2.5vw + 1.5rem), 3.5rem); overflow: clip;
+  padding-block: 0 clamp(4rem, 5vw, 5rem); overflow: clip;
   ${CenterHeading} { gap: .75rem; padding-inline: 1rem; }
   ${CenterHeading} h2 { font-family: ${({ theme }) => theme.fonts.heading}; color: #1f1f1f; }
   ${CenterHeading} h2::after { content: ""; display: block; width: min(100%, 10rem); height: 2px; margin: .75rem auto 0; background: #018762; }
@@ -292,6 +292,7 @@ export const StoryCard = styled.article`
 `;
 // Estilos dos parceiros e da janela de aviso sobre cadastro.
 export const PartnerSection = styled(HomeSection)`
+  padding-top: clamp(4rem, 5vw, 5rem);
   padding-bottom: 5rem;
   h2 { font-family: ${({ theme }) => theme.fonts.heading}; }
 `;

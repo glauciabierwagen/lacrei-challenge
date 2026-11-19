@@ -94,7 +94,7 @@ const Languages = styled.div`
   gap: 4px;
   margin-top: 12px;
   button { min-width: 44px; min-height: 44px; border: 0; background: transparent; padding: 4px; font: inherit; font-size: 16px; font-weight: 700; }
-  button[aria-pressed="true"] { color: #d5f78b; text-decoration: underline; text-underline-offset: 5px; }
+  button[aria-pressed="true"] { color: ${({ theme }) => theme.colors.primary}; text-decoration: underline; text-underline-offset: 5px; }
   @media (min-width: 52rem) { margin-top: 0; }
 `;
 const NavigationDialog = styled.dialog`
