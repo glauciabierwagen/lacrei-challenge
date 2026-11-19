@@ -140,12 +140,12 @@ export const Values = styled.ul`
   li { display: grid; grid-template-columns: 3.125rem minmax(0,1fr); gap: 1rem; }
   h3 { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: .25rem; }
   p { font-size: .875rem; line-height: 1.4; }
-  li > span { width: 50px; height: 50px; display: grid; place-items: center;
-    border-radius: 5px; background: linear-gradient(90deg,#018363,#014687); }
+  && li > span { background: transparent; }
+  li > span { width: 3.125rem; height: 3.125rem; display: grid; place-items: center; }
+  li > span img { width: 100%; height: 100%; object-fit: contain; }
   @media (min-width: 64rem) {
     li { grid-template-columns: 2.75rem minmax(0,1fr); gap: 1rem; }
     li > span { width: 2.75rem; height: 2.75rem; }
-    li > span img { width: 1.25rem; height: auto; }
   }
 `;
 export const PurposeContent = styled(AboutContent)`

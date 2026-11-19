@@ -58,6 +58,9 @@ describe("HomeView", () => {
     const purposeTitle = within(purpose).getByRole("heading", { level: 2, name: "Nosso Propósito" });
     expect(purposeImage.compareDocumentPosition(purposeTitle) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(purposeImage.closest("figure")).toBeInTheDocument();
+    expect(Array.from(purpose.querySelectorAll('img[src^="/images/purpose/"]')).map((icon) => decodeURIComponent(icon.getAttribute("src") ?? ""))).toEqual([
+      "/images/purpose/inclusion-handshake.svg", "/images/purpose/diversity-people.svg", "/images/purpose/equality-scale.svg",
+    ]);
     expect(within(purpose).getByText("Conectar a comunidade LGBTQIAPN+ a profissionais que oferecem cuidado sem preconceitos.")).toBeVisible();
     for (const title of ["Saúde inclusiva", "Diversidade", "Fim do preconceito"]) {
       expect(within(purpose).getByRole("heading", { level: 3, name: title })).toBeVisible();

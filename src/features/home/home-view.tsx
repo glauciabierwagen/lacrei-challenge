@@ -7,6 +7,7 @@ import { useLanguage } from "@/components/layout/language-context";
 import * as S from "./home.styles";
 
 const assets = "/images/figma/";
+const purposeIcons = ["inclusion-handshake.svg", "diversity-people.svg", "equality-scale.svg"] as const;
 const partnerSymbols = [
   { file: "health-professional.svg", pt: "Profissional de saúde", en: "Healthcare professional" },
   { file: "clinic-care.svg", pt: "Clínica de saúde", en: "Healthcare clinic" },
@@ -149,8 +150,8 @@ export function HomeView() {
           <S.PurposeContent>
             <div><h2 id="purpose-title">{purposeCopy[en ? "en" : "pt"].title}</h2><p>{purposeCopy[en ? "en" : "pt"].introduction}</p></div>
             <S.Values>
-              {purposeCopy[en ? "en" : "pt"].values.map(({ title, description }) => <li key={title}>
-                <span aria-hidden="true"><Image src={`${assets}imgHeartRewardSocialRatingMediaHeartItLikeFavoriteLove.svg`} width={27} height={23} alt="" /></span>
+              {purposeCopy[en ? "en" : "pt"].values.map(({ title, description }, index) => <li key={title}>
+                <span aria-hidden="true"><Image src={`/images/purpose/${purposeIcons[index]}`} width={48} height={48} alt="" /></span>
                 <div><h3>{title}</h3><p>{description}</p></div>
               </li>)}
             </S.Values>

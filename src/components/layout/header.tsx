@@ -98,17 +98,17 @@ const Languages = styled.div`
   @media (min-width: 52rem) { margin-top: 0; }
 `;
 const NavigationDialog = styled.dialog`
-  width: min(calc(100% - 2rem), 48rem);
+  width: min(calc(100% - 2rem), 32rem);
   max-height: calc(100dvh - 2rem);
   overflow: auto;
-  padding: clamp(1.5rem, 5vw, 3rem);
+  padding: 2rem;
   border: 0;
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   color: ${({ theme }) => theme.colors.text};
   background: #fff;
   &::backdrop { background: rgba(0, 0, 0, .65); }
-  h2 { margin-bottom: 1.5rem; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; }
-  p { margin-bottom: 2.5rem; font-size: clamp(1.125rem, 2.4vw, 1.5rem); line-height: 1.65; }
+  h2 { margin-bottom: 1rem; font-size: 2rem; line-height: 1.2; }
+  p { margin-bottom: 1.5rem; font-size: 1.125rem; line-height: 1.5; }
   > div { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
   a { color: ${({ theme }) => theme.colors.primary}; font-size: clamp(1rem, 2.4vw, 1.5rem); }
   button { min-height: 4rem; padding: .5rem 1.5rem; border: 0; border-radius: 5px;
