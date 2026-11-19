@@ -71,14 +71,21 @@ describe("HomeView", () => {
     }
   });
 
-  it("uses the same Lacrei logo at equal sizes across the partner row", () => {
+  it("uses four distinct responsive healthcare SVGs across the partner row", () => {
     renderWithTheme(<HomeView />);
     const partners = within(screen.getByRole("region", { name: "Juntos pela causa!" }));
-    const logos = partners.getAllByRole("img", { name: "Lacrei Saúde" });
+    const logos = partners.getAllByRole("img");
     expect(logos).toHaveLength(4);
+    expect(logos.map((logo) => logo.getAttribute("alt"))).toEqual([
+      "Profissional de saúde", "Clínica de saúde", "Cuidado e bem-estar", "Saúde",
+    ]);
+    expect(logos.map((logo) => decodeURIComponent(logo.getAttribute("src") ?? ""))).toEqual([
+      "/images/partners/health-professional.svg", "/images/partners/clinic-care.svg",
+      "/images/partners/heart-care.svg", "/images/partners/health-mark.svg",
+    ]);
     for (const logo of logos) {
-      expect(logo).toHaveAttribute("sizes", "(min-width: 64rem) 208px, (min-width: 48rem) 176px, calc(50vw - 1.5rem)");
-      expect(logo.getAttribute("src")).toContain("imgLogo.png");
+      expect(logo).toHaveAttribute("width", "96");
+      expect(logo).toHaveAttribute("height", "96");
     }
   });
 

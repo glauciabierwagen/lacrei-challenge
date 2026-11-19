@@ -299,8 +299,8 @@ export const PartnerSection = styled(HomeSection)`
 export const PartnerLogos = styled.div`
   width: min(100%, 58rem); margin: 2rem auto 0;
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 2.5rem; align-items: center;
-  > div { position: relative; height: 8rem; overflow: hidden; }
-  img { object-fit: contain; }
+  > div { display: grid; place-items: center; min-width: 0; height: 8rem; }
+  img { width: clamp(5.5rem, 10vw, 8.5rem); height: auto; object-fit: contain; }
   @media (min-width: 48rem) {
     grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.5rem;
     > div { height: 10rem; }
