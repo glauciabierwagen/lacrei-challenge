@@ -42,12 +42,18 @@ describe("DoctorsView", () => {
     const purpose = within(purposeRegion);
     expect(careIntro.compareDocumentPosition(purpose.getByRole("heading", { level: 2, name: "Nossa Missão" })) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     const introduction = purposeRegion.querySelector("p");
-    expect(introduction).toHaveTextContent(/Nos preocupamos com cada.*detalhe de sua experiência\./);
+    expect(introduction).toHaveTextContent(/Nos preocupamos com cada detalhe de sua experiência,.*cuidado acolhedor, seguro e sem preconceitos\./);
     expect(introduction?.querySelector("br")).toBeInTheDocument();
-    for (const name of ["Saúde inclusiva", "Diversidade", "Fim do preconceito"]) {
+    expect(purpose.getByRole("link", { name: "Dúvidas Frequentes" })).toHaveAttribute("href", "https://lacreisaude.com.br/ajuda/");
+    for (const name of ["Segurança", "Acessibilidade", "Dúvidas Frequentes"]) {
       expect(purpose.getByRole("heading", { level: 3, name })).toBeVisible();
     }
-    expect(purpose.getByRole("img", { name: "Equipe diversa de profissionais de saúde" })).toBeVisible();
+    expect(purpose.getByText("Entenda como validamos pacientes e profissionais da saúde.")).toBeVisible();
+    expect(purpose.getByText("Conheça nossos recursos que tornam a plataforma Lacrei Saúde acessível.")).toBeVisible();
+    expect(purpose.getByText("Acesse nossa lista de perguntas frequentes e tire suas dúvidas.")).toBeVisible();
+    const purposeImage = purpose.getByRole("img", { name: "Pessoas celebrando o Orgulho LGBTQIA+" });
+    expect(purposeImage).toBeVisible();
+    expect(purposeImage).toHaveAttribute("src", "/images/figma/medicos/diversidade.png");
     const testimonials = within(screen.getByRole("region", { name: "Depoimentos inspiradores" }));
     expect(testimonials.getAllByRole("article")).toHaveLength(3);
     for (const name of ["Fernanda", "Silvia", "Débora"]) {

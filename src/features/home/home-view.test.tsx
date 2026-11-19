@@ -59,16 +59,16 @@ describe("HomeView", () => {
     expect(purposeImage.compareDocumentPosition(purposeTitle) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(purposeImage.closest("figure")).toBeInTheDocument();
     expect(Array.from(purpose.querySelectorAll('img[src^="/images/purpose/"]')).map((icon) => decodeURIComponent(icon.getAttribute("src") ?? ""))).toEqual([
-      "/images/purpose/inclusion-handshake.svg", "/images/purpose/diversity-people.svg", "/images/purpose/equality-scale.svg",
+      "/images/purpose/security-shield.svg", "/images/purpose/accessibility.svg", "/images/purpose/faq-circle.svg",
     ]);
     expect(within(purpose).getByText("Conectar a comunidade LGBTQIAPN+ a profissionais que oferecem cuidado sem preconceitos.")).toBeVisible();
-    for (const title of ["Saúde inclusiva", "Diversidade", "Fim do preconceito"]) {
+    for (const title of ["Segurança", "Acessibilidade", "Dúvidas Frequentes"]) {
       expect(within(purpose).getByRole("heading", { level: 3, name: title })).toBeVisible();
     }
     for (const description of [
-      "Cuidados físicos e mentais para todas as pessoas, sem discriminação.",
-      "Capacitar profissionais para um atendimento respeitoso e adaptado a cada paciente.",
-      "Usar educação e empatia para derrubar barreiras históricas na saúde.",
+      "Entenda como validamos pacientes e profissionais da saúde.",
+      "Conheça nossos recursos que tornam a plataforma Lacrei Saúde acessível.",
+      "Acesse nossa lista de perguntas frequentes e tire suas dúvidas.",
     ]) {
       expect(within(purpose).getByText(description)).toBeVisible();
     }

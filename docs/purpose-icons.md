@@ -1,6 +1,10 @@
 # Purpose Value Icons
 
-The purpose cards use three transparent outline icons from [Lucide](https://github.com/lucide-icons/lucide): Handshake, Users Round, and Scale. Their strokes were recolored to match the site's green-to-blue gradient.
+The purpose cards use three transparent outline icons from [Lucide](https://github.com/lucide-icons/lucide): Shield Check, Accessibility, and Circle Question Mark. Their strokes were recolored to match the site's green-to-blue gradient.
+
+- [Shield Check](https://github.com/lucide-icons/lucide/blob/main/icons/shield-check.svg)
+- [Accessibility](https://github.com/lucide-icons/lucide/blob/main/icons/accessibility.svg)
+- [Circle Question Mark](https://github.com/lucide-icons/lucide/blob/main/icons/circle-question-mark.svg)
 
 The icons are licensed under the [ISC License](https://github.com/lucide-icons/lucide/blob/main/LICENSE).
 

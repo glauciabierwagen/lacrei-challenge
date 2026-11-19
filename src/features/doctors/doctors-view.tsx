@@ -64,8 +64,10 @@ export function DoctorsView() {
       <PurposeSection
         title={en ? "Our Mission" : "Nossa Missão"}
         introductionLines={en
-          ? ["We care about every detail", "of your experience."]
-          : ["Nos preocupamos com cada", "detalhe de sua experiência."]}
+          ? ["Every detail of your experience matters to us,", "so we provide welcoming, safe and inclusive care."]
+          : ["Nos preocupamos com cada detalhe de sua experiência,", "com cuidado acolhedor, seguro e sem preconceitos."]}
+        action={{ label: en ? "Frequently Asked Questions" : "Dúvidas Frequentes", href: "https://lacreisaude.com.br/ajuda/" }}
+        image={{ src: "/images/figma/medicos/diversidade.png", alt: en ? "People celebrating Pride together" : "Pessoas celebrando o Orgulho LGBTQIA+" }}
       />
 
       <S.Testimonials aria-labelledby="testimonials-title">
