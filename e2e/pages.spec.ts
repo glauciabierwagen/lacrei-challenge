@@ -106,7 +106,7 @@ for (const language of ["pt", "en"] as const) {
     }
     const ctaName = en ? "Meet our team" : "Conheça nosso time";
     await expect(page.getByRole("link", { name: ctaName, exact: true })).toHaveCount(2);
-    for (const section of ["proposito", "impacto"]) {
+    for (const section of ["proposito", "historias"]) {
       const cta = page.locator(`#${section}`).getByRole("link", { name: ctaName, exact: true });
       await expect(cta).toHaveAttribute("href", "/medicos");
       await cta.click();

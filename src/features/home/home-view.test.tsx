@@ -42,10 +42,13 @@ afterEach(() => {
 describe("HomeView", () => {
   it("links both Portuguese team CTAs to the doctors route", () => {
     renderWithTheme(<HomeView />);
+    expect(screen.getByRole("heading", { level: 2, name: "Conheça o jeito Lacrei Saúde de cuidar" })).toBeVisible();
+    expect(screen.getByText("Atendimento de qualidade e inclusivo")).toBeVisible();
     expect(screen.getAllByRole("link", { name: "Conheça nosso time" })).toHaveLength(2);
-    for (const name of ["Nosso Propósito", "Impacto do Lacrei Saúde"]) {
+    for (const name of ["Nosso Propósito", "Uma trajetória de acolhimento"]) {
       expect(within(screen.getByRole("region", { name })).getByRole("link", { name: "Conheça nosso time" })).toHaveAttribute("href", "/medicos");
     }
+    expect(within(screen.getByRole("region", { name: "Impacto do Lacrei Saúde" })).queryByRole("link", { name: "Conheça nosso time" })).not.toBeInTheDocument();
   });
 
   it("shows the complete Portuguese purpose copy", () => {
@@ -55,14 +58,14 @@ describe("HomeView", () => {
     const purposeTitle = within(purpose).getByRole("heading", { level: 2, name: "Nosso Propósito" });
     expect(purposeImage.compareDocumentPosition(purposeTitle) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(purposeImage.closest("figure")).toBeInTheDocument();
-    expect(within(purpose).getByText("Transformar o acesso à saúde ao conectar a comunidade LGBTQIAPN+ a profissionais humanizados, garantindo um atendimento seguro, digno e livre de preconceitos.")).toBeVisible();
-    for (const title of ["Promover saúde inclusiva", "Valorizar a diversidade", "Combater o preconceito"]) {
+    expect(within(purpose).getByText("Conectar a comunidade LGBTQIAPN+ a profissionais humanizados para garantir um atendimento em saúde seguro e livre de preconceitos.")).toBeVisible();
+    for (const title of ["Saúde inclusiva", "Diversidade", "Fim do preconceito"]) {
       expect(within(purpose).getByRole("heading", { level: 3, name: title })).toBeVisible();
     }
     for (const description of [
-      "Facilitar o acesso a cuidados físicos e mentais que respeitam e acolhem todas as identidades, corpos e vivências sem discriminação.",
-      "Capacitar profissionais para celebrar a pluralidade e oferecer um cuidado alinhado às necessidades individuais de cada paciente.",
-      "Quebrar barreiras históricas na saúde por meio da educação e do afeto, tornando o atendimento médico verdadeiramente empático e seguro.",
+      "Garantir acesso sem discriminação a cuidados físicos e mentais para todas as identidades e corpos.",
+      "Capacitar profissionais para um atendimento respeitoso e adaptado a cada paciente.",
+      "Usar educação e empatia para derrubar barreiras históricas na saúde.",
     ]) {
       expect(within(purpose).getByText(description)).toBeVisible();
     }
@@ -104,7 +107,9 @@ describe("HomeView", () => {
 
   it("announces the selected country without inventing impact data", async () => {
     const { user } = renderWithTheme(<HomeView />);
-    expect(within(screen.getByRole("region", { name: "Impacto do Lacrei Saúde" })).getByText("Lacrei Saúde")).toBeVisible();
+    const impact = within(screen.getByRole("region", { name: "Impacto do Lacrei Saúde" }));
+    expect(impact.getByText("Lacrei Saúde")).toBeVisible();
+    expect(impact.getByText("Lacrei Saúde")).toHaveStyle({ color: "rgb(1, 135, 98)" });
     const map = screen.getByRole("group", { name: "Explore os países destacados no mapa" });
     const markers = within(map).getAllByRole("button");
     const status = screen.getByRole("status");
@@ -132,7 +137,7 @@ describe("HomeView", () => {
     expect(screen.getByRole("button", { name: /^Banner 3:/ })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("heading", { name: "Our Purpose" })).toBeVisible();
     expect(screen.getByRole("heading", { name: "Promote inclusive healthcare" })).toBeVisible();
-    expect(screen.getByText("Our commitment to inclusive, prejudice-free healthcare knows no borders. From Brazil to the world, we expand access to compassionate care, celebrating diversity and strengthening the LGBTQIAPN+ community across continents.")).toBeVisible();
+    expect(screen.getByText("Inclusive, prejudice-free healthcare for the LGBTQIAPN+ community, from Brazil to the world.")).toBeVisible();
     expect(screen.getByRole("img", { name: "A diverse team of health professionals" })).toBeVisible();
     expect(screen.getByRole("group", { name: "Explore the countries highlighted on the map" })).toBeVisible();
     expect(screen.getByRole("button", { name: "Explore Mozambique" })).toHaveAttribute("aria-pressed", "true");
@@ -140,9 +145,10 @@ describe("HomeView", () => {
     expect(screen.getByRole("region", { name: "History timeline — scroll to explore" })).toHaveAttribute("tabindex", "0");
     expect(screen.getByRole("heading", { name: "Together for the cause!" })).toBeVisible();
     expect(screen.getAllByRole("link", { name: "Meet our team" })).toHaveLength(2);
-    for (const name of ["Our Purpose", "The impact of Lacrei Saúde"]) {
+    for (const name of ["Our Purpose", "Care that moves us forward"]) {
       expect(within(screen.getByRole("region", { name })).getByRole("link", { name: "Meet our team" })).toHaveAttribute("href", "/medicos");
     }
+    expect(within(screen.getByRole("region", { name: "The impact of Lacrei Saúde" })).queryByRole("link", { name: "Meet our team" })).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "For Patients" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
     expect(screen.getByRole("link", { name: "For Professionals" })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     window.history.pushState(null, "", "/#cadastro");
@@ -153,7 +159,7 @@ describe("HomeView", () => {
     await user.click(within(dialog).getByRole("button", { name: "Close" }));
     await user.click(screen.getByRole("button", { name: "Português" }));
     expect(document.documentElement).toHaveAttribute("lang", "pt-BR");
-    expect(screen.getByText("O nosso compromisso com uma saúde inclusiva e sem preconceitos não tem fronteiras. Do Brasil para o mundo, ampliamos o acesso a cuidados humanizados, celebrando a diversidade e fortalecendo a comunidade LGBTQIAPN+ em diferentes continentes.")).toBeVisible();
+    expect(screen.getByText("Saúde inclusiva e sem preconceitos para a comunidade LGBTQIAPN+, do Brasil para o mundo.")).toBeVisible();
     expect(screen.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Saúde sem fronteiras,\s*transformação sem limites\.$/);
     expect(screen.getByRole("button", { name: "Explorar Moçambique" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("status")).toHaveTextContent("Moçambique — destaque no mapa do projeto.");
@@ -202,6 +208,14 @@ describe("HomeView", () => {
     expect(patients).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
     expect(professionals).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     expect(screen.queryByRole("button", { name: "Como cadastrar" })).not.toBeInTheDocument();
+  });
+
+  it("renders audience cards with links to the official patient and professional portals", () => {
+    renderWithTheme(<HomeView />);
+    expect(screen.getByRole("heading", { level: 2, name: "Pacientes" })).toBeVisible();
+    expect(screen.getByRole("heading", { level: 2, name: "Profissionais da saúde" })).toBeVisible();
+    expect(screen.getByRole("link", { name: "Buscar atendimento" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+    expect(screen.getByRole("link", { name: "Oferecer atendimento" })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
   });
 
   it("opens an initial registration hash, ignores hash changes while open, and clears the hash on close", async () => {

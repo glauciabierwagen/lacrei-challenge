@@ -45,11 +45,11 @@ const locations = [
 const purposeCopy = {
   pt: {
     title: "Nosso Propósito",
-    introduction: "Transformar o acesso à saúde ao conectar a comunidade LGBTQIAPN+ a profissionais humanizados, garantindo um atendimento seguro, digno e livre de preconceitos.",
+    introduction: "Conectar a comunidade LGBTQIAPN+ a profissionais humanizados para garantir um atendimento em saúde seguro e livre de preconceitos.",
     values: [
-      { title: "Promover saúde inclusiva", description: "Facilitar o acesso a cuidados físicos e mentais que respeitam e acolhem todas as identidades, corpos e vivências sem discriminação." },
-      { title: "Valorizar a diversidade", description: "Capacitar profissionais para celebrar a pluralidade e oferecer um cuidado alinhado às necessidades individuais de cada paciente." },
-      { title: "Combater o preconceito", description: "Quebrar barreiras históricas na saúde por meio da educação e do afeto, tornando o atendimento médico verdadeiramente empático e seguro." },
+      { title: "Saúde inclusiva", description: "Garantir acesso sem discriminação a cuidados físicos e mentais para todas as identidades e corpos." },
+      { title: "Diversidade", description: "Capacitar profissionais para um atendimento respeitoso e adaptado a cada paciente." },
+      { title: "Fim do preconceito", description: "Usar educação e empatia para derrubar barreiras históricas na saúde." },
     ],
   },
   en: {
@@ -68,8 +68,8 @@ export function HomeView() {
   const { language } = useLanguage();
   const en = language === "en";
   const impactIntroduction = en
-    ? "Our commitment to inclusive, prejudice-free healthcare knows no borders. From Brazil to the world, we expand access to compassionate care, celebrating diversity and strengthening the LGBTQIAPN+ community across continents."
-    : "O nosso compromisso com uma saúde inclusiva e sem preconceitos não tem fronteiras. Do Brasil para o mundo, ampliamos o acesso a cuidados humanizados, celebrando a diversidade e fortalecendo a comunidade LGBTQIAPN+ em diferentes continentes.";
+    ? "Inclusive, prejudice-free healthcare for the LGBTQIAPN+ community, from Brazil to the world."
+    : "Saúde inclusiva e sem preconceitos para a comunidade LGBTQIAPN+, do Brasil para o mundo.";
   const [slide, setSlide] = useState(0);
   const [location, setLocation] = useState<number | null>(null);
   const timeline = useRef<HTMLDivElement>(null);
@@ -129,6 +129,11 @@ export function HomeView() {
         </S.Dots>
       </S.Hero>
 
+      <S.CareIntro aria-labelledby="care-intro-title">
+        <h2 id="care-intro-title">{en ? "Discover the Lacrei Saúde way of caring" : "Conheça o jeito Lacrei Saúde de cuidar"}</h2>
+        <p>{en ? "Quality and inclusive healthcare" : "Atendimento de qualidade e inclusivo"}</p>
+      </S.CareIntro>
+
       <S.HomeSection id="proposito" aria-labelledby="purpose-title">
         <S.AboutGrid>
           <S.AboutImageCard>
@@ -150,7 +155,7 @@ export function HomeView() {
 
       <S.ImpactSection id="impacto" aria-labelledby="impact-title">
         <S.ImpactContent>
-          <S.CenterHeading><S.Handwritten>Lacrei Saúde</S.Handwritten><h2 id="impact-title">{en ? "The impact of Lacrei Saúde" : "Impacto do Lacrei Saúde"}</h2><p>{impactIntroduction}</p></S.CenterHeading>
+          <S.CenterHeading><S.Handwritten $color="#018762">Lacrei Saúde</S.Handwritten><h2 id="impact-title">{en ? "The impact of Lacrei Saúde" : "Impacto do Lacrei Saúde"}</h2><p>{impactIntroduction}</p></S.CenterHeading>
           <S.MapCanvas role="group" aria-label={en ? "Explore the countries highlighted on the map" : "Explore os países destacados no mapa"}>
             {/* Usa SVG em img nativo com as medidas do Figma; a sobra para fora do mapa é intencional. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -160,11 +165,29 @@ export function HomeView() {
             </button>)}
           </S.MapCanvas>
           <S.ImpactStatus role="status">{location !== null ? `${en ? locations[location].en : locations[location].pt} — ${en ? "highlighted in the design map. Impact details have not been provided." : "destaque no mapa do projeto. Dados de impacto ainda não disponibilizados."}` : ""}</S.ImpactStatus>
-          <S.HomeButton href="/medicos" $variant="secondary">{en ? "Meet our team" : "Conheça nosso time"}</S.HomeButton>
         </S.ImpactContent>
         <Image src={`${assets}imgAirplaneWithADottedPathOfTravel.png`} width={120} height={135} alt="" />
         <Image src={`${assets}imgAirplaneWithADottedPathOfTravel.png`} width={120} height={135} alt="" />
       </S.ImpactSection>
+
+      <S.AudienceSection aria-label={en ? "Choose how to access Lacrei Saúde" : "Escolha como acessar a Lacrei Saúde"}>
+        <S.AudienceCard>
+          <Image src={`${assets}medicos/Médicos.png`} alt={en ? "LGBTQIAPN+ patient" : "Pessoa LGBTQIAPN+"} width={946} height={535} sizes="(min-width: 64rem) 288px, (min-width: 48rem) 35vw, 100vw" />
+          <div>
+            <h2>{en ? "Patients" : "Pacientes"}</h2>
+            <p>{en ? "Connect with health professionals who understand the needs of the LGBTQIAPN+ community." : "Conecte-se a profissionais da saúde que estudam as necessidades da comunidade LGBTQIAPN+."}</p>
+            <a href="https://paciente.lacreisaude.com.br/">{en ? "Find care" : "Buscar atendimento"}</a>
+          </div>
+        </S.AudienceCard>
+        <S.AudienceCard $reverse>
+          <Image src={`${assets}medicos/imgVector.png`} alt={en ? "Healthcare professional" : "Profissional da saúde"} width={630} height={669} sizes="(min-width: 64rem) 288px, (min-width: 48rem) 35vw, 100vw" />
+          <div>
+            <h2>{en ? "Health professionals" : "Profissionais da saúde"}</h2>
+            <p>{en ? "We are looking for qualified health professionals who prioritize the physical and mental wellbeing of LGBTQIAPN+ people." : "Buscamos profissionais da saúde qualificados que priorizam o bem-estar físico e mental de pessoas LGBTQIAPN+."}</p>
+            <a href="https://profissional.lacreisaude.com.br/">{en ? "Offer care" : "Oferecer atendimento"}</a>
+          </div>
+        </S.AudienceCard>
+      </S.AudienceSection>
 
       <S.HistorySection id="historias" aria-labelledby="history-title">
         <S.CenterHeading><S.Handwritten>{en ? "Our story" : "Nossa história"}</S.Handwritten><h2 id="history-title">{en ? "Care that moves us forward" : "Uma trajetória de acolhimento"}</h2></S.CenterHeading>
@@ -180,6 +203,9 @@ export function HomeView() {
           </S.TimelineViewport>
           <S.TimelineArrow type="button" aria-label={en ? "Next stories" : "Próximas histórias"} aria-controls="history-timeline" onClick={() => timeline.current?.scrollBy({ left: 544, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}>→</S.TimelineArrow>
         </S.TimelineCarousel>
+        <S.HistoryTeamAction>
+          <S.HomeButton href="/medicos" $variant="secondary">{en ? "Meet our team" : "Conheça nosso time"}</S.HomeButton>
+        </S.HistoryTeamAction>
       </S.HistorySection>
 
       <S.PartnerSection id="parceiros" aria-labelledby="partners-title"><Container>

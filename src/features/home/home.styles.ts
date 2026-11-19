@@ -12,7 +12,7 @@ export const Hero = styled.section`
   > img { z-index: -2; object-fit: cover; object-position: center; }
   &::before { content: ""; position: absolute; inset: 0; z-index: -1;
     background: linear-gradient(90deg, rgba(0,0,0,.76), rgba(0,0,0,.43)); }
-  @media (min-width: 75rem) { padding-top: 12rem; }
+  @media (min-width: 75rem) { min-height: 40.5rem; padding-top: 12rem; }
 `;
 export const HeroContent = styled(Container)`
   display: grid; gap: 2rem;
@@ -50,9 +50,20 @@ export const Dots = styled.div`
   button[aria-pressed="true"] span { background: #fff; }
   @media (max-width: 47.99rem) { bottom: 1rem; }
 `;
+export const CareIntro = styled.section`
+  display: grid;
+  justify-items: center;
+  gap: .75rem;
+  padding: 2rem 1rem 1.5rem;
+  text-align: center;
+  h2 { color: #1f1f1f; font-size: clamp(1.5rem, 3.24vw, 2.5rem); font-weight: 700; line-height: 1.2; }
+  h2::after { content: ""; display: block; width: 10rem; height: 2px; margin: .75rem auto 0; background: #018762; }
+  p { color: #1f1f1f; font-size: clamp(1.125rem, 1.95vw, 1.5rem); line-height: 1.5; }
+  @media (max-width: 47.99rem) { gap: .5rem; padding-block: 1.5rem 1rem; }
+`;
 // Organiza as seções de apresentação, os valores e os títulos.
 export const HomeSection = styled.section`
-  position: relative; padding-block: clamp(3rem, 6vw, 5rem);
+  position: relative; padding-block: clamp(1.5rem, 2.5vw, 2rem);
 `;
 export const AboutGrid = styled(Container)`
   position: relative; display: grid; align-items: center; gap: 2.5rem;
@@ -136,13 +147,14 @@ export const CenterHeading = styled.div`
   h2 { font-size: clamp(1.5rem, 2.87vw, 2.5rem); font-weight: 700; line-height: 1.2; }
   p { color: ${({ theme }) => theme.colors.muted}; max-width: 26rem; line-height: 1.5; }
 `;
-export const Handwritten = styled.p`
-  && { color: ${({ theme }) => theme.colors.primary}; font-family: "TrashHand", "Nunito", cursive;
+export const Handwritten = styled.p<{ $color?: string }>`
+  &&& { color: ${({ theme, $color }) => $color ?? theme.colors.primary}; font-family: "TrashHand", "Nunito", cursive;
     font-size: 2rem; line-height: 1; text-transform: uppercase; }
 `;
 // Posiciona o mapa, seus marcadores e as imagens decorativas.
 export const ImpactContent = styled(Container)`
   display: grid; justify-items: center; gap: 3.5rem;
+  > a:last-child { margin-top: -1.25rem; }
 `;
 export const MapCanvas = styled.div`
   position: relative; width: min(100%, 47.5rem); aspect-ratio: 760/509;
@@ -156,10 +168,22 @@ export const MapCanvas = styled.div`
 export const ImpactSection = styled(HomeSection)`
   overflow: clip;
   h2 { color: #1f1f1f; }
-  ${Handwritten} { color: #018762; }
-  ${CenterHeading} p { color: #515151; }
-  ${HomeButton} { border-color: #018762; color: #018762; }
-  ${HomeButton}:hover { background: #f9f3ff; }
+  ${CenterHeading} { gap: .75rem; }
+  ${CenterHeading} h2::after { content: ""; display: block; width: 10rem; height: 2px; margin: .75rem auto 0; background: #018762; }
+  ${CenterHeading} p { max-width: min(100%, 56rem); color: #515151; font-size: clamp(1.125rem, 1.95vw, 1.5rem); line-height: 1.5; }
+  @media (min-width: 64rem) { ${CenterHeading} p { white-space: nowrap; } }
+  ${HomeButton} {
+    min-height: 3rem;
+    padding: .5rem .625rem;
+    border: 2px solid #018762;
+    border-radius: 8px;
+    color: #018762;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.55;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, .2);
+  }
+  ${HomeButton}:hover { background: #018762; color: #fff; }
   [role="status"] { color: #018762; }
   > img { position: absolute; pointer-events: none; width: 120px; height: 135px; }
   > img:first-of-type { right: -1.5rem; top: 35%; transform: rotate(196deg); }
@@ -169,6 +193,45 @@ export const ImpactSection = styled(HomeSection)`
 export const ImpactStatus = styled.p`
   min-height: 1.6em; text-align: center; color: ${({ theme }) => theme.colors.primary};
   margin-top: -2rem;
+`;
+export const AudienceSection = styled.section`
+  display: grid;
+  gap: 5rem;
+  padding: 3rem 1rem 5rem;
+  background: #f9f3ff;
+`;
+export const AudienceCard = styled(Container)<{ $reverse?: boolean }>`
+  position: relative;
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr);
+  align-items: center;
+  min-height: 15rem;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  background: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, .16);
+  > img { width: 18rem; height: 18rem; max-width: none; object-fit: contain; }
+  > div { display: grid; justify-items: start; gap: 1rem; padding: 1rem; }
+  h2 { color: #1f1f1f; font-size: 1.5rem; font-weight: 700; line-height: 1.3; }
+  p { padding-left: .875rem; border-left: 2px solid #018762; color: #515151; font-size: 1rem; line-height: 1.5; }
+  a { display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: .5rem 1.5rem;
+    border: 0; border-radius: 5px; background: #018762; box-shadow: 3px 3px 5px rgba(0,0,0,.2);
+    color: #fff; font-size: .875rem; font-weight: 700; text-decoration: none; }
+  a:hover { background: #006f59; }
+  @media (min-width: 64rem) {
+    width: min(calc(100% - 4rem), 59.375rem);
+    grid-template-columns: ${({ $reverse }) => $reverse ? "minmax(0, 1fr) 15rem" : "15rem minmax(0, 1fr)"};
+    > img { grid-column: ${({ $reverse }) => $reverse ? "2" : "1"}; grid-row: 1; }
+    > div { grid-column: ${({ $reverse }) => $reverse ? "1" : "2"}; grid-row: 1; }
+  }
+  @media (max-width: 47.99rem) {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: .75rem;
+    padding: 1rem;
+    > img { width: min(100%, 16rem); height: auto; }
+    > div { width: 100%; padding: .5rem; }
+  }
 `;
 // Define a linha do tempo horizontal e os cartões com imagens recortadas.
 export const HistorySection = styled(HomeSection)`
@@ -184,6 +247,11 @@ export const TimelineArrow = styled.button`
   border: 1px solid #087b6b; border-radius: 50%; background: #fff; color: #087b6b;
   font-size: 1.5rem; line-height: 1;
   &:hover { background: #fafbeb; }
+`;
+export const HistoryTeamAction = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 `;
 export const TimelineViewport = styled.div`
   min-width: 0;
