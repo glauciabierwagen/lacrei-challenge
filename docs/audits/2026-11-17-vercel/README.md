@@ -42,3 +42,21 @@ O script não inicia servidor local nem altera a Vercel. Gera HTML e JSON em uma
 ## Leitor de tela
 
 **NVDA/VoiceOver não foram executados.** Lighthouse não simula a experiência de um leitor de tela. A indisponibilidade do ambiente e o roteiro manual estão em [Revisão com leitor de tela](../../screen-reader-review.md).
+
+
+# Evidência de simulação local — 19/11/2026
+
+Foi ensaiada a recuperação da revisão anterior `5e41811` (`Doctors`) enquanto a branch ativa estava em `c73389c` (`Updates Navbar`). Para preservar a branch e os arquivos do projeto, a revisão anterior foi aberta em um worktree detached temporário (`%TEMP%\lacrei-rollback-5e41811`). O teste E2E foi executado em `localhost:3018`, com `reuseExistingServer: false`; uma tentativa preliminar na porta 3000 foi descartada porque ela já estava ocupada pelo servidor local.
+
+| Etapa na revisão anterior | Evidência |
+| --- | --- |
+| `npm ci` | Concluído; 773 pacotes instalados e auditoria informou 0 vulnerabilidades. |
+| `npm run lint` | Aprovado. |
+| `npm run typecheck` | Aprovado; tipos de rota gerados. |
+| `npm run build` | Aprovado; build de produção gerado para `/`, `/medicos` e `/sobre`. |
+| Testes unitários/cobertura | 58 aprovados e 4 falharam em 3 arquivos; há expectativas de conteúdo/acessibilidade que não correspondem ao conteúdo dessa revisão. O comando `npm run check` parou nessa etapa. |
+| E2E isolado | 31 de 40 aprovados; 9 falharam, incluindo expectativas de navegação/conteúdo e verificações de contraste. Um contraste medido foi 4,48:1 para `#018762` sobre branco (mínimo 4,5:1). |
+
+**Resultado:** a versão anterior pôde ser reconstruída localmente, mas a simulação não certifica uma release pronta para promoção: as suítes não ficaram verdes. Nenhum deployment ou domínio da Vercel foi alterado; sem acesso autorizado ao projeto, a restauração real de produção não foi executada. O worktree e a configuração temporária de teste foram isolados da branch ativa.
+
+Referências oficiais: [Instant Rollback](https://vercel.com/docs/instant-rollback) e [promoção de deployments](https://vercel.com/docs/deployments/promoting-a-deployment), consultadas em 17/11/2026. A interface e as condições dos planos podem mudar.
