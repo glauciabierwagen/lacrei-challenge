@@ -162,7 +162,7 @@ describe("Header", () => {
       expect(toggle).toHaveAttribute("aria-expanded", "false");
       if (matches) expect(screen.queryByRole("navigation")).not.toBeInTheDocument();
       else expect(screen.getByRole("navigation")).toBeVisible();
-      expect(window.matchMedia).toHaveBeenLastCalledWith("(max-width: 1199px)");
+      expect(window.matchMedia).toHaveBeenLastCalledWith("(max-width: 831px)");
       expect(pushState).toHaveBeenCalledTimes(count);
       expect(pushState).toHaveBeenLastCalledWith(null, "", "/#cadastro");
       expect(window.location.pathname + window.location.hash).toBe("/#cadastro");

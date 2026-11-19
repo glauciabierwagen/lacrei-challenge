@@ -16,15 +16,16 @@ export const Hero = styled.section`
 `;
 export const HeroContent = styled(Container)`
   display: grid; gap: 2rem;
-  h1 { max-width: 50rem; font-size: clamp(2rem, 3.44vw, 3rem); font-weight: 700; line-height: 1.2; min-height: 3.9em; }
+  h1 { max-width: 50rem; font-size: 2rem; font-weight: 700; line-height: 1.2; min-height: 3.9em; }
   h1[data-slide="2"] { max-width: 56rem; }
   h1[data-slide="2"] span { white-space: nowrap; }
   h1 span { color: ${({ theme }) => theme.colors.primary}; font-weight: 600; }
   @media (min-width: 75rem) { transform: translateY(-2.5rem); }
   @media (min-width: 48rem) {
     width: min(calc(100% - 2rem), ${({ theme }) => theme.layout.maxWidth});
-    h1 { min-height: 2.6em; }
+    h1 { min-height: 2.6em; font-size: 3rem; }
   }
+  @media (min-width: 75rem) { h1 { font-size: 3.5rem; } }
 `;
 export const HomeButton = styled(ButtonLink)`
   border-radius: 8px; font-size: 1.125rem; font-weight: 700;
@@ -249,10 +250,13 @@ export const HistorySection = styled(HomeSection)`
   @media (min-width: 64rem) { ${CenterHeading} h2 + p { font-size: 1.5rem; } }
 `;
 export const TimelineCarousel = styled.div`
-  display: grid; grid-template-columns: 3rem minmax(0, 1fr) 3rem; align-items: center;
-  gap: clamp(.25rem, 2vw, 1rem); width: 100%; margin-block: 2.625rem 1rem;
+  position: relative; width: 100%; margin-block: 2.625rem 1rem;
+  &[data-controls-visible="false"] > button:not(:focus-visible) { opacity: 0; pointer-events: none; }
 `;
 export const TimelineArrow = styled.button`
+  position: absolute; z-index: 1; inset-block-start: 50%; transform: translateY(-50%);
+  &:first-child { inset-inline-start: .25rem; }
+  &:last-child { inset-inline-end: .25rem; }
   display: grid; place-items: center; width: 3rem; height: 3rem;
   border: 1px solid #087b6b; border-radius: 50%; background: #fff; color: #087b6b;
   font-size: 1.5rem; line-height: 1;
@@ -272,8 +276,8 @@ export const TimelineViewport = styled.div`
   &:focus-visible { outline-offset: -4px; }
 `;
 export const TimelineTrack = styled.ol`
-  position: relative; display: flex; width: max-content; list-style: none; padding: 0 2rem 1rem; margin: 0;
-  background: url("/images/figma/imgLine1.svg") 0 11.5rem / 194rem 5rem no-repeat;
+  position: relative; display: flex; width: max-content; list-style: none; padding: 0 0 1rem; margin: 0;
+  background: url("/images/figma/imgLine1.svg") 0 11.5rem / 100% 5rem no-repeat;
   li { position: relative; display: flex; align-items: center; gap: 0; scroll-snap-align: start; }
   time { display: block; width: clamp(4rem,12vw,11rem); text-align: center; font-family: ${({ theme }) => theme.fonts.heading}; font-size: 1.5rem; font-weight: 500; }
 `;
@@ -284,7 +288,7 @@ export const StoryCard = styled.article`
   > div { position: relative; padding: 1rem 1.625rem; min-height: 11rem;
     background: rgba(15,35,29,.84); backdrop-filter: blur(9px); color: #fefefe; }
   h3 { font-size: 1.5rem; font-weight: 600; line-height: 1.3; margin-bottom: .6rem; }
-  p { font-family: ${({ theme }) => theme.fonts.heading}; font-size: .875rem; line-height: 1.3; }
+  p { font-family: ${({ theme }) => theme.fonts.body}; font-size: 1rem; font-weight: 400; line-height: 1.5; }
 `;
 // Estilos dos parceiros e da janela de aviso sobre cadastro.
 export const PartnerSection = styled(HomeSection)`

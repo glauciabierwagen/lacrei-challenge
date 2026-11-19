@@ -8,7 +8,7 @@ import * as S from "./home.styles";
 
 const assets = "/images/figma/";
 const years = [2018, 2019, 2020, 2023, 2024, 2025];
-const photos = ["imgFrame4556.png", "imgTextContent.png", "hospital.jpg", "imgTextContent.png", "medico.jpg", "imgTextContent.png"];
+const photos = [`${assets}imgFrame4556.png`, "/images/history/pexels-7108401.webp", `${assets}hospital.jpg`, `${assets}imgTextContent.png`, "/images/history/pexels-6129681.webp", "/images/history/pexels-6129507.webp"];
 const stories = {
   pt: [
     { title: "Um cuidado que faz falta", description: "Para muitas pessoas LGBTQIAPN+, buscar atendimento de saúde ainda significava enfrentar barreiras. Crescia a necessidade de um cuidado acolhedor e sem julgamentos." },
@@ -30,11 +30,11 @@ const stories = {
 // Mantém os recortes do Figma, incluindo a remoção de espaços vazios das imagens.
 const crops = [
   { width: "167.66%", height: "206.18%", left: "-33.7%", top: "-45.15%" },
-  { width: "150.11%", height: "138.29%", left: "-22.66%", top: "-27.26%" },
+  { width: "100%", height: "100%", left: "0", top: "0", objectFit: "cover" as const },
   { width: "100%", height: "100%", left: "0", top: "0", objectFit: "cover" as const },
   { width: "100%", height: "100%", left: "0", top: "0", objectFit: "cover" as const, transform: "scale(1.25)" },
+  { width: "100%", height: "100%", left: "0", top: "0", objectFit: "cover" as const, objectPosition: "37% center" },
   { width: "100%", height: "100%", left: "0", top: "0", objectFit: "cover" as const },
-  { width: "229.95%", height: "119.3%", left: "-57.4%", top: "-17.09%" },
 ];
 const locations = [
   { pt: "Brasil", en: "Brazil", x: 26.45, y: 39.1 },
@@ -72,6 +72,7 @@ export function HomeView() {
     : "Saúde inclusiva e sem preconceitos para a comunidade LGBTQIAPN+, do Brasil para o mundo.";
   const [slide, setSlide] = useState(0);
   const [location, setLocation] = useState<number | null>(null);
+  const [timelineControlsVisible, setTimelineControlsVisible] = useState(false);
   const timeline = useRef<HTMLDivElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
   const registrationLink = useRef<HTMLElement | null>(null);
@@ -176,12 +177,12 @@ export function HomeView() {
           <h2 id="history-title">{en ? "Care that moves us forward" : "Uma trajetória de acolhimento"}</h2>
           <p>{en ? "A story of inclusive healthcare." : "Uma história de saúde inclusiva."}</p>
         </S.CenterHeading>
-        <S.TimelineCarousel>
+        <S.TimelineCarousel data-controls-visible={timelineControlsVisible} onClick={() => setTimelineControlsVisible(true)}>
           <S.TimelineArrow type="button" aria-label={en ? "Previous stories" : "Histórias anteriores"} aria-controls="history-timeline" onClick={() => timeline.current?.scrollBy({ left: -544, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}>←</S.TimelineArrow>
           <S.TimelineViewport id="history-timeline" ref={timeline} tabIndex={0} role="region" aria-label={en ? "History timeline — scroll to explore" : "Linha do tempo — role para explorar"}>
             <S.TimelineTrack>
               {years.map((year, index) => <li key={year}><time dateTime={`${year}`}>{year}</time><S.StoryCard>
-                <Image src={`${assets}${photos[index]}`} alt={index === 2 ? (en ? "Exterior of a hospital complex" : "Fachada de um complexo hospitalar") : index === 4 ? (en ? "Healthcare professionals caring for a patient in a hospital bed" : "Profissionais de saúde atendendo uma pessoa em um leito hospitalar") : ""} width={index === 2 ? 1194 : index === 4 ? 1206 : 1920} height={index === 2 ? 661 : index === 4 ? 672 : 1080} sizes="(min-width: 768px) 740px, 550px" style={{ position: "absolute", ...crops[index] }} />
+                <Image src={photos[index]} alt={index === 1 ? (en ? "Healthcare team gathered around a table" : "Equipe de saúde reunida em uma mesa") : index === 2 ? (en ? "Exterior of a hospital complex" : "Fachada de um complexo hospitalar") : index === 4 ? (en ? "Healthcare professionals caring for a patient in a hospital bed" : "Profissionais de saúde atendendo uma pessoa em um leito hospitalar") : index === 5 ? (en ? "Diverse healthcare team standing together in a hospital" : "Equipe diversa de profissionais de saúde reunida em um hospital") : ""} width={index === 1 || index >= 4 ? 1000 : index === 2 ? 1194 : 1920} height={index >= 4 ? 666 : index === 1 ? 667 : index === 2 ? 661 : 1080} sizes={index === 1 || index >= 4 ? "(max-width: 352px) 240px, (max-width: 541px) 68vw, 368px" : "(min-width: 768px) 740px, 550px"} style={{ position: "absolute", ...crops[index] }} />
                 <div><h3>{stories[en ? "en" : "pt"][index].title}</h3><p>{stories[en ? "en" : "pt"][index].description}</p></div>
               </S.StoryCard></li>)}
             </S.TimelineTrack>

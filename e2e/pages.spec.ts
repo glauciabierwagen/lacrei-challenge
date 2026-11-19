@@ -25,7 +25,7 @@ for (const route of ["/", "/sobre", "/medicos"]) {
   });
 
   test(`${route}: sem overflow em telas pequenas e grandes`, async ({ page }) => {
-    for (const width of [320, 375, 768, 1024, 1199, 1200, 1440]) {
+    for (const width of [320, 375, 768, 832, 895, 1024, 1199, 1200, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       await page.goto(route);
       const noOverflow = await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth);
@@ -195,10 +195,24 @@ test("próximas histórias desloca a linha do tempo sem overflow da página", as
   await expect(timeline.getByRole("listitem")).toHaveCount(6);
   await expect(timeline).toHaveAttribute("tabindex", "0");
   const start = await timeline.evaluate((element) => element.scrollLeft);
-  await page.getByRole("button", { name: "Próximas histórias" }).click();
+  const timelineEdges = () => timeline.evaluate((element) => {
+    const { left, right } = element.getBoundingClientRect();
+    return [left, document.documentElement.clientWidth - right];
+  });
+  expect(await timelineEdges()).toEqual([0, 0]);
+  await expect(timeline.getByRole("list")).toHaveCSS("padding-inline", "0px");
+  const nextArrow = page.getByRole("button", { name: "Próximas histórias" });
+  const previousArrow = page.getByRole("button", { name: "Histórias anteriores" });
+  await expect(nextArrow).toHaveCSS("opacity", "0");
+  await expect(previousArrow).toHaveCSS("opacity", "0");
+  await timeline.click();
+  await expect(nextArrow).toHaveCSS("opacity", "1");
+  await expect(previousArrow).toHaveCSS("opacity", "1");
+  expect(await timelineEdges()).toEqual([0, 0]);
+  await nextArrow.click();
   await expect.poll(() => timeline.evaluate((element) => element.scrollLeft)).toBeGreaterThan(start);
   const next = await timeline.evaluate((element) => element.scrollLeft);
-  await page.getByRole("button", { name: "Histórias anteriores" }).click();
+  await previousArrow.click();
   await expect.poll(() => timeline.evaluate((element) => element.scrollLeft)).toBeLessThan(next);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });

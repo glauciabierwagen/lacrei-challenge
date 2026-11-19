@@ -23,7 +23,7 @@ const Shell = styled.header<{ $home: boolean }>`
 const Row = styled.div`
   box-sizing: border-box;
   max-width: 1248px;
-  min-height: 111px;
+  min-height: 96px;
   margin-inline: auto;
   padding-inline: 20px;
   display: flex;
@@ -31,6 +31,7 @@ const Row = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  @media (min-width: 52rem) { padding-inline: 0; width: calc(100% - 2rem); flex-wrap: nowrap; }
   @media (min-width: 1200px) { padding-inline: 0; width: calc(100% - 96px); flex-wrap: nowrap; }
   @media (min-width: 1440px) { width: calc(100% - 192px); }
 `;
@@ -54,7 +55,7 @@ const Toggle = styled.button`
   background: #013c43;
   font: inherit;
   font-weight: 600;
-  @media (min-width: 1200px) { display: none; }
+  @media (min-width: 52rem) { display: none; }
 `;
 const Navigation = styled.nav<{ $open: boolean }>`
   display: ${({ $open }) => $open ? "flex" : "none"};
@@ -68,17 +69,23 @@ const Navigation = styled.nav<{ $open: boolean }>`
   a { display: flex; align-items: center; min-height: 44px; text-decoration: none; font-size: 20px; font-weight: 600; }
   a:hover, a[aria-current="page"] { text-decoration: underline; text-underline-offset: 6px; }
   a[data-registration] { border: 1px solid #fff; border-radius: 8px; padding: 0 16px; }
-  @media (min-width: 1200px) {
+  @media (min-width: 52rem) {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    gap: 24px;
+    gap: 16px;
+    flex: 1;
     width: auto;
+    margin-inline-start: 2rem;
     padding: 0;
     background: transparent;
-    ul { flex-direction: row; align-items: center; gap: 24px; }
-    a { white-space: nowrap; }
+    ul { flex: 1; flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
+    a { white-space: nowrap; font-size: 16px; }
+  }
+  @media (min-width: 56rem) {
+    ul { gap: 16px; }
+    a { font-size: 18px; }
   }
 `;
 const Languages = styled.div`
@@ -88,7 +95,7 @@ const Languages = styled.div`
   margin-top: 12px;
   button { min-width: 44px; min-height: 44px; border: 0; background: transparent; padding: 4px; font: inherit; font-size: 16px; font-weight: 700; }
   button[aria-pressed="true"] { color: #d5f78b; text-decoration: underline; text-underline-offset: 5px; }
-  @media (min-width: 1200px) { margin-top: 0; }
+  @media (min-width: 52rem) { margin-top: 0; }
 `;
 const NavigationDialog = styled.dialog`
   width: min(calc(100% - 2rem), 48rem);
@@ -170,7 +177,7 @@ export function Header() {
     <Shell $home={pathname === "/" || pathname === "/medicos"}>
       <Row>
         <Brand href="/" aria-label={english ? "Lacrei Saúde — home" : "Lacrei Saúde — início"} onClick={() => setOpen(false)}>
-          <Image src="/images/figma/logo_lacrei.svg" width={203} height={26} sizes="(min-width: 1200px) 203px, 52vw" alt="Lacrei Saúde" />
+          <Image src="/images/figma/logo_lacrei.svg" width={203} height={26} sizes="(min-width: 52rem) 203px, 52vw" alt="Lacrei Saúde" />
         </Brand>
         <Toggle ref={buttonRef} type="button" aria-expanded={open} aria-controls={navigationId} onClick={() => setOpen(!open)}>
           {open ? (english ? "Close menu" : "Fechar menu") : "Menu"}
@@ -186,7 +193,7 @@ export function Header() {
                     setOpen(false);
                     if (index === 3 || index === 4) {
                       event.preventDefault();
-                      navigationDialogReturnFocus.current = window.matchMedia("(max-width: 1199px)").matches
+                      navigationDialogReturnFocus.current = window.matchMedia("(max-width: 831px)").matches
                         ? buttonRef.current
                         : event.currentTarget;
                       setDialogSection(index === 3 ? "blog" : "locations");
@@ -195,7 +202,7 @@ export function Header() {
                     }
                     if (index === 5 && pathname === "/") {
                       event.preventDefault();
-                      if (window.matchMedia("(max-width: 1199px)").matches) buttonRef.current?.focus();
+                      if (window.matchMedia("(max-width: 831px)").matches) buttonRef.current?.focus();
                       // Reabre o aviso de cadastro mesmo quando a URL já tem essa âncora.
                       window.history.pushState(null, "", "/#cadastro");
                       window.dispatchEvent(new Event("lacrei:register"));

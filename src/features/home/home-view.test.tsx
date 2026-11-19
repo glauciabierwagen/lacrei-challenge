@@ -177,10 +177,19 @@ describe("HomeView", () => {
     expect(timeline).toHaveAttribute("tabindex", "0");
     expect(timeline).toHaveStyle({ scrollbarWidth: "none" });
     expect(within(timeline).getAllByRole("listitem")).toHaveLength(6);
+    const secondStory = within(timeline).getAllByRole("listitem")[1];
+    const teamPhoto = within(secondStory).getByRole("img", { name: "Equipe de saúde reunida em uma mesa" });
+    expect(decodeURIComponent(teamPhoto.getAttribute("src") ?? "")).toContain("/images/history/pexels-7108401.webp");
     const storyTitles = ["Um cuidado que faz falta", "Uma ideia começa a ganhar forma", "Nasce a Lacrei Saúde", "Conexões com mais acolhimento", "Respeito em cada experiência", "Um futuro sem fronteiras"];
     for (const title of storyTitles) expect(within(timeline).getByRole("heading", { level: 3, name: title })).toBeVisible();
     expect(within(timeline).getByRole("img", { name: "Fachada de um complexo hospitalar" })).toBeVisible();
-    expect(within(timeline).getByRole("img", { name: "Profissionais de saúde atendendo uma pessoa em um leito hospitalar" })).toBeVisible();
+    for (const [index, name, photoId] of [
+      [4, "Profissionais de saúde atendendo uma pessoa em um leito hospitalar", 6129681],
+      [5, "Equipe diversa de profissionais de saúde reunida em um hospital", 6129507],
+    ] as const) {
+      const photo = within(within(timeline).getAllByRole("listitem")[index]).getByRole("img", { name });
+      expect(decodeURIComponent(photo.getAttribute("src") ?? "")).toContain(`/images/history/pexels-${photoId}.webp`);
+    }
     const connectionCard = within(timeline).getByRole("heading", { level: 3, name: "Conexões com mais acolhimento" }).closest("article");
     expect(connectionCard?.querySelector("img")).toHaveStyle({ width: "100%", height: "100%", objectFit: "cover", transform: "scale(1.25)" });
     expect(within(timeline).queryByText("Lorem Ipsum")).not.toBeInTheDocument();
@@ -193,6 +202,9 @@ describe("HomeView", () => {
     expect(within(screen.getByRole("region", { name: "Linha do tempo — role para explorar" })).getByRole("heading", { level: 3, name: storyTitles[0] })).toBeVisible();
     expect(screen.queryByRole("link", { name: "Crie novas histórias" })).not.toBeInTheDocument();
     expect(screen.queryByRole("link", { name: "Create new stories" })).not.toBeInTheDocument();
+    expect(timeline.parentElement).toHaveAttribute("data-controls-visible", "false");
+    await user.click(timeline);
+    expect(timeline.parentElement).toHaveAttribute("data-controls-visible", "true");
     await user.click(next);
     await user.click(previous);
     expect(scrollBy).toHaveBeenCalledTimes(2);
