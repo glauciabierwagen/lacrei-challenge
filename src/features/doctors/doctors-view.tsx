@@ -31,11 +31,11 @@ export function DoctorsView() {
   const titles = en ? [
     ["Health that cares", "and transforms lives"],
     ["We change people,", "we transform the world."],
-    ["Education without borders,", "transformation without limits."],
+    ["Health without borders,", "transformation without limits."],
   ] : [
     ["Saúde que cuida", "e transforma vidas"],
     ["Mudamos pessoas,", "transformamos o mundo."],
-    ["Educação sem fronteiras,", "transformação sem limites."],
+    ["Saúde sem fronteiras,", "transformação sem limites."],
   ];
   const values = en ? [
     "Build a more compassionate world",
