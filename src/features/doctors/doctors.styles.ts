@@ -37,6 +37,7 @@ export const TeamHeading = styled(Heading)`
   gap: .75rem;
   h2::after { content: ""; display: block; width: 10rem; height: 2px; margin: .75rem auto 0; background: #018762; }
   p { max-width: 56rem; color: #515151; font-size: 1.125rem; line-height: 1.5; }
+  small { color: #575757; font-size: .875rem; line-height: 1.4; }
   @media (min-width: 64rem) { p { font-size: 1.5rem; } }
 `;
 
@@ -89,13 +90,13 @@ export const DoctorGrid = styled.div`
   }
 `;
 
-export const DoctorCard = styled.article<{ $marcelo: boolean }>`
+export const DoctorCard = styled.article`
   position: relative; isolation: isolate; overflow: hidden; min-width: 0;
-  height: ${({ $marcelo }) => $marcelo ? "20.1875rem" : "21rem"};
+  height: 21rem;
   padding: 1.5rem; border-radius: 1.5rem; background: #304941;
   display: flex; flex-direction: column; justify-content: flex-end; gap: .5rem;
   color: #fff; font-family: ${({ theme }) => theme.fonts.heading};
-  > img { z-index: -2; max-width: none; object-fit: fill; }
+  > img { z-index: -2; max-width: none; object-fit: cover; object-position: center 24%; }
   &::before { content: ""; position: absolute; inset: 0; z-index: -1;
     background: linear-gradient(180deg, transparent 19%, rgba(0,0,0,.2) 45%, rgba(0,0,0,.82) 64%, rgba(0,0,0,.9) 100%); }
   h3 { font-size: 1.5rem; font-weight: 600; line-height: 1.3; }

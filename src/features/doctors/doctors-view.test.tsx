@@ -70,30 +70,36 @@ describe("DoctorsView", () => {
     }
     const team = within(screen.getByRole("region", { name: "Conheça nossos profissionais" }));
     expect(team.getByText("Profissionais comprometidos com um atendimento de qualidade e inclusivo.")).toBeVisible();
+    expect(team.getByText("Perfis demonstrativos; nomes e especialidades são ilustrativos.")).toBeVisible();
     const cards = team.getAllByRole("article");
-    const names = ["Fernanda", "Marcelo", "Fernanda", "Fernanda", "Marcelo", "Fernanda", "Fernanda", "Fernanda", "Marcelo"];
+    const profiles = [
+      ["Ana Ribeiro", "Médica de família", "M1.png"], ["Camila Nunes", "Cardiologia", "M2.png"],
+      ["Rafael Costa", "Medicina de família", "M3.png"], ["Gabriel Almeida", "Pediatria", "M4.png"],
+      ["Helena Martins", "Dermatologia", "M5.png"], ["Daniel Tanaka", "Psiquiatria", "M6.png"],
+      ["Joana Souza", "Ginecologia", "M7.png"], ["Marina Lopes", "Endocrinologia", "M8.jpg"],
+      ["Bianca Ferreira", "Neurologia", "M9.png"],
+    ];
     expect(cards).toHaveLength(9);
-    expect(team.getAllByRole("heading", { level: 3, name: "Fernanda" })).toHaveLength(6);
-    expect(team.getAllByRole("heading", { level: 3, name: "Marcelo" })).toHaveLength(3);
     cards.forEach((card, index) => {
-      expect(within(card).getByRole("heading", { level: 3, name: names[index] })).toBeVisible();
-      expect(within(card).getByText("Lorem", { exact: true })).toBeVisible();
-      expect(within(card).getByText("Lorem Ipsum", { exact: true })).toBeVisible();
+      const [name, specialty, image] = profiles[index];
+      expect(within(card).getByRole("heading", { level: 3, name })).toBeVisible();
+      expect(within(card).getByText(specialty)).toBeVisible();
+      const photo = card.querySelector("img");
+      expect(decodeURIComponent(photo?.getAttribute("src") ?? "")).toContain(`/images/figma/medicos/${image}`);
+      if (image === "M5.png") expect(photo?.getAttribute("style")).toContain("object-position: center top");
     });
     expect(screen.getByRole("heading", { level: 2, name: "Juntos pela causa!" })).toBeVisible();
   });
 
-  it("links the hero CTA to the patient portal and keeps remaining registration CTAs on the home hash", () => {
+  it("links all audience CTAs to the appropriate official portals", () => {
     renderWithTheme(<DoctorsView />);
     expect(screen.getByRole("link", { name: "Para Pacientes" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
     expect(screen.getByRole("link", { name: "Para Profissionais" })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     expect(screen.getByRole("link", { name: "Buscar Atendimento" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
-    const registration = screen.queryAllByRole("link", { name: "Como cadastrar" });
-    const join = screen.getAllByRole("link", { name: "Junte-se a nós" });
-    expect(registration).toHaveLength(0);
-    expect(join).toHaveLength(1);
+    expect(screen.getByRole("link", { name: "Oferecer atendimento" })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     expect(screen.getAllByRole("link")).toHaveLength(5);
-    for (const link of [...registration, ...join]) expect(link).toHaveAttribute("href", "/#cadastro");
+    expect(screen.queryByRole("link", { name: "Junte-se a nós" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: "Como cadastrar" })).not.toBeInTheDocument();
     expect(screen.queryByRole("dialog", { hidden: true })).not.toBeInTheDocument();
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /cadastrar|agendar/i })).not.toBeInTheDocument();

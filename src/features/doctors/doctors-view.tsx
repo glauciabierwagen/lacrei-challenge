@@ -36,10 +36,17 @@ const testimonials = [
     },
   },
 ];
-const doctors = ["Fernanda", "Marcelo", "Fernanda", "Fernanda", "Marcelo", "Fernanda", "Fernanda", "Fernanda", "Marcelo"];
-// Mantém os recortes e o alongamento intencional das imagens do Figma.
-const fernandaCrop = { position: "absolute", width: "100%", height: "156.61%", left: "0", top: "-12.48%" } as const;
-const marceloCrop = { position: "absolute", width: "126.58%", height: "162.92%", left: "-13.26%", top: "-13.25%" } as const;
+const doctors = [
+  { image: "M1.png", name: { pt: "Ana Ribeiro", en: "Ana Ribeiro" }, specialty: { pt: "Médica de família", en: "Family physician" } },
+  { image: "M2.png", name: { pt: "Camila Nunes", en: "Camila Nunes" }, specialty: { pt: "Cardiologia", en: "Cardiology" } },
+  { image: "M3.png", name: { pt: "Rafael Costa", en: "Rafael Costa" }, specialty: { pt: "Medicina de família", en: "Family medicine" } },
+  { image: "M4.png", name: { pt: "Gabriel Almeida", en: "Gabriel Almeida" }, specialty: { pt: "Pediatria", en: "Pediatrics" } },
+  { image: "M5.png", name: { pt: "Helena Martins", en: "Helena Martins" }, specialty: { pt: "Dermatologia", en: "Dermatology" } },
+  { image: "M6.png", name: { pt: "Daniel Tanaka", en: "Daniel Tanaka" }, specialty: { pt: "Psiquiatria", en: "Psychiatry" } },
+  { image: "M7.png", name: { pt: "Joana Souza", en: "Joana Souza" }, specialty: { pt: "Ginecologia", en: "Gynecology" } },
+  { image: "M8.jpg", name: { pt: "Marina Lopes", en: "Marina Lopes" }, specialty: { pt: "Endocrinologia", en: "Endocrinology" } },
+  { image: "M9.png", name: { pt: "Bianca Ferreira", en: "Bianca Ferreira" }, specialty: { pt: "Neurologia", en: "Neurology" } },
+];
 
 // Apresenta a missão, os voluntários e os médicos no idioma escolhido.
 export function DoctorsView() {
@@ -47,10 +54,9 @@ export function DoctorsView() {
   const en = language === "en";
   // Guarda o banner selecionado sem perder a seleção ao trocar o idioma.
   const [slide, setSlide] = useState(0);
-  const register = en ? "How to register" : "Como cadastrar";
   const patients = en ? "For Patients" : "Para Pacientes";
   const professionals = en ? "For Professionals" : "Para Profissionais";
-  const join = en ? "Join us" : "Junte-se a nós";
+  const offerCare = en ? "Offer care" : "Oferecer atendimento";
   const findCare = en ? "Find care" : "Buscar Atendimento";
   const titles = en ? [
     ["Health that cares", "and transforms lives"],
@@ -116,17 +122,16 @@ export function DoctorsView() {
             <Home.Handwritten>{en ? "Our team" : "Nosso time"}</Home.Handwritten>
             <h2 id="team-title">{en ? "Meet our professionals" : "Conheça nossos profissionais"}</h2>
             <p>{en ? "Professionals committed to quality, inclusive care." : "Profissionais comprometidos com um atendimento de qualidade e inclusivo."}</p>
+            <small>{en ? "Demonstration profiles; names and specialties are illustrative." : "Perfis demonstrativos; nomes e especialidades são ilustrativos."}</small>
           </S.TeamHeading>
           <S.DoctorGrid>
-            {doctors.map((name, index) => {
-              const marcelo = name === "Marcelo";
-              return <S.DoctorCard key={`${name}-${index}`} $marcelo={marcelo}>
-                <Image src={`${assets}${marcelo ? "imgTextContent1.png" : "imgTextContent.png"}`} alt="" width={marcelo ? 793 : 864} height={marcelo ? 525 : 864} sizes="(min-width: 1440px) 475px, (min-width: 1024px) 40vw, (min-width: 768px) 60vw, 127vw" style={marcelo ? marceloCrop : fernandaCrop} />
-                <h3>{name}</h3><div><p>Lorem</p><p>Lorem Ipsum</p></div>
-              </S.DoctorCard>;
-            })}
+            {doctors.map((doctor) => <S.DoctorCard key={doctor.image}>
+              <Image src={`${assets}${doctor.image}`} alt="" fill sizes="(min-width: 1440px) 475px, (min-width: 1024px) 40vw, (min-width: 768px) 60vw, 127vw" style={{ objectPosition: doctor.image === "M5.png" ? "center top" : "center 24%" }} />
+              <h3>{en ? doctor.name.en : doctor.name.pt}</h3>
+              <p>{en ? doctor.specialty.en : doctor.specialty.pt}</p>
+            </S.DoctorCard>)}
           </S.DoctorGrid>
-          <Home.HomeButton href="/#cadastro">{join}</Home.HomeButton>
+          <Home.HomeButton href="https://profissional.lacreisaude.com.br/">{offerCare}</Home.HomeButton>
         </S.SectionContent>
       </S.Team>
 

@@ -129,36 +129,20 @@ for (const language of ["pt", "en"] as const) {
   });
 }
 
-test("os CTAs de público de Médicos vão aos portais e os demais abrem o aviso na Home", async ({ page }) => {
-  for (const index of [0]) {
-    await page.goto("/medicos");
-    await page.waitForLoadState("networkidle");
-    const main = page.getByRole("main");
-    await expect(main.getByRole("link", { name: "Para Pacientes", exact: true })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
-    await expect(main.getByRole("link", { name: "Para Profissionais", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
-    const findCare = main.getByRole("link", { name: "Buscar Atendimento", exact: true });
-    await expect(findCare).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
-    await expect(findCare).toHaveCSS("box-shadow", "rgba(0, 0, 0, 0.2) 4px 4px 4px 0px");
-    await findCare.hover();
-    await expect(findCare).toHaveCSS("background-color", "rgb(17, 136, 119)");
-    const links = main.getByRole("link", { name: /^(Como cadastrar|Junte-se a nós)$/ });
-    await expect(links).toHaveCount(1);
-    await expect(links.nth(index)).toHaveAttribute("href", "/#cadastro");
-    await expect(page.getByRole("dialog")).not.toBeVisible();
-    await links.nth(index).click();
-    await expect(page).toHaveURL(/\/#cadastro$/);
-    await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Saúde que fortalece\s*e transforma vidas$/);
-    const dialog = page.getByRole("dialog", { name: "Como cadastrar", exact: true });
-    await expect(dialog).toBeVisible();
-    expect(await dialog.evaluate((element) => element.matches(":modal"))).toBe(true);
-    await expect(dialog).toContainText("Cadastros e agendamentos não estão disponíveis aqui.");
-    await expect(dialog.getByRole("textbox")).toHaveCount(0);
-    await expect(dialog.getByRole("link", { name: "Para Pacientes", exact: true })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
-    await expect(dialog.getByRole("link", { name: "Para Profissionais", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
-    await dialog.getByRole("button", { name: "Fechar", exact: true }).click();
-    await expect(dialog).not.toBeVisible();
-    await expect(page).toHaveURL(/\/$/);
-  }
+test("os CTAs de Médicos direcionam aos portais oficiais de pacientes e profissionais", async ({ page }) => {
+  await page.goto("/medicos");
+  await page.waitForLoadState("networkidle");
+  const main = page.getByRole("main");
+  await expect(main.getByRole("link", { name: "Para Pacientes", exact: true })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+  await expect(main.getByRole("link", { name: "Buscar Atendimento", exact: true })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+  const findCare = main.getByRole("link", { name: "Buscar Atendimento", exact: true });
+  await expect(findCare).toHaveCSS("box-shadow", "rgba(0, 0, 0, 0.2) 4px 4px 4px 0px");
+  await findCare.hover();
+  await expect(findCare).toHaveCSS("background-color", "rgb(17, 136, 119)");
+  await expect(main.getByRole("link", { name: "Para Profissionais", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
+  await expect(main.getByRole("link", { name: "Oferecer atendimento", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
+  await expect(main.getByRole("link", { name: "Junte-se a nós", exact: true })).not.toBeVisible();
+  await expect(page.getByRole("dialog")).not.toBeVisible();
 });
 
 test("atalho de teclado leva ao conteúdo principal", async ({ page }) => {
