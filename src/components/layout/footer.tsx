@@ -66,7 +66,7 @@ const Signup = styled.form`
   gap: 12px;
   input { box-sizing: border-box; flex: 1 1 150px; width: 100%; min-width: 0; min-height: 48px; border: 1px solid #fff; border-radius: 5px; background: #fff; color: #252525; padding: 12px; font: inherit; }
   input::placeholder { color: #575757; opacity: 1; }
-  button { flex: 0 0 auto; min-height: 48px; padding: 12px 24px; border: 0; border-radius: 5px; background: #c8d533; color: #163f32; font: inherit; font-weight: 700; }
+  button { flex: 0 0 auto; min-height: 48px; padding: 12px 24px; border: 0; border-radius: 5px; background: #fff; color: #087b6b; font: inherit; font-weight: 700; }
 `;
 const HiddenLabel = styled.label`
   position: absolute;
@@ -240,7 +240,7 @@ export function Footer() {
           <Status role="status" aria-live="polite">{submitted ? text.submitted : ""}</Status>
         </Newsletter>
         <Bottom>
-          <div><p>{text.rights}</p><p>Made by UXpand</p></div>
+          <div><p>{text.rights}</p><p>Made by Gláucia Silva Bierwagen</p></div>
         </Bottom>
       </Content>
     </Shell>

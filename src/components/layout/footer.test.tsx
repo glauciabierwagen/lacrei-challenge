@@ -15,7 +15,7 @@ describe("Footer", () => {
     expect(screen.getByRole("region", { name: "Assine para receber novidades" })).toHaveAttribute("id", "novidades");
     expect(screen.getByRole("img", { name: "Lacrei Saúde" })).toHaveAttribute("src", "/images/figma/logo_lacrei.svg");
     expect(screen.getByText("©2026 Lacrei Saúde - Todos os Direitos reservados")).toBeVisible();
-    expect(screen.getByText("Made by UXpand")).toBeVisible();
+    expect(screen.getByText("Made by Gláucia Silva Bierwagen")).toBeVisible();
     expect(screen.queryByRole("link", { name: "Voltar ao topo" })).not.toBeInTheDocument();
     expect(document.querySelector("#cadastro")).not.toBeInTheDocument();
   });
@@ -46,7 +46,7 @@ describe("Footer", () => {
     expect(status).toBeEmptyDOMElement();
     expect(status).toHaveAttribute("aria-live", "polite");
     expect(within(newsletter).getByRole("textbox", { name: "Seu e-mail" })).toHaveStyle({ background: "#fff", color: "#252525" });
-    expect(within(newsletter).getByRole("button", { name: "Assinar" })).toHaveStyle({ background: "#c8d533", color: "#163f32", borderRadius: "5px" });
+    expect(within(newsletter).getByRole("button", { name: "Assinar" })).toHaveStyle({ background: "#fff", color: "#087b6b", borderRadius: "5px" });
     expect(newsletter).toHaveStyle({ width: "100%" });
   });
 
