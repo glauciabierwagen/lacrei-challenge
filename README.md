@@ -6,6 +6,7 @@ Projeto em **Next.js App Router + TypeScript + Styled-Components**. Páginas do 
 
 **Acesse na Vercel:** [https://lacrei-challenge-three.vercel.app/](https://lacrei-challenge-three.vercel.app/)
 
+- [Deploy público do Vercel](https://github.com/glauciabierwagen/lacrei-challenge#deploy-p%C3%BAblico-na-vercel)
 - [Home](https://lacrei-challenge-three.vercel.app/)
 - [Profissionais](https://lacrei-challenge-three.vercel.app/medicos)
 
@@ -87,18 +88,6 @@ Na preparação inicial foi usado Node portátil na pasta temporária, porque o 
 
 Rotas e layout permanecem Server Components; componentes que usam Styled-Components ou estado são Client Components. Novos estilos devem usar tokens e propriedades transitórias como `$variant`, sem enviar props de estilo para o DOM.
 
-## Trabalhar com o Figma MCP
-
-A conexão remota oficial está preparada em [.vscode/mcp.json](.vscode/mcp.json).
-
-1. No VS Code, abrir a paleta e procurar **MCP: List Servers**, selecionar `figma` e iniciar.
-2. Autorizar a conexão diretamente na tela de autenticação do Figma. Não colocar tokens neste repositório ou no chat.
-3. Disponibilizar o link de cada um dos dois frames, com o respectivo `node-id`, e seus equivalentes mobile/desktop quando existirem.
-4. Solicitar a leitura do contexto de design e das capturas dos frames antes de implementar. Substituir os tokens, conteúdo e assets demonstrativos, preservando a semântica e os testes.
-5. Conferir os estados de hover, foco, expansão, navegação e comportamento entre breakpoints; não apenas a captura estática.
-
-O acesso ao arquivo e a leitura do frame Home foram confirmados via Figma MCP nesta sessão. A autenticação continua dependendo da conta e do ambiente de cada pessoa.
-
 ## Qualidade e testes
 
 Os comandos principais são `npm run check` (lint, tipos, cobertura e build), `npm run test:e2e` (Playwright em Chromium desktop/mobile) e `npm run lighthouse` (build pronto e Chrome/Chromium). Use `npm test`, `npm run test:watch` ou `npm run test:coverage` para testes unitários. Para o primeiro E2E, instale o navegador com `npx playwright install chromium`.
@@ -118,19 +107,7 @@ No Lighthouse mobile da Vercel, a Home marcou 89/96/76 (mediana 89) e `/medicos`
 - HTML semântico, landmarks, link para pular ao conteúdo, foco visível, alvos de toque ≥48 px e suporte a teclado e movimento reduzido.
 - axe verifica WCAG A/AA automaticamente; a revisão manual com NVDA/VoiceOver segue pendente e tem um [roteiro próprio](docs/screen-reader-review.md).
 - Rotas pré-renderizadas, fontes locais e `next/image`; o hero é priorizado e as imagens abaixo da dobra mantêm lazy loading.
-- [Lighthouse](lighthouserc.cjs) mede `/`, `/medicos` e `/sobre` em mobile, com metas de Performance ≥80, Acessibilidade ≥90 e contraste aprovado. Exige build e Chrome/Chromium; relatórios locais ficam fora do Git.
-
-## Deploy público na Vercel
-
-1. Publicar este repositório na sua conta GitHub.
-2. Na Vercel, escolher **Add New → Project** e importar o repositório.
-3. Usar o preset **Next.js**, raiz do repositório, Node.js **24.x**, instalação `npm ci` e build `npm run build`.
-4. Manter a **Output Directory** padrão do preset e conferir a branch de produção configurada, normalmente `main`. Não são necessárias variáveis de ambiente na implementação atual.
-5. Fazer o deploy e conferir `/` e `/medicos` na URL pública, incluindo acesso direto e recarregamento; verificar também `/sobre` se essa rota adicional continuar publicada.
-6. Reexecutar Lighthouse e a revisão com leitor de tela na URL final. O workflow de qualidade não constitui, sozinho, bloqueio automático do deploy da Vercel: configurar as proteções/checks necessários antes de adotar esse fluxo em produção.
-7. Registrar a URL pública, o commit e o deployment aprovado. Guardar a referência da versão estável para recuperação.
-
-**URL pública informada:** [lacrei-challenge-three.vercel.app](https://lacrei-challenge-three.vercel.app/). O deploy não foi realizado automaticamente pelo assistente; sua gestão exige acesso à conta e ao repositório do responsável. O protótipo usa `robots: noindex`; revisar metadados, identidade, conteúdo provisório e essa opção antes de publicar uma versão final indexável.
+- [Lighthouse](lighthouserc.cjs) mede `/`, `/medicos` e `/sobre` em mobile, com metas de Performance ≥x`; revisar metadados, identidade, conteúdo provisório e essa opção antes de publicar uma versão final indexável.
 
 
 ### 4. Corrigir o Git e retomar publicações
