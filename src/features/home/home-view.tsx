@@ -71,11 +71,11 @@ export function HomeView() {
   const titles = en ? [
     ["Health that empowers", "and transforms lives"],
     ["We change people,", "we transform the world."],
-    ["Education without borders,", "transformation without limits."],
+    ["Health without borders,", "transformation without limits."],
   ] : [
     ["Saúde que fortalece", "e transforma vidas"],
     ["Mudamos pessoas,", "transformamos o mundo."],
-    ["Educação sem fronteiras,", "transformação sem limites."],
+    ["Saúde sem fronteiras,", "transformação sem limites."],
   ];
 
   return (
