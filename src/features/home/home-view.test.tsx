@@ -64,6 +64,11 @@ describe("HomeView", () => {
     }
   });
 
+  it("scales the partner seal to match the neighboring logos", () => {
+    renderWithTheme(<HomeView />);
+    expect(screen.getByRole("img", { name: "Selo parceiro Lacrei Saúde" })).toHaveStyle({ transform: "scale(2)" });
+  });
+
   it("selects each banner exclusively and announces its heading", async () => {
     const { user } = renderWithTheme(<HomeView />);
     const banners = within(screen.getByRole("group", { name: "Escolher banner" })).getAllByRole("button");
@@ -157,6 +162,10 @@ describe("HomeView", () => {
     expect(within(timeline).getAllByRole("listitem")).toHaveLength(6);
     const storyTitles = ["Um cuidado que faz falta", "Uma ideia começa a ganhar forma", "Nasce a Lacrei Saúde", "Conexões com mais acolhimento", "Respeito em cada experiência", "Um futuro sem fronteiras"];
     for (const title of storyTitles) expect(within(timeline).getByRole("heading", { level: 3, name: title })).toBeVisible();
+    expect(within(timeline).getByRole("img", { name: "Fachada de um complexo hospitalar" })).toBeVisible();
+    expect(within(timeline).getByRole("img", { name: "Profissionais de saúde atendendo uma pessoa em um leito hospitalar" })).toBeVisible();
+    const connectionCard = within(timeline).getByRole("heading", { level: 3, name: "Conexões com mais acolhimento" }).closest("article");
+    expect(connectionCard?.querySelector("img")).toHaveStyle({ width: "100%", height: "100%", objectFit: "cover", transform: "scale(1.25)" });
     expect(within(timeline).queryByText("Lorem Ipsum")).not.toBeInTheDocument();
     for (const year of [2018, 2019, 2020, 2023, 2024, 2025]) {
       expect(within(timeline).getByText(String(year))).toHaveAttribute("datetime", String(year));

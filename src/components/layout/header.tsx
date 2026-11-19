@@ -35,13 +35,16 @@ const Row = styled.div`
   @media (min-width: 1440px) { width: calc(100% - 192px); }
 `;
 const Brand = styled(Link)`
-  width: 130px;
-  height: 79px;
-  flex: 0 0 130px;
-  overflow: hidden;
+  width: 203px;
+  height: 40px;
+  flex: 0 0 203px;
   display: grid;
   place-items: center;
-  img { width: 82px; height: 82px; object-fit: fill; }
+  img { width: 100%; height: auto; object-fit: contain; }
+  @media (max-width: 1199px) {
+    width: clamp(150px, 52vw, 203px);
+    flex-basis: clamp(150px, 52vw, 203px);
+  }
 `;
 const Toggle = styled.button`
   min-height: 44px;
@@ -87,12 +90,55 @@ const Languages = styled.div`
   button[aria-pressed="true"] { color: #d5f78b; text-decoration: underline; text-underline-offset: 5px; }
   @media (min-width: 1200px) { margin-top: 0; }
 `;
+const NavigationDialog = styled.dialog`
+  width: min(calc(100% - 2rem), 48rem);
+  max-height: calc(100dvh - 2rem);
+  overflow: auto;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border: 0;
+  border-radius: 1.5rem;
+  color: ${({ theme }) => theme.colors.text};
+  background: #fff;
+  &::backdrop { background: rgba(0, 0, 0, .65); }
+  h2 { margin-bottom: 1.5rem; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.2; }
+  p { margin-bottom: 2.5rem; font-size: clamp(1.125rem, 2.4vw, 1.5rem); line-height: 1.65; }
+  > div { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; }
+  a { color: ${({ theme }) => theme.colors.primary}; font-size: clamp(1rem, 2.4vw, 1.5rem); }
+  button { min-height: 4rem; padding: .5rem 1.5rem; border: 0; border-radius: 5px;
+    background: ${({ theme }) => theme.colors.primary}; color: #fff; font: inherit; font-size: 1.25rem; }
+`;
 
 const navigation = {
   pt: ["Início", "Quem Somos", "Médicos", "Blog", "Unidades", "Entrar"],
   en: ["Home", "About Us", "Doctors", "Blog", "Locations", "Sign in"],
 };
 const destinations = ["/", "https://lacreisaude.com.br/quem-somos/", "/medicos", "/#historias", "/#impacto", "/#cadastro"];
+const navigationDialogCopy = {
+  pt: {
+    blog: {
+      title: "Blog",
+      description: "O conteúdo do blog não está disponível nesta demonstração. Consulte o site oficial da Lacrei Saúde para novidades e informações atualizadas.",
+    },
+    locations: {
+      title: "Unidades",
+      description: "As informações sobre unidades de atendimento não estão disponíveis nesta demonstração. Consulte o site oficial da Lacrei Saúde para informações atualizadas.",
+    },
+    official: "Site oficial (nova aba)",
+    close: "Fechar",
+  },
+  en: {
+    blog: {
+      title: "Blog",
+      description: "Blog content is not available in this demo. Visit Lacrei Saúde's official website for news and current information.",
+    },
+    locations: {
+      title: "Locations",
+      description: "Information about care locations is not available in this demo. Visit Lacrei Saúde's official website for current information.",
+    },
+    official: "Official website (new tab)",
+    close: "Close",
+  },
+};
 
 // Mostra a navegação e permite trocar o idioma do site.
 export function Header() {
@@ -100,8 +146,12 @@ export function Header() {
   const { language, setLanguage } = useLanguage();
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const navigationDialog = useRef<HTMLDialogElement>(null);
+  const navigationDialogReturnFocus = useRef<HTMLElement | null>(null);
+  const [dialogSection, setDialogSection] = useState<"blog" | "locations" | null>(null);
   const navigationId = useId();
   const english = language === "en";
+  const dialogCopy = dialogSection ? navigationDialogCopy[language][dialogSection] : null;
 
   // Fecha o menu móvel com Escape e devolve o foco ao botão.
   useEffect(() => {
@@ -120,7 +170,7 @@ export function Header() {
     <Shell $home={pathname === "/" || pathname === "/medicos"}>
       <Row>
         <Brand href="/" aria-label={english ? "Lacrei Saúde — home" : "Lacrei Saúde — início"} onClick={() => setOpen(false)}>
-          <Image src="/images/figma/imgLogo.png" width={528} height={613} sizes="82px" alt="Lacrei Saúde" />
+          <Image src="/images/figma/logo_lacrei.svg" width={203} height={26} sizes="(min-width: 1200px) 203px, 52vw" alt="Lacrei Saúde" />
         </Brand>
         <Toggle ref={buttonRef} type="button" aria-expanded={open} aria-controls={navigationId} onClick={() => setOpen(!open)}>
           {open ? (english ? "Close menu" : "Fechar menu") : "Menu"}
@@ -130,8 +180,19 @@ export function Header() {
             {navigation[language].map((label, index) => (
               <li key={destinations[index]}>
                 <Link href={destinations[index]} aria-current={pathname === destinations[index] ? "page" : undefined}
+                  aria-haspopup={index === 3 || index === 4 ? "dialog" : undefined}
+                  aria-controls={index === 3 || index === 4 ? "navigation-info-dialog" : undefined}
                   data-registration={index === 5 ? "" : undefined} onClick={(event) => {
                     setOpen(false);
+                    if (index === 3 || index === 4) {
+                      event.preventDefault();
+                      navigationDialogReturnFocus.current = window.matchMedia("(max-width: 1199px)").matches
+                        ? buttonRef.current
+                        : event.currentTarget;
+                      setDialogSection(index === 3 ? "blog" : "locations");
+                      navigationDialog.current?.showModal();
+                      return;
+                    }
                     if (index === 5 && pathname === "/") {
                       event.preventDefault();
                       if (window.matchMedia("(max-width: 1199px)").matches) buttonRef.current?.focus();
@@ -150,6 +211,24 @@ export function Header() {
           </Languages>
         </Navigation>
       </Row>
+      <NavigationDialog
+        ref={navigationDialog}
+        id="navigation-info-dialog"
+        aria-labelledby="navigation-info-title"
+        onClose={() => {
+          navigationDialogReturnFocus.current?.focus();
+          navigationDialogReturnFocus.current = null;
+        }}
+      >
+        {dialogCopy && <>
+          <h2 id="navigation-info-title">{dialogCopy.title}</h2>
+          <p>{dialogCopy.description}</p>
+          <div>
+            <a href="https://lacreisaude.com.br/" target="_blank" rel="noopener noreferrer">{navigationDialogCopy[language].official}</a>
+            <button type="button" onClick={() => navigationDialog.current?.close()}>{navigationDialogCopy[language].close}</button>
+          </div>
+        </>}
+      </NavigationDialog>
     </Shell>
   );
 }

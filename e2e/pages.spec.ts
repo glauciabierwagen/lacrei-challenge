@@ -46,6 +46,29 @@ test("navegação e conteúdo interativo funcionam", async ({ page, isMobile }) 
   await expect(page.getByRole("region", { name: "De onde vem esta proposta visual?" })).toBeVisible();
 });
 
+test("Blog e Unidades abrem modais informativos pela navbar", async ({ page }) => {
+  await gotoHome(page);
+  for (const [label, copy] of [
+    ["Blog", "O conteúdo do blog não está disponível nesta demonstração."],
+    ["Unidades", "As informações sobre unidades de atendimento não estão disponíveis nesta demonstração."],
+  ]) {
+    const navigation = await openNavigation(page);
+    const trigger = navigation.getByRole("link", { name: label, exact: true });
+    await expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
+    await trigger.click();
+    const dialog = page.getByRole("dialog", { name: label, exact: true });
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toContainText(copy);
+    await expect(dialog.getByRole("link", { name: "Site oficial (nova aba)", exact: true })).toHaveAttribute("href", "https://lacreisaude.com.br/");
+    await expect(page).toHaveURL(/\/$/);
+    await dialog.getByRole("button", { name: "Fechar", exact: true }).click();
+    await expect(dialog).not.toBeVisible();
+    const toggle = page.getByRole("button", { name: "Menu", exact: true });
+    if (await toggle.isVisible()) await expect(toggle).toBeFocused();
+    else await expect(trigger).toBeFocused();
+  }
+});
+
 test("Médicos abre pela navegação, recarrega diretamente e permite voltar ao Início", async ({ page }) => {
   await gotoHome(page);
   await expect(page.getByRole("banner")).toHaveCSS("position", "absolute");

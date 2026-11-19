@@ -8,7 +8,7 @@ import * as S from "./home.styles";
 
 const assets = "/images/figma/";
 const years = [2018, 2019, 2020, 2023, 2024, 2025];
-const photos = ["imgFrame4556.png", "imgTextContent.png", "imgTextContent1.png", "imgTextContent.png", "imgFrame4556.png", "imgTextContent.png"];
+const photos = ["imgFrame4556.png", "imgTextContent.png", "hospital.jpg", "imgTextContent.png", "medico.jpg", "imgTextContent.png"];
 const stories = {
   pt: [
     { title: "Um cuidado que faz falta", description: "Para muitas pessoas LGBTQIAPN+, buscar atendimento de saúde ainda significava enfrentar barreiras. Crescia a necessidade de um cuidado acolhedor e sem julgamentos." },
@@ -31,9 +31,9 @@ const stories = {
 const crops = [
   { width: "167.66%", height: "206.18%", left: "-33.7%", top: "-45.15%" },
   { width: "150.11%", height: "138.29%", left: "-22.66%", top: "-27.26%" },
-  { width: "100%", height: "131.43%", left: "-.19%", top: "-31.38%" },
-  { width: "202.54%", height: "140.1%", left: "-59.38%", top: "-15.84%" },
-  { width: "153.26%", height: "188.47%", left: "-29.89%", top: "-40.37%" },
+  { width: "100%", height: "100%", left: "0", top: "0", objectFit: "cover" as const },
+  { width: "100%", height: "100%", left: "0", top: "0", objectFit: "cover" as const, transform: "scale(1.25)" },
+  { width: "100%", height: "100%", left: "0", top: "0", objectFit: "cover" as const },
   { width: "229.95%", height: "119.3%", left: "-57.4%", top: "-17.09%" },
 ];
 const locations = [
@@ -171,7 +171,7 @@ export function HomeView() {
           <S.TimelineViewport id="history-timeline" ref={timeline} tabIndex={0} role="region" aria-label={en ? "History timeline — scroll to explore" : "Linha do tempo — role para explorar"}>
             <S.TimelineTrack>
               {years.map((year, index) => <li key={year}><time dateTime={`${year}`}>{year}</time><S.StoryCard>
-                <Image src={`${assets}${photos[index]}`} alt="" width={index === 2 ? 768 : 1920} height={index === 2 ? 1024 : 1080} sizes="(min-width: 768px) 740px, 550px" style={{ position: "absolute", ...crops[index] }} />
+                <Image src={`${assets}${photos[index]}`} alt={index === 2 ? (en ? "Exterior of a hospital complex" : "Fachada de um complexo hospitalar") : index === 4 ? (en ? "Healthcare professionals caring for a patient in a hospital bed" : "Profissionais de saúde atendendo uma pessoa em um leito hospitalar") : ""} width={index === 2 ? 1194 : index === 4 ? 1206 : 1920} height={index === 2 ? 661 : index === 4 ? 672 : 1080} sizes="(min-width: 768px) 740px, 550px" style={{ position: "absolute", ...crops[index] }} />
                 <div><h3>{stories[en ? "en" : "pt"][index].title}</h3><p>{stories[en ? "en" : "pt"][index].description}</p></div>
               </S.StoryCard></li>)}
             </S.TimelineTrack>

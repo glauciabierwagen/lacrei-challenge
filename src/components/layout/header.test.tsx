@@ -7,6 +7,10 @@ import { Footer } from "./footer";
 import { Header } from "./header";
 import { LanguageProvider } from "./language-context";
 
+const dialogPrototype = HTMLDialogElement.prototype;
+const originalShowModal = Object.getOwnPropertyDescriptor(dialogPrototype, "showModal");
+const originalClose = Object.getOwnPropertyDescriptor(dialogPrototype, "close");
+
 // Verifica o menu, as rotas, a troca de idioma e a acessibilidade do cabeçalho.
 describe("Header", () => {
   let originalLocation: string;
@@ -18,11 +22,22 @@ describe("Header", () => {
       addListener: vi.fn(), removeListener: vi.fn(),
       addEventListener: vi.fn(), removeEventListener: vi.fn(), dispatchEvent: vi.fn(),
     })));
+    Object.defineProperties(dialogPrototype, {
+      showModal: { configurable: true, value: vi.fn(function (this: HTMLDialogElement) { this.open = true; }) },
+      close: { configurable: true, value: vi.fn(function (this: HTMLDialogElement) {
+        this.open = false;
+        this.dispatchEvent(new Event("close"));
+      }) },
+    });
   });
 
   afterEach(() => {
     window.history.replaceState(null, "", originalLocation);
     vi.unstubAllGlobals();
+    for (const [name, descriptor] of [["showModal", originalShowModal], ["close", originalClose]] as const) {
+      if (descriptor) Object.defineProperty(dialogPrototype, name, descriptor);
+      else Reflect.deleteProperty(dialogPrototype, name);
+    }
   });
 
   it("defaults to Portuguese without a provider and names the cropped brand and collapsed navigation", () => {
@@ -35,7 +50,8 @@ describe("Header", () => {
     expect(navigation).toHaveAttribute("aria-label", "Navegação principal");
     expect(navigation).not.toBeVisible();
     expect(screen.getByRole("link", { name: "Lacrei Saúde — início" })).toHaveAttribute("href", "/");
-    expect(screen.getByRole("img", { name: "Lacrei Saúde" })).toHaveAttribute("width", "528");
+    expect(screen.getByRole("img", { name: "Lacrei Saúde" })).toHaveAttribute("src", "/images/figma/logo_lacrei.svg");
+    expect(screen.getByRole("img", { name: "Lacrei Saúde" })).toHaveAttribute("width", "203");
     expect(screen.getByRole("banner")).toHaveStyle({ position: "absolute", zIndex: "5" });
   });
 
@@ -87,6 +103,29 @@ describe("Header", () => {
       if (name === current) expect(link).toHaveAttribute("aria-current", "page");
       else expect(link).not.toHaveAttribute("aria-current");
     }
+  });
+
+  it.each([
+    { label: "Blog", title: "Blog", copy: "O conteúdo do blog não está disponível nesta demonstração." },
+    { label: "Unidades", title: "Unidades", copy: "As informações sobre unidades de atendimento não estão disponíveis nesta demonstração." },
+  ])("opens the $label information modal without navigating", async ({ label, title, copy }) => {
+    window.history.replaceState(null, "", "/");
+    const { user } = renderWithTheme(<Header />);
+    await user.click(screen.getByRole("button", { name: "Menu" }));
+    const navigation = screen.getByRole("navigation", { name: "Navegação principal" });
+    navigation.style.display = "flex";
+    const trigger = within(navigation).getByRole("link", { name: label });
+    expect(trigger).toHaveAttribute("aria-haspopup", "dialog");
+    await user.click(trigger);
+
+    const dialog = screen.getByRole("dialog", { name: title });
+    expect(dialog).toHaveAttribute("open");
+    expect(dialog).toHaveTextContent(copy);
+    expect(within(dialog).getByRole("link", { name: "Site oficial (nova aba)" })).toHaveAttribute("href", "https://lacreisaude.com.br/");
+    expect(window.location.pathname + window.location.hash).toBe("/");
+    await user.click(within(dialog).getByRole("button", { name: "Fechar" }));
+    expect(dialog).not.toHaveAttribute("open");
+    expect(trigger).toHaveFocus();
   });
 
   it.each(["Início", "Quem Somos", "Médicos", "Blog", "Unidades", "Entrar", "Lacrei Saúde — início"])("closes after activating %s", async (name) => {

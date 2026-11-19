@@ -153,6 +153,7 @@ export const PartnerLogos = styled.div`
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; align-items: center;
   > div { position: relative; height: 10rem; overflow: hidden; }
   img { object-fit: contain; }
+  > div:nth-child(2) img { transform: scale(2); }
   @media (min-width: 48rem) {
     grid-template-columns: 138fr 208fr 218fr 243fr; gap: .5rem;
     > div { height: 17rem; }
