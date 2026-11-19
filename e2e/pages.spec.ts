@@ -115,8 +115,8 @@ for (const language of ["pt", "en"] as const) {
       await expect(page.locator("html")).toHaveAttribute("lang", en ? "en" : "pt-BR");
       await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(en ? /^Health that cares\s*and transforms lives$/ : /^Saúde que cuida\s*e transforma vidas$/);
       await expect(page.getByRole("heading", { name: en ? "Our Mission" : "Nossa Missão", exact: true })).toBeVisible();
-      await expect(page.getByRole("heading", { name: en ? "Meet our doctors" : "Conheça nossos médicos", exact: true })).toBeVisible();
-      await expect(page.getByRole("region", { name: en ? "Meet our doctors" : "Conheça nossos médicos", exact: true }).getByRole("article")).toHaveCount(9);
+      await expect(page.getByRole("heading", { name: en ? "Meet our professionals" : "Conheça nossos profissionais", exact: true })).toBeVisible();
+      await expect(page.getByRole("region", { name: en ? "Meet our professionals" : "Conheça nossos profissionais", exact: true }).getByRole("article")).toHaveCount(9);
       await openNavigation(page);
       await expect(page.getByRole("navigation", { name: en ? "Main navigation" : "Navegação principal", exact: true }).getByRole("link", { name: en ? "Doctors" : "Médicos", exact: true })).toHaveAttribute("aria-current", "page");
       const close = page.getByRole("button", { name: en ? "Close menu" : "Fechar menu", exact: true });
@@ -130,14 +130,19 @@ for (const language of ["pt", "en"] as const) {
 }
 
 test("os CTAs de público de Médicos vão aos portais e os demais abrem o aviso na Home", async ({ page }) => {
-  for (const index of [0, 1, 2]) {
+  for (const index of [0]) {
     await page.goto("/medicos");
     await page.waitForLoadState("networkidle");
     const main = page.getByRole("main");
     await expect(main.getByRole("link", { name: "Para Pacientes", exact: true })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
     await expect(main.getByRole("link", { name: "Para Profissionais", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
+    const findCare = main.getByRole("link", { name: "Buscar Atendimento", exact: true });
+    await expect(findCare).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+    await expect(findCare).toHaveCSS("box-shadow", "rgba(0, 0, 0, 0.2) 4px 4px 4px 0px");
+    await findCare.hover();
+    await expect(findCare).toHaveCSS("background-color", "rgb(17, 136, 119)");
     const links = main.getByRole("link", { name: /^(Como cadastrar|Junte-se a nós)$/ });
-    await expect(links).toHaveCount(3);
+    await expect(links).toHaveCount(1);
     await expect(links.nth(index)).toHaveAttribute("href", "/#cadastro");
     await expect(page.getByRole("dialog")).not.toBeVisible();
     await links.nth(index).click();

@@ -51,6 +51,7 @@ export function DoctorsView() {
   const patients = en ? "For Patients" : "Para Pacientes";
   const professionals = en ? "For Professionals" : "Para Profissionais";
   const join = en ? "Join us" : "Junte-se a nós";
+  const findCare = en ? "Find care" : "Buscar Atendimento";
   const titles = en ? [
     ["Health that cares", "and transforms lives"],
     ["We change people,", "we transform the world."],
@@ -103,7 +104,7 @@ export function DoctorsView() {
               <p>{en ? story.en : story.pt}</p>
             </S.TestimonialCard>)}
           </S.TestimonialGrid>
-          <Home.HomeButton href="/#cadastro" $variant="secondary">{join}</Home.HomeButton>
+          <S.FindCareButton href="https://paciente.lacreisaude.com.br/" $variant="secondary">{findCare}</S.FindCareButton>
         </S.SectionContent>
       </S.Testimonials>
 
@@ -111,7 +112,11 @@ export function DoctorsView() {
         <Image src={`${assets}imgSectionHistory.png`} alt="" fill sizes="100vw" />
         <S.TeamCurve aria-hidden="true"><Image src={`${assets}imgVector21.svg`} width={258} height={1441} alt="" /></S.TeamCurve>
         <S.SectionContent>
-          <S.Heading><Home.Handwritten>{en ? "Our team" : "Nosso time"}</Home.Handwritten><h2 id="team-title">{en ? "Meet our doctors" : "Conheça nossos médicos"}</h2></S.Heading>
+          <S.TeamHeading>
+            <Home.Handwritten>{en ? "Our team" : "Nosso time"}</Home.Handwritten>
+            <h2 id="team-title">{en ? "Meet our professionals" : "Conheça nossos profissionais"}</h2>
+            <p>{en ? "Professionals committed to quality, inclusive care." : "Profissionais comprometidos com um atendimento de qualidade e inclusivo."}</p>
+          </S.TeamHeading>
           <S.DoctorGrid>
             {doctors.map((name, index) => {
               const marcelo = name === "Marcelo";

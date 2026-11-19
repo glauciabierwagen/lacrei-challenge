@@ -14,6 +14,10 @@ export const Hero = styled(Home.Hero)`
 export const RegisterLink = styled(Home.HomeButton)`
   font-size: 1.25rem;
 `;
+export const FindCareButton = styled(Home.HomeButton)`
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, .2);
+  &:hover { border-color: #118877; background: #118877; color: #fff; }
+`;
 
 export const SectionContent = styled(Container)`
   position: relative; display: grid; justify-items: center;
@@ -28,6 +32,12 @@ export const TestimonialHeading = styled(Heading)`
   h2::after { content: ""; display: block; width: 10rem; height: 2px; margin: .75rem auto 0; background: #018762; }
   small { display: block; max-width: 56rem; margin-top: .75rem; color: #1f1f1f; font-size: 1.125rem; line-height: 1.5; }
   @media (min-width: 64rem) { small { font-size: 1.5rem; } }
+`;
+export const TeamHeading = styled(Heading)`
+  gap: .75rem;
+  h2::after { content: ""; display: block; width: 10rem; height: 2px; margin: .75rem auto 0; background: #018762; }
+  p { max-width: 56rem; color: #515151; font-size: 1.125rem; line-height: 1.5; }
+  @media (min-width: 64rem) { p { font-size: 1.5rem; } }
 `;
 
 // Organiza os depoimentos em cartões que se ajustam ao tamanho da tela.
