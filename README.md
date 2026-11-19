@@ -28,13 +28,10 @@ A rota `/medicos` implementa o [frame Médicos](https://www.figma.com/design/rvD
 
 - Hero com foto original, navegação sobreposta e três mensagens selecionáveis, sem autoplay.
 - Seção Nosso Propósito, mapa com países selecionáveis, linha do tempo rolável e parceiros.
-- Cabeçalho e rodapé compartilhados entre Home, Médicos e a demonstração adicional.
-- Alternância PT/EN na Home, em Médicos, no cabeçalho e no rodapé. Apenas o conteúdo da rota adicional `/sobre` permanece em português.
-- Diálogo nativo de orientações de cadastro, com foco contido e retorno ao acionador.
+- Cabeçalho e rodapé compartilhados entre Home, Profissionais.
+- Alternância PT/EN na Home, em Médicos, no cabeçalho e no rodapé. 
 - Newsletter validada no navegador; o status informa explicitamente que não envia nem armazena dados.
-- Os textos Lorem Ipsum e as imagens repetidas de parceiros foram mantidos conforme o arquivo fornecido; não foram inventados dados de impacto ou marcos históricos.
 - O frame fornecido é desktop; a adaptação mobile foi derivada de sua hierarquia e testada de 320 a 1440 px, não reproduz um frame mobile específico.
-- Verde de botões escurecido para contraste com branco; destaque do hero clareado e textos sobre fotos receberam fundo mais opaco por acessibilidade.
 
 Assets originais foram baixados localmente. Por decisão de tipografia do projeto, todos os textos usam **Nunito**, exceto as chamadas manuscritas, que mantêm **TrashHand**. Nunito é distribuída por `@fontsource`, com licença no respectivo pacote; TrashHand foi obtida de https://fonts.cdnfonts.com/s/441/TrashHand.woff. Revisar a autorização de uso das fotos, marcas e fontes antes do deploy público.
 
