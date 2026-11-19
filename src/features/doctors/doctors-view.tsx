@@ -10,11 +10,31 @@ import * as S from "./doctors.styles";
 
 const assets = "/images/figma/medicos/";
 const partnerAssets = "/images/figma/";
-const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at risus neque. Cras sit amet ligula ut justo commodo porta id ut enim. Nulla est lectus, mollis sit amet vehicula id, volutpat eget mauris.";
-const volunteers = [
-  { name: "Fernanda", avatar: "imgEllipse22.png" },
-  { name: "Silvia", avatar: "imgEllipse23.png" },
-  { name: "Débora", avatar: "imgEllipse24.png" },
+const testimonials = [
+  {
+    name: "Fernanda", avatar: "imgEllipse22.png",
+    profession: { pt: "Professora", en: "Teacher" },
+    story: {
+      pt: "Encontrei profissionais competentes, que respeitaram minha identidade e acolheram a diversidade. Me senti segura desde o primeiro contato.",
+      en: "I found skilled professionals who respected my identity and embraced diversity. I felt safe from the very first contact.",
+    },
+  },
+  {
+    name: "Silvia", avatar: "imgEllipse23.png",
+    profession: { pt: "Psicóloga", en: "Psychologist" },
+    story: {
+      pt: "Fui ouvida sem julgamentos e encontrei profissionais preparados e competentes para atender a diversidade. Isso me trouxe segurança em cada etapa.",
+      en: "I was heard without judgment and found skilled professionals prepared to care for diverse people. That gave me confidence at every step.",
+    },
+  },
+  {
+    name: "Débora", avatar: "imgEllipse24.png",
+    profession: { pt: "Enfermeira", en: "Nurse" },
+    story: {
+      pt: "Recebi um cuidado competente e respeitoso com a diversidade. Minha identidade foi acolhida, e me senti segura durante todo o atendimento.",
+      en: "I received skilled care that respected diversity. My identity was welcomed, and I felt safe throughout the appointment.",
+    },
+  },
 ];
 const doctors = ["Fernanda", "Marcelo", "Fernanda", "Fernanda", "Marcelo", "Fernanda", "Fernanda", "Fernanda", "Marcelo"];
 // Mantém os recortes e o alongamento intencional das imagens do Figma.
@@ -72,11 +92,15 @@ export function DoctorsView() {
 
       <S.Testimonials aria-labelledby="testimonials-title">
         <S.SectionContent>
-          <S.TestimonialHeading><Home.Handwritten>{en ? "Our patients" : "Nossos pacientes"}</Home.Handwritten><h2 id="testimonials-title">{en ? "Inspiring testimonials" : "Depoimentos inspiradores"}</h2></S.TestimonialHeading>
-              <S.TestimonialGrid>
-            {volunteers.map(({ name, avatar }) => <S.TestimonialCard key={name} aria-label={en ? `Testimonial from ${name}` : `Depoimento de ${name}`}>
-              <header><Image src={`${assets}${avatar}`} width={64} height={64} alt="" /><div><h3>{name}</h3><p>Lorem</p></div></header>
-              <p>{lorem}</p><p>{lorem}</p>
+          <S.TestimonialHeading>
+            <Home.Handwritten>{en ? "Our patients" : "Nossos pacientes"}</Home.Handwritten>
+            <h2 id="testimonials-title">{en ? "Inspiring testimonials" : "Depoimentos inspiradores"}</h2>
+            <small>{en ? "Illustrative profiles and stories; these are not real testimonials." : "Perfis e relatos ilustrativos; não representam depoimentos reais."}</small>
+          </S.TestimonialHeading>
+          <S.TestimonialGrid>
+            {testimonials.map(({ name, avatar, profession, story }) => <S.TestimonialCard key={name} aria-label={en ? `Testimonial from ${name}` : `Depoimento de ${name}`}>
+              <header><Image src={`${assets}${avatar}`} width={64} height={64} alt="" /><div><h3>{name}</h3><p>{en ? profession.en : profession.pt}</p></div></header>
+              <p>{en ? story.en : story.pt}</p>
             </S.TestimonialCard>)}
           </S.TestimonialGrid>
           <Home.HomeButton href="/#cadastro" $variant="secondary">{join}</Home.HomeButton>

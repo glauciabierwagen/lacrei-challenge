@@ -26,6 +26,7 @@ export const Heading = styled(Home.CenterHeading)`
 `;
 export const TestimonialHeading = styled(Heading)`
   h2::after { content: ""; display: block; width: 10rem; height: 2px; margin: .75rem auto 0; background: #018762; }
+  small { color: ${({ theme }) => theme.colors.muted}; font-size: .875rem; line-height: 1.4; }
 `;
 
 // Organiza os depoimentos em cartões que se ajustam ao tamanho da tela.

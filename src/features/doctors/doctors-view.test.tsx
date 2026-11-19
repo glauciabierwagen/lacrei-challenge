@@ -57,8 +57,16 @@ describe("DoctorsView", () => {
     expect(screen.getByText("Nossos pacientes")).toBeVisible();
     const testimonials = within(screen.getByRole("region", { name: "Depoimentos inspiradores" }));
     expect(testimonials.getAllByRole("article")).toHaveLength(3);
-    for (const name of ["Fernanda", "Silvia", "Débora"]) {
-      expect(within(testimonials.getByRole("article", { name: `Depoimento de ${name}` })).getByRole("heading", { level: 3, name })).toBeVisible();
+    expect(testimonials.getByText("Perfis e relatos ilustrativos; não representam depoimentos reais.")).toBeVisible();
+    for (const [name, profession, story] of [
+      ["Fernanda", "Professora", "Encontrei profissionais competentes, que respeitaram minha identidade e acolheram a diversidade. Me senti segura desde o primeiro contato."],
+      ["Silvia", "Psicóloga", "Fui ouvida sem julgamentos e encontrei profissionais preparados e competentes para atender a diversidade. Isso me trouxe segurança em cada etapa."],
+      ["Débora", "Enfermeira", "Recebi um cuidado competente e respeitoso com a diversidade. Minha identidade foi acolhida, e me senti segura durante todo o atendimento."],
+    ]) {
+      const card = within(testimonials.getByRole("article", { name: `Depoimento de ${name}` }));
+      expect(card.getByRole("heading", { level: 3, name })).toBeVisible();
+      expect(card.getByText(profession)).toBeVisible();
+      expect(card.getByText(story)).toBeVisible();
     }
     const team = within(screen.getByRole("region", { name: "Conheça nossos médicos" }));
     const cards = team.getAllByRole("article");
@@ -106,7 +114,11 @@ describe("DoctorsView", () => {
     }
     expect(screen.getByRole("img", { name: "People together at a Pride event" })).toBeVisible();
     expect(screen.getByRole("img", { name: "Lacrei Saúde partner seal" })).toBeVisible();
-    for (const name of ["Fernanda", "Silvia", "Débora"]) expect(screen.getByRole("article", { name: `Testimonial from ${name}` })).toBeVisible();
+    expect(screen.getByText("Illustrative profiles and stories; these are not real testimonials.")).toBeVisible();
+    for (const [name, profession] of [["Fernanda", "Teacher"], ["Silvia", "Psychologist"], ["Débora", "Nurse"]]) {
+      const card = within(screen.getByRole("article", { name: `Testimonial from ${name}` }));
+      expect(card.getByText(profession)).toBeVisible();
+    }
     const navigation = within(screen.getByRole("navigation", { name: "Main navigation" }));
     expect(navigation.getByRole("link", { name: "Doctors" })).toHaveAttribute("href", "/medicos");
     expect(screen.getByRole("link", { name: "For Patients" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
