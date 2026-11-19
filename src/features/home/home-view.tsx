@@ -25,6 +25,26 @@ const locations = [
   { pt: "Moçambique", en: "Mozambique", x: 85.66, y: 54.81 },
   { pt: "Madagáscar", en: "Madagascar", x: 92.24, y: 62.48 },
 ];
+const purposeCopy = {
+  pt: {
+    title: "Nosso Propósito",
+    introduction: "Existimos para transformar o acesso à saúde, conectando a comunidade LGBTQIAPN+ a profissionais de saúde qualificados e humanizados. Nosso compromisso é com a promoção de um atendimento seguro, inclusivo e livre de preconceitos, celebrando a diversidade em todas as suas formas e garantindo que cada pessoa seja acolhida em sua integralidade e dignidade.",
+    values: [
+      { title: "Promover saúde inclusiva", description: "Facilitamos o acesso a serviços de saúde físicos e mentais que respeitam e acolhem a pluralidade de corpos, identidades e vivências, garantindo um acolhimento digno e livre de qualquer tipo de discriminação para toda a comunidade LGBTQIAPN+." },
+      { title: "Valorizar a diversidade", description: "Acreditamos que a pluralidade é nossa maior força. Trabalhamos ativamente para sensibilizar e capacitar profissionais, unindo corações e saberes para construir um ambiente de cuidado que reconhece, respeita e celebra as diferenças individuais de cada paciente." },
+      { title: "Combater o preconceito", description: "Atuamos na desconstrução de barreiras históricas no acesso à saúde por meio da informação e do afeto, promovendo uma educação contínua que transforma a sociedade e viabiliza um atendimento médico verdadeiramente seguro, empático e humanizado para todas as pessoas." },
+    ],
+  },
+  en: {
+    title: "Our Purpose",
+    introduction: "We exist to transform access to healthcare by connecting the LGBTQIAPN+ community with qualified, compassionate health professionals. We are committed to safe, inclusive, prejudice-free care, celebrating diversity in all its forms and ensuring every person is welcomed with dignity and respect for their whole self.",
+    values: [
+      { title: "Promote inclusive healthcare", description: "We make physical and mental health services accessible while respecting and welcoming the diversity of bodies, identities, and lived experiences, ensuring dignified, discrimination-free care for the entire LGBTQIAPN+ community." },
+      { title: "Value diversity", description: "We believe plurality is our greatest strength. We work to raise awareness and equip professionals, bringing hearts and knowledge together to build care that recognizes, respects, and celebrates each patient's individual differences." },
+      { title: "Challenge prejudice", description: "We help dismantle historical barriers to healthcare through information and empathy, promoting ongoing education that transforms society and enables truly safe, compassionate, and human-centered medical care for everyone." },
+    ],
+  },
+};
 
 // Monta a página inicial com banners, mapa, histórias e aviso de cadastro.
 export function HomeView() {
@@ -95,11 +115,11 @@ export function HomeView() {
         <S.AboutGrid>
           <Image src={`${assets}imgVector.png`} alt={en ? "A diverse team of health professionals" : "Equipe diversa de profissionais de saúde"} width={630} height={669} sizes="(min-width: 1024px) 44vw, (min-width: 768px) 630px, 100vw" />
           <S.AboutContent>
-            <div><h2 id="purpose-title">{en ? "Our Purpose" : "Nosso Propósito"}</h2><p>{lorem}</p></div>
+            <div><h2 id="purpose-title">{purposeCopy[en ? "en" : "pt"].title}</h2><p>{purposeCopy[en ? "en" : "pt"].introduction}</p></div>
             <S.Values>
-              {(en ? ["Build a more compassionate world", "Bring hearts together and value lives", "Promote sustainable and inclusive education"] : ["Construir um mundo mais fraterno", "Unir corações e valorizar vidas", "Promover educação sustentável e inclusiva"]).map(title => <li key={title}>
+              {purposeCopy[en ? "en" : "pt"].values.map(({ title, description }) => <li key={title}>
                 <span aria-hidden="true"><Image src={`${assets}imgHeartRewardSocialRatingMediaHeartItLikeFavoriteLove.svg`} width={27} height={23} alt="" /></span>
-                <div><h3>{title}</h3><p>{lorem}</p></div>
+                <div><h3>{title}</h3><p>{description}</p></div>
               </li>)}
             </S.Values>
             <S.HomeButton href="/medicos" $variant="secondary">{en ? "Meet our team" : "Conheça nosso time"}</S.HomeButton>

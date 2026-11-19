@@ -48,6 +48,22 @@ describe("HomeView", () => {
     }
   });
 
+  it("shows the complete Portuguese purpose copy", () => {
+    renderWithTheme(<HomeView />);
+    const purpose = screen.getByRole("region", { name: "Nosso Propósito" });
+    expect(within(purpose).getByText("Existimos para transformar o acesso à saúde, conectando a comunidade LGBTQIAPN+ a profissionais de saúde qualificados e humanizados. Nosso compromisso é com a promoção de um atendimento seguro, inclusivo e livre de preconceitos, celebrando a diversidade em todas as suas formas e garantindo que cada pessoa seja acolhida em sua integralidade e dignidade.")).toBeVisible();
+    for (const title of ["Promover saúde inclusiva", "Valorizar a diversidade", "Combater o preconceito"]) {
+      expect(within(purpose).getByRole("heading", { level: 3, name: title })).toBeVisible();
+    }
+    for (const description of [
+      "Facilitamos o acesso a serviços de saúde físicos e mentais que respeitam e acolhem a pluralidade de corpos, identidades e vivências, garantindo um acolhimento digno e livre de qualquer tipo de discriminação para toda a comunidade LGBTQIAPN+.",
+      "Acreditamos que a pluralidade é nossa maior força. Trabalhamos ativamente para sensibilizar e capacitar profissionais, unindo corações e saberes para construir um ambiente de cuidado que reconhece, respeita e celebra as diferenças individuais de cada paciente.",
+      "Atuamos na desconstrução de barreiras históricas no acesso à saúde por meio da informação e do afeto, promovendo uma educação contínua que transforma a sociedade e viabiliza um atendimento médico verdadeiramente seguro, empático e humanizado para todas as pessoas.",
+    ]) {
+      expect(within(purpose).getByText(description)).toBeVisible();
+    }
+  });
+
   it("selects each banner exclusively and announces its heading", async () => {
     const { user } = renderWithTheme(<HomeView />);
     const banners = within(screen.getByRole("group", { name: "Escolher banner" })).getAllByRole("button");
@@ -95,7 +111,7 @@ describe("HomeView", () => {
     expect(screen.getByRole("group", { name: "Choose a banner" })).toBeVisible();
     expect(screen.getByRole("button", { name: /^Banner 3:/ })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("heading", { name: "Our Purpose" })).toBeVisible();
-    expect(screen.getByRole("heading", { name: "Build a more compassionate world" })).toBeVisible();
+    expect(screen.getByRole("heading", { name: "Promote inclusive healthcare" })).toBeVisible();
     expect(screen.getByRole("img", { name: "A diverse team of health professionals" })).toBeVisible();
     expect(screen.getByRole("group", { name: "Explore the countries highlighted on the map" })).toBeVisible();
     expect(screen.getByRole("button", { name: "Explore Mozambique" })).toHaveAttribute("aria-pressed", "true");
