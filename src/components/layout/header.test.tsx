@@ -69,7 +69,7 @@ describe("Header", () => {
 
   it.each([
     { pathname: "/", current: "Início" },
-    { pathname: "/sobre", current: "Quem Somos" },
+    { pathname: "/sobre", current: undefined },
     { pathname: "/medicos", current: "Médicos" },
     { pathname: "/missing", current: undefined },
   ])("has exact destinations and matching current page at $pathname", async ({ pathname, current }) => {
@@ -78,7 +78,7 @@ describe("Header", () => {
     expect(screen.getByRole("banner")).toHaveStyle({ position: ["/", "/medicos"].includes(pathname) ? "absolute" : "relative", zIndex: "5" });
     await user.click(screen.getByRole("button", { name: "Menu" }));
     const navigation = screen.getByRole("navigation", { name: "Navegação principal" });
-    const links = [["Início", "/"], ["Quem Somos", "/sobre"], ["Médicos", "/medicos"],
+    const links = [["Início", "/"], ["Quem Somos", "https://lacreisaude.com.br/quem-somos/"], ["Médicos", "/medicos"],
       ["Blog", "/#historias"], ["Unidades", "/#impacto"], ["Como cadastrar", "/#cadastro"]];
     expect(within(navigation).getAllByRole("link")).toHaveLength(6);
     for (const [name, href] of links) {
@@ -169,7 +169,7 @@ describe("Header", () => {
     expect(screen.getByRole("button", { name: "EN English" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("group", { name: "Language" })).toBeVisible();
     expect(screen.getByRole("link", { name: "Lacrei Saúde — home" })).toHaveAttribute("href", "/");
-    expect(screen.getByRole("link", { name: "About Us" })).toHaveAttribute("href", "/sobre");
+    expect(screen.getByRole("link", { name: "About Us" })).toHaveAttribute("href", "https://lacreisaude.com.br/quem-somos/");
     expect(screen.getByRole("link", { name: "Doctors" })).toHaveAttribute("href", "/medicos");
     expect(screen.getByRole("link", { name: "How to register" })).toHaveAttribute("href", "/#cadastro");
     expect(screen.getByRole("heading", { name: "Subscribe for updates" })).toBeVisible();

@@ -92,7 +92,7 @@ const navigation = {
   pt: ["Início", "Quem Somos", "Médicos", "Blog", "Unidades", "Como cadastrar"],
   en: ["Home", "About Us", "Doctors", "Blog", "Locations", "How to register"],
 };
-const destinations = ["/", "/sobre", "/medicos", "/#historias", "/#impacto", "/#cadastro"];
+const destinations = ["/", "https://lacreisaude.com.br/quem-somos/", "/medicos", "/#historias", "/#impacto", "/#cadastro"];
 
 // Mostra a navegação e permite trocar o idioma do site.
 export function Header() {

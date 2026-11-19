@@ -37,8 +37,9 @@ for (const route of ["/", "/sobre", "/medicos"]) {
 test("navegação e conteúdo interativo funcionam", async ({ page, isMobile }) => {
   await gotoHome(page);
   if (isMobile) await page.getByRole("button", { name: "Menu", exact: true }).click();
-  await page.getByRole("navigation", { name: "Navegação principal" }).getByRole("link", { name: "Quem Somos", exact: true }).click();
-  await expect(page).toHaveURL(/\/sobre$/);
+  await expect(page.getByRole("navigation", { name: "Navegação principal" }).getByRole("link", { name: "Quem Somos", exact: true }))
+    .toHaveAttribute("href", "https://lacreisaude.com.br/quem-somos/");
+  await page.goto("/sobre");
   const trigger = page.getByRole("button", { name: "De onde vem esta proposta visual?" });
   await trigger.click();
   await expect(trigger).toHaveAttribute("aria-expanded", "true");
@@ -239,7 +240,7 @@ test("idioma atualiza documento, Home, navegação e newsletter", async ({ page 
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
   await expect(page.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^We change people,\s*we transform the world\.$/);
   await expect(page.getByRole("button", { name: /^Banner 2:/ })).toHaveAttribute("aria-pressed", "true");
-  await expect(page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "About Us", exact: true })).toHaveAttribute("href", "/sobre");
+  await expect(page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "About Us", exact: true })).toHaveAttribute("href", "https://lacreisaude.com.br/quem-somos/");
   await expect(page.getByRole("heading", { name: "Our Purpose", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "Explore Brazil", exact: true })).toHaveAttribute("aria-pressed", "true");
   await expect(page.getByRole("region", { name: "The impact of Lacrei Saúde", exact: true }).getByRole("status")).toContainText("Brazil — highlighted in the design map.");
