@@ -313,5 +313,4 @@ export const RegistrationDialog = styled.dialog`
   h2 { margin-bottom: 1rem; }
   p { margin-bottom: 1.5rem; }
   button { min-height: 3rem; border-radius: 5px; padding: .5rem 1rem; border: 1px solid #087b6b; background: #087b6b; color: #fff; }
-  a { display: inline-flex; align-items: center; min-height: 3rem; margin-right: 1rem; }
 `;

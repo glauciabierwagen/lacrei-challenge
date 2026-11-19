@@ -27,6 +27,8 @@ export function DoctorsView() {
   // Guarda o banner selecionado sem perder a seleção ao trocar o idioma.
   const [slide, setSlide] = useState(0);
   const register = en ? "How to register" : "Como cadastrar";
+  const patients = en ? "For Patients" : "Para Pacientes";
+  const professionals = en ? "For Professionals" : "Para Profissionais";
   const join = en ? "Join us" : "Junte-se a nós";
   const titles = en ? [
     ["Health that cares", "and transforms lives"],
@@ -53,7 +55,10 @@ export function DoctorsView() {
         <Image src={`${assets}imgSectionBannerHero.png`} alt="" fill preload sizes="100vw" />
         <Home.HeroContent>
           <h1 id="doctors-title" aria-live="polite">{titles[slide][0]}<br />{slide === 0 ? <>{en ? "and " : "e "}<span>{en ? "transforms lives" : "transforma vidas"}</span></> : <span>{titles[slide][1]}</span>}</h1>
-          <S.RegisterLink href="/#cadastro">{register}<Image src={`${assets}imgWhatsapp.svg`} alt="" width={18} height={18} /></S.RegisterLink>
+          <Home.RegisterActions>
+            <S.RegisterLink href="https://paciente.lacreisaude.com.br/">{patients}</S.RegisterLink>
+            <S.RegisterLink href="https://profissional.lacreisaude.com.br/">{professionals}</S.RegisterLink>
+          </Home.RegisterActions>
         </Home.HeroContent>
         <Home.Dots role="group" aria-label={en ? "Choose a banner" : "Escolher banner"}>
           {titles.map((title, index) => <button key={index} type="button" aria-label={`Banner ${index + 1}: ${title.join(" ")}`} aria-pressed={slide === index} onClick={() => setSlide(index)}><span /></button>)}

@@ -165,7 +165,8 @@ describe("HomeView", () => {
     fireEvent(window, new Event("lacrei:register"));
     const dialog = screen.getByRole("dialog", { name: "How to register" });
     expect(within(dialog).getByText(/Registration and appointments are not available here/)).toBeVisible();
-    expect(within(dialog).getByRole("link", { name: "Official website (new tab)" })).toHaveAttribute("href", "https://lacreisaude.com.br/");
+    expect(within(dialog).getByRole("link", { name: "For Patients" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+    expect(within(dialog).getByRole("link", { name: "For Professionals" })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     await user.click(within(dialog).getByRole("button", { name: "Close" }));
     await user.click(screen.getByRole("button", { name: "Português" }));
     expect(document.documentElement).toHaveAttribute("lang", "pt-BR");

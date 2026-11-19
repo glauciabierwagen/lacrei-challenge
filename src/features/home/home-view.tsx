@@ -230,7 +230,10 @@ export function HomeView() {
       <S.RegistrationDialog ref={dialog} id="cadastro" aria-labelledby="registration-title" onClose={restoreFocus}>
         <h2 id="registration-title">{en ? "How to register" : "Como cadastrar"}</h2>
         <p>{en ? "This is a demonstration based on the Figma design. Registration and appointments are not available here. Visit the official Lacrei Saúde website for current information." : "Esta é uma demonstração baseada no Figma. Cadastros e agendamentos não estão disponíveis aqui. Consulte o site oficial da Lacrei Saúde para informações atualizadas."}</p>
-        <a href="https://lacreisaude.com.br/" target="_blank" rel="noopener noreferrer">{en ? "Official website (new tab)" : "Site oficial (nova aba)"}</a>
+        <S.RegisterActions>
+          <S.RegisterLink href="https://paciente.lacreisaude.com.br/">{en ? "For Patients" : "Para Pacientes"}</S.RegisterLink>
+          <S.RegisterLink href="https://profissional.lacreisaude.com.br/">{en ? "For Professionals" : "Para Profissionais"}</S.RegisterLink>
+        </S.RegisterActions>
         <button type="button" onClick={closeRegistration}>{en ? "Close" : "Fechar"}</button>
       </S.RegistrationDialog>
     </>

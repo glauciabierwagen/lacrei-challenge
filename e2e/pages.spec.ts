@@ -59,7 +59,8 @@ test("Blog e Unidades abrem modais informativos pela navbar", async ({ page }) =
     const dialog = page.getByRole("dialog", { name: label, exact: true });
     await expect(dialog).toBeVisible();
     await expect(dialog).toContainText(copy);
-    await expect(dialog.getByRole("link", { name: "Site oficial (nova aba)", exact: true })).toHaveAttribute("href", "https://lacreisaude.com.br/");
+    await expect(dialog.getByRole("link", { name: "Para Pacientes", exact: true })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+    await expect(dialog.getByRole("link", { name: "Para Profissionais", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     await expect(page).toHaveURL(/\/$/);
     await dialog.getByRole("button", { name: "Fechar", exact: true }).click();
     await expect(dialog).not.toBeVisible();
@@ -128,13 +129,15 @@ for (const language of ["pt", "en"] as const) {
   });
 }
 
-test("todos os CTAs de Médicos abrem o aviso de cadastro na Home sem oferecer cadastro local", async ({ page }) => {
-  for (const index of [0, 1, 2, 3]) {
+test("os CTAs de público de Médicos vão aos portais e os demais abrem o aviso na Home", async ({ page }) => {
+  for (const index of [0, 1, 2]) {
     await page.goto("/medicos");
     await page.waitForLoadState("networkidle");
     const main = page.getByRole("main");
+    await expect(main.getByRole("link", { name: "Para Pacientes", exact: true })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+    await expect(main.getByRole("link", { name: "Para Profissionais", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     const links = main.getByRole("link", { name: /^(Como cadastrar|Junte-se a nós)$/ });
-    await expect(links).toHaveCount(4);
+    await expect(links).toHaveCount(3);
     await expect(links.nth(index)).toHaveAttribute("href", "/#cadastro");
     await expect(page.getByRole("dialog")).not.toBeVisible();
     await links.nth(index).click();
@@ -145,7 +148,8 @@ test("todos os CTAs de Médicos abrem o aviso de cadastro na Home sem oferecer c
     expect(await dialog.evaluate((element) => element.matches(":modal"))).toBe(true);
     await expect(dialog).toContainText("Cadastros e agendamentos não estão disponíveis aqui.");
     await expect(dialog.getByRole("textbox")).toHaveCount(0);
-    await expect(dialog.getByRole("link", { name: "Site oficial (nova aba)", exact: true })).toHaveAttribute("href", "https://lacreisaude.com.br/");
+    await expect(dialog.getByRole("link", { name: "Para Pacientes", exact: true })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+    await expect(dialog.getByRole("link", { name: "Para Profissionais", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     await dialog.getByRole("button", { name: "Fechar", exact: true }).click();
     await expect(dialog).not.toBeVisible();
     await expect(page).toHaveURL(/\/$/);

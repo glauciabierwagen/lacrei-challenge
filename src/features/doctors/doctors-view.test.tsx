@@ -60,13 +60,15 @@ describe("DoctorsView", () => {
     expect(screen.getByRole("heading", { level: 2, name: "Juntos pela causa!" })).toBeVisible();
   });
 
-  it("keeps all four registration CTAs as home hash links without a form or local registration dialog", () => {
+  it("links the hero CTA to the patient portal and keeps remaining registration CTAs on the home hash", () => {
     renderWithTheme(<DoctorsView />);
+    expect(screen.getByRole("link", { name: "Para Pacientes" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+    expect(screen.getByRole("link", { name: "Para Profissionais" })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     const registration = screen.getAllByRole("link", { name: "Como cadastrar" });
     const join = screen.getAllByRole("link", { name: "Junte-se a nós" });
-    expect(registration).toHaveLength(2);
+    expect(registration).toHaveLength(1);
     expect(join).toHaveLength(2);
-    expect(screen.getAllByRole("link")).toHaveLength(4);
+    expect(screen.getAllByRole("link")).toHaveLength(5);
     for (const link of [...registration, ...join]) expect(link).toHaveAttribute("href", "/#cadastro");
     expect(screen.queryByRole("dialog", { hidden: true })).not.toBeInTheDocument();
     expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
@@ -93,7 +95,9 @@ describe("DoctorsView", () => {
     for (const name of ["Fernanda", "Silvia", "Débora"]) expect(screen.getByRole("article", { name: `Testimonial from ${name}` })).toBeVisible();
     const navigation = within(screen.getByRole("navigation", { name: "Main navigation" }));
     expect(navigation.getByRole("link", { name: "Doctors" })).toHaveAttribute("href", "/medicos");
-    expect(screen.getAllByRole("link", { name: "How to register" })).toHaveLength(2);
+    expect(screen.getByRole("link", { name: "For Patients" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+    expect(screen.getByRole("link", { name: "For Professionals" })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
+    expect(screen.getAllByRole("link", { name: "How to register" })).toHaveLength(1);
     expect(screen.getAllByRole("link", { name: "Join us" })).toHaveLength(2);
     for (const name of ["How to register", "Join us"]) {
       for (const link of screen.getAllByRole("link", { name })) expect(link).toHaveAttribute("href", "/#cadastro");
