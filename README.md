@@ -110,7 +110,7 @@ No Lighthouse mobile da Vercel, a Home marcou 89/96/76 (mediana 89) e `/medicos`
 - [Lighthouse](lighthouserc.cjs) mede `/`, `/medicos` e `/sobre` em mobile, com metas de Performance ≥x`; revisar metadados, identidade, conteúdo provisório e essa opção antes de publicar uma versão final indexável.
 
 
-### 4. Corrigir o Git e retomar publicações
+### Corrigir o Git e retomar publicações
 
 O rollback da plataforma **não reverte o código do repositório**. Para evitar republicar a regressão:
 
@@ -123,7 +123,7 @@ O rollback da plataforma **não reverte o código do repositório**. Para evitar
 
 Se não houver um build anterior elegível, o commit de reversão também serve como alternativa de recuperação: gerar um novo build do código restaurado e publicá-lo pelo fluxo normal. Esse caminho depende do tempo de build, não é uma restauração instantânea. Se o projeto já estiver em estado de rollback, ainda é necessário gerenciar a promoção conforme o passo anterior.
 
-### 5. Limitações e ensaio do procedimento
+### Limitações e ensaio do procedimento
 
 - Instant Rollback reaproveita o build e sua configuração anterior; não recompila com alterações recentes de variáveis de ambiente. Conferir compatibilidade de configuração e serviços externos.
 - Reverter o frontend não restaura bancos de dados, conteúdo de CMS, APIs externas ou dados já enviados. O projeto atual não possui banco, cadastro nem envio de newsletter; integrações futuras exigirão um plano próprio para dados e migrações.
