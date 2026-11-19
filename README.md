@@ -32,6 +32,7 @@ A rota `/medicos` implementa o [frame Médicos](https://www.figma.com/design/rvD
 - Alternância PT/EN na Home, em Médicos, no cabeçalho e no rodapé. 
 - Newsletter validada no navegador; o status informa explicitamente que não envia nem armazena dados.
 - O frame fornecido é desktop; a adaptação mobile foi derivada de sua hierarquia e testada de 320 a 1440 px, não reproduz um frame mobile específico.
+- [Trabalhar com o Figma MCP](https://github.com/glauciabierwagen/lacrei-challenge#trabalhar-com-o-figma-mcp).
 
 Assets originais foram baixados localmente. Por decisão de tipografia do projeto, todos os textos usam **Nunito**, exceto as chamadas manuscritas, que mantêm **TrashHand**. Nunito é distribuída por `@fontsource`, com licença no respectivo pacote; TrashHand foi obtida de https://fonts.cdnfonts.com/s/441/TrashHand.woff. Revisar a autorização de uso das fotos, marcas e fontes antes do deploy público.
 
