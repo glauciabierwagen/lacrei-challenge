@@ -26,7 +26,8 @@ export const Heading = styled(Home.CenterHeading)`
 `;
 export const TestimonialHeading = styled(Heading)`
   h2::after { content: ""; display: block; width: 10rem; height: 2px; margin: .75rem auto 0; background: #018762; }
-  small { color: ${({ theme }) => theme.colors.muted}; font-size: .875rem; line-height: 1.4; }
+  small { display: block; max-width: 56rem; margin-top: .75rem; color: #1f1f1f; font-size: 1.125rem; line-height: 1.5; }
+  @media (min-width: 64rem) { small { font-size: 1.5rem; } }
 `;
 
 // Organiza os depoimentos em cartões que se ajustam ao tamanho da tela.
@@ -36,7 +37,7 @@ export const Testimonials = styled(Home.HomeSection)`
 `;
 
 export const TestimonialGrid = styled.div`
-  display: grid; align-items: start; gap: 2rem; width: 100%;
+  display: grid; align-items: stretch; grid-auto-rows: 1fr; gap: 2rem; width: 100%;
   @media (min-width: 48rem) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (min-width: 64rem) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 `;

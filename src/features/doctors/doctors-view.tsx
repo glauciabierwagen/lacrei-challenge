@@ -15,24 +15,24 @@ const testimonials = [
     name: "Fernanda", avatar: "imgEllipse22.png",
     profession: { pt: "Professora", en: "Teacher" },
     story: {
-      pt: "Encontrei profissionais competentes, que respeitaram minha identidade e acolheram a diversidade. Me senti segura desde o primeiro contato.",
-      en: "I found skilled professionals who respected my identity and embraced diversity. I felt safe from the very first contact.",
+      pt: "Encontrei profissionais competentes, que respeitaram minha identidade e acolheram a diversidade. Me senti segura desde o primeiro contato. A comunicação foi clara, cada etapa foi explicada com cuidado e pude falar sobre minhas necessidades sem receio. Saí mais tranquila e confiante para cuidar da minha saúde. Também recebi orientações claras para decidir com tranquilidade os próximos passos do meu cuidado.",
+      en: "I found skilled professionals who respected my identity and embraced diversity. I felt safe from the very first contact. Communication was clear, each step was explained with care, and I could share my needs without fear. I left feeling calmer and more confident about my health. I also received clear guidance that helped me make the next care decisions with confidence.",
     },
   },
   {
     name: "Silvia", avatar: "imgEllipse23.png",
     profession: { pt: "Psicóloga", en: "Psychologist" },
     story: {
-      pt: "Fui ouvida sem julgamentos e encontrei profissionais preparados e competentes para atender a diversidade. Isso me trouxe segurança em cada etapa.",
-      en: "I was heard without judgment and found skilled professionals prepared to care for diverse people. That gave me confidence at every step.",
+      pt: "Fui ouvida sem julgamentos e encontrei profissionais preparados e competentes para atender a diversidade. Isso me trouxe segurança em cada etapa. As orientações foram claras e minha identidade foi respeitada durante todo o cuidado. Poder falar abertamente das minhas necessidades fez toda a diferença. Ter espaço para conversar com liberdade e participar das decisões tornou a experiência ainda mais acolhedora.",
+      en: "I was heard without judgment and found skilled professionals prepared to care for diverse people. That gave me confidence at every step. The guidance was clear, and my identity was respected throughout my care. Being able to speak openly about my needs made a real difference. Having room to speak freely and take part in decisions made the experience even more welcoming.",
     },
   },
   {
     name: "Débora", avatar: "imgEllipse24.png",
     profession: { pt: "Enfermeira", en: "Nurse" },
     story: {
-      pt: "Recebi um cuidado competente e respeitoso com a diversidade. Minha identidade foi acolhida, e me senti segura durante todo o atendimento.",
-      en: "I received skilled care that respected diversity. My identity was welcomed, and I felt safe throughout the appointment.",
+      pt: "Recebi um cuidado competente e respeitoso com a diversidade. Minha identidade foi acolhida, e me senti segura durante todo o atendimento. A equipe explicou as opções com atenção e me incluiu nas decisões. Saí confiante de que minhas necessidades foram compreendidas. Também saí com dúvidas esclarecidas e com a confiança de que posso buscar atendimento sem esconder quem sou.",
+      en: "I received skilled care that respected diversity. My identity was welcomed, and I felt safe throughout the appointment. The team carefully explained my options and included me in decisions. I left confident that my needs had been understood. I also left with answers and the confidence to seek care without hiding who I am.",
     },
   },
 ];

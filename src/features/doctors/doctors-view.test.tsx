@@ -59,9 +59,9 @@ describe("DoctorsView", () => {
     expect(testimonials.getAllByRole("article")).toHaveLength(3);
     expect(testimonials.getByText("Perfis e relatos ilustrativos; não representam depoimentos reais.")).toBeVisible();
     for (const [name, profession, story] of [
-      ["Fernanda", "Professora", "Encontrei profissionais competentes, que respeitaram minha identidade e acolheram a diversidade. Me senti segura desde o primeiro contato."],
-      ["Silvia", "Psicóloga", "Fui ouvida sem julgamentos e encontrei profissionais preparados e competentes para atender a diversidade. Isso me trouxe segurança em cada etapa."],
-      ["Débora", "Enfermeira", "Recebi um cuidado competente e respeitoso com a diversidade. Minha identidade foi acolhida, e me senti segura durante todo o atendimento."],
+      ["Fernanda", "Professora", "Encontrei profissionais competentes, que respeitaram minha identidade e acolheram a diversidade. Me senti segura desde o primeiro contato. A comunicação foi clara, cada etapa foi explicada com cuidado e pude falar sobre minhas necessidades sem receio. Saí mais tranquila e confiante para cuidar da minha saúde. Também recebi orientações claras para decidir com tranquilidade os próximos passos do meu cuidado."],
+      ["Silvia", "Psicóloga", "Fui ouvida sem julgamentos e encontrei profissionais preparados e competentes para atender a diversidade. Isso me trouxe segurança em cada etapa. As orientações foram claras e minha identidade foi respeitada durante todo o cuidado. Poder falar abertamente das minhas necessidades fez toda a diferença. Ter espaço para conversar com liberdade e participar das decisões tornou a experiência ainda mais acolhedora."],
+      ["Débora", "Enfermeira", "Recebi um cuidado competente e respeitoso com a diversidade. Minha identidade foi acolhida, e me senti segura durante todo o atendimento. A equipe explicou as opções com atenção e me incluiu nas decisões. Saí confiante de que minhas necessidades foram compreendidas. Também saí com dúvidas esclarecidas e com a confiança de que posso buscar atendimento sem esconder quem sou."],
     ]) {
       const card = within(testimonials.getByRole("article", { name: `Depoimento de ${name}` }));
       expect(card.getByRole("heading", { level: 3, name })).toBeVisible();
