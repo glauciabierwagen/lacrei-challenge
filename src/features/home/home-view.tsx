@@ -45,9 +45,9 @@ const locations = [
 const purposeCopy = {
   pt: {
     title: "Nosso Propósito",
-    introduction: "Conectar a comunidade LGBTQIAPN+ a profissionais humanizados para garantir um atendimento em saúde seguro e livre de preconceitos.",
+    introduction: "Conectar a comunidade LGBTQIAPN+ a profissionais que oferecem cuidado sem preconceitos.",
     values: [
-      { title: "Saúde inclusiva", description: "Garantir acesso sem discriminação a cuidados físicos e mentais para todas as identidades e corpos." },
+      { title: "Saúde inclusiva", description: "Cuidados físicos e mentais para todas as pessoas, sem discriminação." },
       { title: "Diversidade", description: "Capacitar profissionais para um atendimento respeitoso e adaptado a cada paciente." },
       { title: "Fim do preconceito", description: "Usar educação e empatia para derrubar barreiras históricas na saúde." },
     ],
@@ -139,7 +139,7 @@ export function HomeView() {
           <S.AboutImageCard>
             <Image src={`${assets}medicos/Médicos.png`} alt={en ? "A diverse team of health professionals" : "Equipe diversa de profissionais de saúde"} fill sizes="(min-width: 64rem) 55vw, (min-width: 48rem) 50vw, calc(100vw - 3rem)" />
           </S.AboutImageCard>
-          <S.AboutContent>
+          <S.PurposeContent>
             <div><h2 id="purpose-title">{purposeCopy[en ? "en" : "pt"].title}</h2><p>{purposeCopy[en ? "en" : "pt"].introduction}</p></div>
             <S.Values>
               {purposeCopy[en ? "en" : "pt"].values.map(({ title, description }) => <li key={title}>
@@ -149,7 +149,7 @@ export function HomeView() {
             </S.Values>
             <S.HomeButton href="/medicos" $variant="secondary">{en ? "Meet our team" : "Conheça nosso time"}</S.HomeButton>
             <Image src={`${assets}imgMisc09.svg`} width={24} height={93} alt="" />
-          </S.AboutContent>
+          </S.PurposeContent>
         </S.AboutGrid>
       </S.HomeSection>
 
@@ -170,27 +170,12 @@ export function HomeView() {
         <Image src={`${assets}imgAirplaneWithADottedPathOfTravel.png`} width={120} height={135} alt="" />
       </S.ImpactSection>
 
-      <S.AudienceSection aria-label={en ? "Choose how to access Lacrei Saúde" : "Escolha como acessar a Lacrei Saúde"}>
-        <S.AudienceCard>
-          <Image src={`${assets}medicos/Médicos.png`} alt={en ? "LGBTQIAPN+ patient" : "Pessoa LGBTQIAPN+"} width={946} height={535} sizes="(min-width: 64rem) 288px, (min-width: 48rem) 35vw, 100vw" />
-          <div>
-            <h2>{en ? "Patients" : "Pacientes"}</h2>
-            <p>{en ? "Connect with health professionals who understand the needs of the LGBTQIAPN+ community." : "Conecte-se a profissionais da saúde que estudam as necessidades da comunidade LGBTQIAPN+."}</p>
-            <a href="https://paciente.lacreisaude.com.br/">{en ? "Find care" : "Buscar atendimento"}</a>
-          </div>
-        </S.AudienceCard>
-        <S.AudienceCard $reverse>
-          <Image src={`${assets}medicos/imgVector.png`} alt={en ? "Healthcare professional" : "Profissional da saúde"} width={630} height={669} sizes="(min-width: 64rem) 288px, (min-width: 48rem) 35vw, 100vw" />
-          <div>
-            <h2>{en ? "Health professionals" : "Profissionais da saúde"}</h2>
-            <p>{en ? "We are looking for qualified health professionals who prioritize the physical and mental wellbeing of LGBTQIAPN+ people." : "Buscamos profissionais da saúde qualificados que priorizam o bem-estar físico e mental de pessoas LGBTQIAPN+."}</p>
-            <a href="https://profissional.lacreisaude.com.br/">{en ? "Offer care" : "Oferecer atendimento"}</a>
-          </div>
-        </S.AudienceCard>
-      </S.AudienceSection>
-
       <S.HistorySection id="historias" aria-labelledby="history-title">
-        <S.CenterHeading><S.Handwritten>{en ? "Our story" : "Nossa história"}</S.Handwritten><h2 id="history-title">{en ? "Care that moves us forward" : "Uma trajetória de acolhimento"}</h2></S.CenterHeading>
+        <S.CenterHeading>
+          <S.Handwritten $color="#018762">{en ? "Our story" : "Nossa história"}</S.Handwritten>
+          <h2 id="history-title">{en ? "Care that moves us forward" : "Uma trajetória de acolhimento"}</h2>
+          <p>{en ? "A story of inclusive healthcare." : "Uma história de saúde inclusiva."}</p>
+        </S.CenterHeading>
         <S.TimelineCarousel>
           <S.TimelineArrow type="button" aria-label={en ? "Previous stories" : "Histórias anteriores"} aria-controls="history-timeline" onClick={() => timeline.current?.scrollBy({ left: -544, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}>←</S.TimelineArrow>
           <S.TimelineViewport id="history-timeline" ref={timeline} tabIndex={0} role="region" aria-label={en ? "History timeline — scroll to explore" : "Linha do tempo — role para explorar"}>
@@ -207,6 +192,25 @@ export function HomeView() {
           <S.HomeButton href="/medicos" $variant="secondary">{en ? "Meet our team" : "Conheça nosso time"}</S.HomeButton>
         </S.HistoryTeamAction>
       </S.HistorySection>
+
+      <S.AudienceSection aria-label={en ? "Choose how to access Lacrei Saúde" : "Escolha como acessar a Lacrei Saúde"}>
+        <S.AudienceCard>
+          <Image src="https://lacreisaude.com.br/_next/static/media/person-with-flag-around.5a804bf9.png" alt={en ? "Person wrapped in a pride flag" : "Pessoa envolta em uma bandeira do orgulho LGBTQIAPN+"} width={676} height={654} unoptimized />
+          <div>
+            <h2>{en ? "Patients" : "Pacientes"}</h2>
+            <p>{en ? "Connect with health professionals who understand the needs of the LGBTQIAPN+ community." : "Conecte-se a profissionais da saúde que estudam as necessidades da comunidade LGBTQIAPN+."}</p>
+            <a href="https://paciente.lacreisaude.com.br/">{en ? "Find care" : "Buscar atendimento"}</a>
+          </div>
+        </S.AudienceCard>
+        <S.AudienceCard $reverse>
+          <Image src="https://lacreisaude.com.br/_next/static/media/person-professional.e0f3da65.png" alt={en ? "Healthcare professional" : "Profissional da saúde"} width={374} height={359} unoptimized />
+          <div>
+            <h2>{en ? "Health professionals" : "Profissionais da saúde"}</h2>
+            <p>{en ? "We are looking for qualified health professionals who prioritize the physical and mental wellbeing of LGBTQIAPN+ people." : "Buscamos profissionais da saúde qualificados que priorizam o bem-estar físico e mental de pessoas LGBTQIAPN+."}</p>
+            <a href="https://profissional.lacreisaude.com.br/">{en ? "Offer care" : "Oferecer atendimento"}</a>
+          </div>
+        </S.AudienceCard>
+      </S.AudienceSection>
 
       <S.PartnerSection id="parceiros" aria-labelledby="partners-title"><Container>
         <S.CenterHeading><S.Handwritten>{en ? "Our partners" : "Nossos parceiros"}</S.Handwritten><h2 id="partners-title">{en ? "Together for the cause!" : "Juntos pela causa!"}</h2></S.CenterHeading>

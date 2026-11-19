@@ -58,12 +58,12 @@ describe("HomeView", () => {
     const purposeTitle = within(purpose).getByRole("heading", { level: 2, name: "Nosso Propósito" });
     expect(purposeImage.compareDocumentPosition(purposeTitle) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(purposeImage.closest("figure")).toBeInTheDocument();
-    expect(within(purpose).getByText("Conectar a comunidade LGBTQIAPN+ a profissionais humanizados para garantir um atendimento em saúde seguro e livre de preconceitos.")).toBeVisible();
+    expect(within(purpose).getByText("Conectar a comunidade LGBTQIAPN+ a profissionais que oferecem cuidado sem preconceitos.")).toBeVisible();
     for (const title of ["Saúde inclusiva", "Diversidade", "Fim do preconceito"]) {
       expect(within(purpose).getByRole("heading", { level: 3, name: title })).toBeVisible();
     }
     for (const description of [
-      "Garantir acesso sem discriminação a cuidados físicos e mentais para todas as identidades e corpos.",
+      "Cuidados físicos e mentais para todas as pessoas, sem discriminação.",
       "Capacitar profissionais para um atendimento respeitoso e adaptado a cada paciente.",
       "Usar educação e empatia para derrubar barreiras históricas na saúde.",
     ]) {
@@ -210,8 +210,12 @@ describe("HomeView", () => {
     expect(screen.queryByRole("button", { name: "Como cadastrar" })).not.toBeInTheDocument();
   });
 
-  it("renders audience cards with links to the official patient and professional portals", () => {
+  it("renders the official portal links directly after the history section", () => {
     renderWithTheme(<HomeView />);
+    const history = screen.getByRole("region", { name: "Uma trajetória de acolhimento" });
+    expect(within(history).getByText("Uma história de saúde inclusiva.")).toBeVisible();
+    const audience = screen.getByRole("region", { name: "Escolha como acessar a Lacrei Saúde" });
+    expect(history.nextElementSibling).toBe(audience);
     expect(screen.getByRole("heading", { level: 2, name: "Pacientes" })).toBeVisible();
     expect(screen.getByRole("heading", { level: 2, name: "Profissionais da saúde" })).toBeVisible();
     expect(screen.getByRole("link", { name: "Buscar atendimento" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");

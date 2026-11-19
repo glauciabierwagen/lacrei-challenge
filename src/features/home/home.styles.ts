@@ -1,6 +1,6 @@
 "use client";
 
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Container } from "@/components/ui/primitives";
 import { ButtonLink } from "@/components/ui/button-link";
 
@@ -31,6 +31,20 @@ export const HomeButton = styled(ButtonLink)`
   width: fit-content; min-height: 3rem; padding: .5rem 1.5rem;
   img { width: auto; height: auto; }
 `;
+const teamButtonStyles = css`
+  ${HomeButton} {
+    min-height: 3rem;
+    padding: .5rem .625rem;
+    border: 2px solid #018762;
+    border-radius: 8px;
+    color: #018762;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.55;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, .2);
+  }
+  ${HomeButton}:hover { background: #018762; color: #fff; }
+`;
 export const RegisterActions = styled.div`
   display: flex; flex-wrap: wrap; gap: 1.5rem;
 `;
@@ -50,13 +64,15 @@ export const Dots = styled.div`
   button[aria-pressed="true"] span { background: #fff; }
   @media (max-width: 47.99rem) { bottom: 1rem; }
 `;
+const introHeadingSize = "clamp(1.5rem, 3.24vw, 2.5rem)";
+
 export const CareIntro = styled.section`
   display: grid;
   justify-items: center;
   gap: .75rem;
   padding: 2rem 1rem 1.5rem;
   text-align: center;
-  h2 { color: #1f1f1f; font-size: clamp(1.5rem, 3.24vw, 2.5rem); font-weight: 700; line-height: 1.2; }
+  h2 { color: #1f1f1f; font-size: ${introHeadingSize}; font-weight: 700; line-height: 1.2; }
   h2::after { content: ""; display: block; width: 10rem; height: 2px; margin: .75rem auto 0; background: #018762; }
   p { color: #1f1f1f; font-size: clamp(1.125rem, 1.95vw, 1.5rem); line-height: 1.5; }
   @media (max-width: 47.99rem) { gap: .5rem; padding-block: 1.5rem 1rem; }
@@ -103,18 +119,7 @@ export const AboutContent = styled.div`
   > img { position: absolute; right: 3%; top: 6px; width: 24px; height: 93px; }
   ul li { padding: 1rem; border-radius: 8px; background: #f9f3ff; }
   ul li > span { background: #018762; }
-  ${HomeButton} {
-    min-height: 3rem;
-    padding: .5rem .625rem;
-    border: 2px solid #018762;
-    border-radius: 8px;
-    color: #018762;
-    font-size: 1.125rem;
-    font-weight: 700;
-    line-height: 1.55;
-    box-shadow: 4px 4px 4px rgba(0, 0, 0, .2);
-  }
-  ${HomeButton}:hover { background: #018762; color: #fff; }
+  ${teamButtonStyles}
   @media (min-width: 64rem) {
     gap: 1.25rem;
     padding: 1.5rem;
@@ -141,6 +146,10 @@ export const Values = styled.ul`
     li > span { width: 2.75rem; height: 2.75rem; }
     li > span img { width: 1.25rem; height: auto; }
   }
+`;
+export const PurposeContent = styled(AboutContent)`
+  h2 { font-size: ${introHeadingSize}; }
+  h3, p { font-size: 1rem; line-height: 1.5; }
 `;
 export const CenterHeading = styled.div`
   display: grid; justify-items: center; gap: 1rem; text-align: center;
@@ -196,47 +205,48 @@ export const ImpactStatus = styled.p`
 `;
 export const AudienceSection = styled.section`
   display: grid;
-  gap: 5rem;
-  padding: 3rem 1rem 5rem;
+  gap: 2rem;
+  padding: 3rem 0;
   background: #f9f3ff;
+  @media (min-width: 48rem) { gap: 5rem; padding-block: 4rem 5rem; }
 `;
 export const AudienceCard = styled(Container)<{ $reverse?: boolean }>`
-  position: relative;
   display: grid;
-  grid-template-columns: 15rem minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
-  min-height: 15rem;
-  padding: 1.5rem;
-  border-radius: 1.5rem;
+  max-width: 60rem;
+  border-radius: 8px;
   background: #fff;
   box-shadow: 0 3px 6px rgba(0, 0, 0, .16);
-  > img { width: 18rem; height: 18rem; max-width: none; object-fit: contain; }
-  > div { display: grid; justify-items: start; gap: 1rem; padding: 1rem; }
-  h2 { color: #1f1f1f; font-size: 1.5rem; font-weight: 700; line-height: 1.3; }
+  > img { width: min(100%, 16rem); height: auto; justify-self: center; align-self: end; border-radius: inherit; }
+  > div { display: grid; justify-items: start; gap: 1rem; padding: 1.5rem; min-width: 0; }
+  h2 { color: #1f1f1f; font-size: 1.2rem; font-weight: 700; line-height: 1.2; }
   p { padding-left: .875rem; border-left: 2px solid #018762; color: #515151; font-size: 1rem; line-height: 1.5; }
   a { display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: .5rem 1.5rem;
     border: 0; border-radius: 5px; background: #018762; box-shadow: 3px 3px 5px rgba(0,0,0,.2);
-    color: #fff; font-size: .875rem; font-weight: 700; text-decoration: none; }
+    color: #fff; font-size: 1.06rem; font-weight: 700; line-height: 1.5; text-align: center; text-decoration: none; }
   a:hover { background: #006f59; }
-  @media (min-width: 64rem) {
-    width: min(calc(100% - 4rem), 59.375rem);
-    grid-template-columns: ${({ $reverse }) => $reverse ? "minmax(0, 1fr) 15rem" : "15rem minmax(0, 1fr)"};
-    > img { grid-column: ${({ $reverse }) => $reverse ? "2" : "1"}; grid-row: 1; }
-    > div { grid-column: ${({ $reverse }) => $reverse ? "1" : "2"}; grid-row: 1; }
+  @media (width > 380px) { h2 { font-size: 1.5rem; } }
+  @media (width > 640px) { h2 { font-size: 2rem; } }
+  @media (min-width: 48rem) {
+    grid-template-columns: ${({ $reverse }) => $reverse ? "minmax(0, 1fr) 30%" : "30% minmax(0, 1fr)"};
+    min-height: 16rem;
+    > img { width: 100%; grid-column: ${({ $reverse }) => $reverse ? "2" : "1"}; grid-row: 1; }
+    > div { grid-column: ${({ $reverse }) => $reverse ? "1" : "2"}; grid-row: 1; padding: 2rem 2.5rem; }
   }
-  @media (max-width: 47.99rem) {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    gap: .75rem;
-    padding: 1rem;
-    > img { width: min(100%, 16rem); height: auto; }
-    > div { width: 100%; padding: .5rem; }
+  @media (width > 768px) {
+    h2 { font-size: 2.5rem; }
+    p { font-size: 1.3rem; }
   }
 `;
 // Define a linha do tempo horizontal e os cartões com imagens recortadas.
 export const HistorySection = styled(HomeSection)`
-  padding-top: 0; overflow: clip;
-  > div:first-child h2 { font-family: ${({ theme }) => theme.fonts.heading}; }
+  padding-block: 0 clamp(3rem, calc(2.5vw + 1.5rem), 3.5rem); overflow: clip;
+  ${CenterHeading} { gap: .75rem; padding-inline: 1rem; }
+  ${CenterHeading} h2 { font-family: ${({ theme }) => theme.fonts.heading}; color: #1f1f1f; }
+  ${CenterHeading} h2::after { content: ""; display: block; width: min(100%, 10rem); height: 2px; margin: .75rem auto 0; background: #018762; }
+  ${CenterHeading} h2 + p { max-width: 56rem; color: #515151; font-size: 1.125rem; }
+  @media (min-width: 64rem) { ${CenterHeading} h2 + p { font-size: 1.5rem; } }
 `;
 export const TimelineCarousel = styled.div`
   display: grid; grid-template-columns: 3rem minmax(0, 1fr) 3rem; align-items: center;
@@ -252,6 +262,7 @@ export const HistoryTeamAction = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+  ${teamButtonStyles}
 `;
 export const TimelineViewport = styled.div`
   min-width: 0;
