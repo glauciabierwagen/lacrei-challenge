@@ -100,104 +100,24 @@ O acesso ao arquivo e a leitura do frame Home foram confirmados via Figma MCP ne
 
 ## Qualidade e testes
 
-| Comando | Resultado |
-| --- | --- |
-| `npm run lint` | ESLint |
-| `npm run typecheck` | Gera tipos das rotas e verifica TypeScript |
-| `npm test` | Testes unitários |
-| `npm run test:watch` | Testes em modo interativo |
-| `npm run test:coverage` | Cobertura; mínimo de 80% por componente selecionado |
-| `npm run check` | Lint + tipos + cobertura + build |
-| `npm run test:e2e` | Chromium desktop/mobile contra o build de produção |
-| `npm run lighthouse` | Auditoria de `/`, `/medicos` e `/sobre`; exige build pronto e Chrome/Chromium |
+Os comandos principais são `npm run check` (lint, tipos, cobertura e build), `npm run test:e2e` (Playwright em Chromium desktop/mobile) e `npm run lighthouse` (build pronto e Chrome/Chromium). Use `npm test`, `npm run test:watch` ou `npm run test:coverage` para testes unitários. Para o primeiro E2E, instale o navegador com `npx playwright install chromium`.
 
-Antes do primeiro E2E, instalar o navegador com `npx playwright install chromium` e gerar o build. O Playwright inicia e encerra o servidor automaticamente. São verificados 320, 375, 768, 1024 e 1440 px, o atalho para o conteúdo, navegação e acordeão.
+A cobertura mínima de 80% vale apenas para quatro componentes compartilhados, não para toda a aplicação. Os E2E cobrem as larguras de 320 a 1440 px; Safari/WebKit e Firefox não fazem parte da configuração atual. O [pipeline](.github/workflows/quality.yml) guarda relatórios como artefatos e não publica automaticamente.
 
-Há testes para **quatro componentes**: link-botão, Header, Footer e Accordion. Cobrem semântica, destinos, estado expandido, teclado, Escape, retorno do foco e verificações com axe. A cobertura declarada refere-se a esses componentes, não à aplicação inteira.
+### Baseline registrado — 17/11/2026
 
-O [pipeline](.github/workflows/quality.yml) executa verificações, E2E e Lighthouse. Os relatórios são guardados como artefatos, sem publicação externa automática.
+Naquela execução, `npm run check` passou; foram registrados 57 testes unitários e 38 E2E aprovados, 100% de cobertura nos quatro componentes selecionados e nenhuma violação axe nos estados auditados. Esses números são históricos e não substituem uma nova execução após mudanças.
 
-### Registro mais recente — 17/11/2026
+No Lighthouse mobile da Vercel, a Home marcou 89/96/76 (mediana 89) e `/medicos` 97/80/93 (mediana 93); Acessibilidade foi 100 nas três execuções de cada rota. Uma execução da Home ficou abaixo da meta de Performance 80. Os [seis relatórios e o resumo](docs/audits/2026-11-17-vercel/README.md) preservam os detalhes; o deploy testado não teve commit confirmado.
 
-Validação realizada após implementar Médicos e padronizar a tipografia em Nunito e TrashHand:
+**Leitor de tela:** revisão manual com NVDA/VoiceOver pendente; veja o [roteiro de validação](docs/screen-reader-review.md). Os resultados automatizados e Lighthouse são registros datados, não certificação permanente.
 
-| Verificação | Resultado registrado | Abrangência |
-| --- | --- | --- |
-| `npm run check` | Aprovado | ESLint, tipos, testes com cobertura e build de produção. |
-| Testes unitários | 57 aprovados em seis arquivos | Header, Footer, link-botão, acordeão e interações das views Home/Médicos. |
-| Cobertura | 100% de linhas, instruções, funções e branches nos quatro componentes selecionados | Não representa cobertura de toda a aplicação nem certificação de acessibilidade. |
-| Testes E2E | 38 aprovados | Chromium desktop/mobile, rotas, links de equipe, idiomas, banners, mapa, linha do tempo, diálogo, newsletter, teclado e recarregamento direto. |
-| Responsividade | Sem overflow nos cenários automatizados | Larguras de 320, 375, 768, 1024 e 1440 px. |
-| axe | Sem violações detectadas nos estados auditados | Verificações automatizadas WCAG A/AA, incluindo estados abertos de menu e diálogo. |
-| Lighthouse no deploy público | Executado em 17/11/2026 | Três medições mobile por página; Performance mediana 89 na Home e 93 em Médicos; Acessibilidade 100 em todas. Uma execução da Home ficou em 76. |
-| NVDA/VoiceOver | Pendente — não executado | NVDA não encontrado nos locais e registros verificados; sem acesso à interface/fala do leitor nesta sessão. [Roteiro e registro pendente](docs/screen-reader-review.md). |
+## Acessibilidade e desempenho
 
-Para reproduzir, instalar as dependências, executar `npm run check`, instalar o navegador com `npx playwright install chromium` e executar `npm run test:e2e`. O build precisa estar atualizado; encerrar qualquer servidor antigo para evitar testar outra versão. Os testes E2E não incluem Safari/WebKit ou Firefox.
-
-Os relatórios de cobertura HTML/LCOV são gerados na pasta de cobertura; o relatório HTML do Playwright, na pasta de relatórios de navegador; o Lighthouse produz seus relatórios na pasta de auditorias. Essas saídas são ignoradas pelo Git e disponibilizadas como artefatos pelo pipeline quando ele é executado no GitHub. Este registro corresponde à execução local, não comprova uma execução do workflow na nuvem.
-
-### Lighthouse na Vercel — 17/11/2026
-
-Auditoria feita diretamente no domínio público, com **Lighthouse 13.6.0**, **Chromium 159**, emulação **mobile**, throttling simulado e perfil novo do navegador em cada execução. O cache da CDN/Vercel não é controlado pela coleta. Foram auditadas as categorias Performance e Acessibilidade; não se afirma aprovação de categorias não executadas.
-
-| Página | Performance (3 execuções) | Mediana | Acessibilidade (3 execuções) | Contraste |
-| --- | --- | --- | --- | --- |
-| [Home](https://lacrei-challenge-three.vercel.app/) | 89 / 96 / 76 | **89** | 100 / 100 / 100 | Aprovado nas três |
-| [Médicos](https://lacrei-challenge-three.vercel.app/medicos) | 97 / 80 / 93 | **93** | 100 / 100 / 100 | Aprovado nas três |
-
-**As medianas atendem às metas configuradas**, mas a Home não atingiu Performance 80 em todas as execuções. A medição de 76 permanece registrada; se o critério de avaliação exigir mínimo de 80 por execução, ainda há uma pendência de estabilidade de performance. Não foi confirmado o commit/deployment ID servido pelo domínio; os resultados representam o conteúdo entregue durante a coleta, não qualquer alteração futura.
-
-Os [seis relatórios HTML/JSON e o resumo](docs/audits/2026-11-17-vercel/README.md) foram preservados para consulta. A coleta pode ser repetida com `node scripts/audit-public.mjs`, após instalar as dependências e disponibilizar Chrome/Chromium (ou definir `CHROME_PATH`). O script não inicia o servidor local e uma nova execução no mesmo dia sobrescreve os relatórios daquela data.
-
-### Histórico de auditorias
-
-As próximas seções preservam resultados anteriores para rastreabilidade. **Não usar essas notas como medição da versão final ou da Vercel.**
-
-### Validação inicial — 17/11/2026
-
-- Lint, TypeScript e build de produção: aprovados.
-- 27 testes unitários: aprovados; 100% de cobertura nos quatro componentes selecionados.
-- 12 testes E2E Chromium: aprovados nos perfis desktop e mobile; nenhuma violação automática WCAG A/AA detectada nos estados auditados.
-- Lighthouse mobile local, três execuções por rota:
-
-| Rota | Performance (mediana) | Acessibilidade | Contraste |
-| --- | --- | --- | --- |
-| `/` | 98 | 100 | Aprovado |
-| `/sobre` | 99 | 100 | Aprovado |
-
-Os resultados acima pertencem à base demonstrativa anterior à implementação do Figma.
-
-### Validação após integração da Home — 17/11/2026
-
-- 50 testes unitários em cinco arquivos: aprovados; 100% de cobertura nos quatro componentes compartilhados selecionados. A Home tem testes adicionais, mas não integra esse percentual.
-- 26 testes E2E: aprovados em desktop/mobile, incluindo menu, idiomas, mapa, banners, rolagem, diálogo, newsletter e verificações axe em estados abertos.
-- Lint, TypeScript e build de produção: aprovados.
-- Lighthouse mobile local, três execuções por rota: Home Performance **67/90/91**, mediana **90**; demonstração `/sobre` **100/100/100**, mediana **100**. A primeira execução da Home, com cache frio, ficou abaixo de 80; a meta configurada usa a mediana, não todas as execuções. Essa auditoria ainda não incluía `/medicos`.
-- Acessibilidade **100** e contraste aprovado em todas as execuções.
-
-Não cobrem navegadores não testados, leitor de tela manual ou URL pública. Revalidar após alterações e no deploy. A execução fria da Home ainda merece otimização adicional antes da publicação final.
-
-## Acessibilidade
-
-- HTML semântico, landmarks e hierarquia de títulos.
-- Link para pular ao conteúdo, foco visível e alvos de toque de pelo menos 48 px.
-- Botões nativos para ações e links para navegação.
-- `aria-expanded`, `aria-controls`, `aria-current` e painéis nomeados apenas quando necessários.
-- Respeito a movimento reduzido e imagens decorativas com `alt=""`.
-- axe no navegador verifica WCAG A/AA e contraste; o Lighthouse exige acessibilidade ≥90 e aprovação específica de contraste.
-
-**Teste manual de leitor de tela ainda necessário.** Em 17/11/2026, não foi encontrado NVDA instalado/em execução nos locais e registros verificados. VoiceOver não está disponível neste Windows, e as ferramentas desta sessão não permitem operar a interface nativa nem avaliar a fala de um leitor. Portanto, essa revisão **não foi executada nem aprovada**. O [roteiro completo e a ficha de resultados](docs/screen-reader-review.md) estão preparados para execução com NVDA + Firefox/Chrome no Windows ou VoiceOver + Safari no macOS/iOS:
-
-## Performance e assets
-
-- As rotas `/`, `/medicos` e `/sobre` são pré-renderizadas no build e o Next.js divide o JavaScript por rota.
-- Fontes Nunito e TrashHand são servidas localmente; não há request de fontes a provedores externos em runtime.
-- Usar `next/image` com dimensões e `sizes` adequados; imagens abaixo da dobra devem manter o lazy loading padrão.
-- A imagem do hero tem `preload` intencional: aplicar lazy load à imagem principal prejudicaria o LCP. Imagens das demais seções mantêm carregamento adiado.
-- Para futuras seções pesadas fora da dobra, usar importação dinâmica quando houver benefício medido, sem atrasar conteúdo essencial ou acessível.
-- Auditar após integrar assets do Figma; não adicionar bibliotecas inteiras de ícones para poucos elementos.
-
-[lighthouserc.cjs](lighthouserc.cjs) faz três medições mobile por rota e valida a mediana: **Performance ≥80**, **Acessibilidade ≥90** e contraste aprovado. Relatórios locais ficam na pasta ignorada de relatórios Lighthouse. No Windows, se Chrome não for detectado, definir `CHROME_PATH` para o executável instalado. As metas precisam ser medidas novamente no deploy final; não são garantia permanente.
+- HTML semântico, landmarks, link para pular ao conteúdo, foco visível, alvos de toque ≥48 px e suporte a teclado e movimento reduzido.
+- axe verifica WCAG A/AA automaticamente; a revisão manual com NVDA/VoiceOver segue pendente e tem um [roteiro próprio](docs/screen-reader-review.md).
+- Rotas pré-renderizadas, fontes locais e `next/image`; o hero é priorizado e as imagens abaixo da dobra mantêm lazy loading.
+- [Lighthouse](lighthouserc.cjs) mede `/`, `/medicos` e `/sobre` em mobile, com metas de Performance ≥80, Acessibilidade ≥90 e contraste aprovado. Exige build e Chrome/Chromium; relatórios locais ficam fora do Git.
 
 ## Deploy público na Vercel
 
