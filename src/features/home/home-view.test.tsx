@@ -51,14 +51,18 @@ describe("HomeView", () => {
   it("shows the complete Portuguese purpose copy", () => {
     renderWithTheme(<HomeView />);
     const purpose = screen.getByRole("region", { name: "Nosso Propósito" });
-    expect(within(purpose).getByText("Existimos para transformar o acesso à saúde, conectando a comunidade LGBTQIAPN+ a profissionais de saúde qualificados e humanizados. Nosso compromisso é com a promoção de um atendimento seguro, inclusivo e livre de preconceitos, celebrando a diversidade em todas as suas formas e garantindo que cada pessoa seja acolhida em sua integralidade e dignidade.")).toBeVisible();
+    const purposeImage = within(purpose).getByRole("img", { name: "Equipe diversa de profissionais de saúde" });
+    const purposeTitle = within(purpose).getByRole("heading", { level: 2, name: "Nosso Propósito" });
+    expect(purposeImage.compareDocumentPosition(purposeTitle) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(purposeImage.closest("figure")).toBeInTheDocument();
+    expect(within(purpose).getByText("Transformar o acesso à saúde ao conectar a comunidade LGBTQIAPN+ a profissionais humanizados, garantindo um atendimento seguro, digno e livre de preconceitos.")).toBeVisible();
     for (const title of ["Promover saúde inclusiva", "Valorizar a diversidade", "Combater o preconceito"]) {
       expect(within(purpose).getByRole("heading", { level: 3, name: title })).toBeVisible();
     }
     for (const description of [
-      "Facilitamos o acesso a serviços de saúde físicos e mentais que respeitam e acolhem a pluralidade de corpos, identidades e vivências, garantindo um acolhimento digno e livre de qualquer tipo de discriminação para toda a comunidade LGBTQIAPN+.",
-      "Acreditamos que a pluralidade é nossa maior força. Trabalhamos ativamente para sensibilizar e capacitar profissionais, unindo corações e saberes para construir um ambiente de cuidado que reconhece, respeita e celebra as diferenças individuais de cada paciente.",
-      "Atuamos na desconstrução de barreiras históricas no acesso à saúde por meio da informação e do afeto, promovendo uma educação contínua que transforma a sociedade e viabiliza um atendimento médico verdadeiramente seguro, empático e humanizado para todas as pessoas.",
+      "Facilitar o acesso a cuidados físicos e mentais que respeitam e acolhem todas as identidades, corpos e vivências sem discriminação.",
+      "Capacitar profissionais para celebrar a pluralidade e oferecer um cuidado alinhado às necessidades individuais de cada paciente.",
+      "Quebrar barreiras históricas na saúde por meio da educação e do afeto, tornando o atendimento médico verdadeiramente empático e seguro.",
     ]) {
       expect(within(purpose).getByText(description)).toBeVisible();
     }

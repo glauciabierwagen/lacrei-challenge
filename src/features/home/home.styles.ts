@@ -56,23 +56,80 @@ export const HomeSection = styled.section`
 `;
 export const AboutGrid = styled(Container)`
   position: relative; display: grid; align-items: center; gap: 2.5rem;
-  > img { width: 100%; height: auto; max-width: 39.35rem; justify-self: center; }
-  @media (min-width: 64rem) { grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr); gap: clamp(2.5rem, 7vw, 6.375rem); }
+  @media (min-width: 48rem) { width: min(calc(100% - 4rem), ${({ theme }) => theme.layout.maxWidth}); }
+  @media (min-width: 64rem) {
+    width: min(calc(100% - 4rem), ${({ theme }) => theme.layout.maxWidth});
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 0;
+  }
+`;
+export const AboutImageCard = styled.figure`
+  position: relative;
+  width: 100%;
+  max-width: 48rem;
+  aspect-ratio: 1.15;
+  justify-self: start;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #dedede;
+  border-radius: 10px;
+  background: #fff;
+  img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; }
 `;
 export const AboutContent = styled.div`
-  display: grid; gap: 2rem; min-width: 0;
-  h2 { font-size: clamp(1.5rem, 2.87vw, 2.5rem); font-weight: 700; line-height: 1.2; }
-  p { color: ${({ theme }) => theme.colors.muted}; line-height: 1.5; }
-  > div:first-child { display: grid; gap: 1rem; padding-right: 1.25rem; }
+  position: relative; z-index: 1;
+  display: grid; gap: 1.25rem; width: 100%; min-width: 0;
+  margin-left: -1.5rem;
+  padding: 1.75rem;
+  border: 1px solid #d7d7d7;
+  border-radius: 8px;
+  background: #fff;
+  h2 { color: #1f1f1f; font-size: clamp(1.75rem, 3.24vw, 2.5rem); font-weight: 700; line-height: 1.2; }
+  > div:first-child h2::after { content: ""; display: block; width: 10rem; height: 2px; margin-top: .75rem; background: #018762; }
+  p { color: #515151; font-size: 1rem; line-height: 1.5; }
+  > div:first-child { display: grid; gap: .875rem; padding-right: 0; }
   > img { position: absolute; right: 3%; top: 6px; width: 24px; height: 93px; }
-  @media (max-width: 63.99rem) { > img { display: none; } }
+  ul li { padding: 1rem; border-radius: 8px; background: #f9f3ff; }
+  ul li > span { background: #018762; }
+  ${HomeButton} {
+    min-height: 3rem;
+    padding: .5rem .625rem;
+    border: 2px solid #018762;
+    border-radius: 8px;
+    color: #018762;
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.55;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, .2);
+  }
+  ${HomeButton}:hover { background: #018762; color: #fff; }
+  @media (min-width: 64rem) {
+    gap: 1.25rem;
+    padding: 1.5rem;
+    p { font-size: 1rem; line-height: 1.5; }
+    > div:first-child { gap: .875rem; }
+    ul li { padding: 1rem; }
+    ul li > div { min-width: 0; }
+  }
+  @media (max-width: 63.99rem) {
+    margin-left: 0;
+    padding: 1.25rem;
+    > img { display: none; }
+  }
 `;
 export const Values = styled.ul`
-  display: grid; gap: 1.5rem; list-style: none; padding: 0; margin: 0;
-  li { display: grid; grid-template-columns: 3.125rem minmax(0,1fr); gap: 1.5rem; }
-  h3 { font-size: 1.125rem; font-weight: 600; line-height: 1.5; margin-bottom: .5rem; }
+  display: grid; gap: 1.25rem; list-style: none; padding: 0; margin: 0;
+  li { display: grid; grid-template-columns: 3.125rem minmax(0,1fr); gap: 1rem; }
+  h3 { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: .25rem; }
+  p { font-size: .875rem; line-height: 1.4; }
   li > span { width: 50px; height: 50px; display: grid; place-items: center;
     border-radius: 5px; background: linear-gradient(90deg,#018363,#014687); }
+  @media (min-width: 64rem) {
+    li { grid-template-columns: 2.75rem minmax(0,1fr); gap: 1rem; }
+    li > span { width: 2.75rem; height: 2.75rem; }
+    li > span img { width: 1.25rem; height: auto; }
+  }
 `;
 export const CenterHeading = styled.div`
   display: grid; justify-items: center; gap: 1rem; text-align: center;
@@ -98,6 +155,12 @@ export const MapCanvas = styled.div`
 `;
 export const ImpactSection = styled(HomeSection)`
   overflow: clip;
+  h2 { color: #1f1f1f; }
+  ${Handwritten} { color: #018762; }
+  ${CenterHeading} p { color: #515151; }
+  ${HomeButton} { border-color: #018762; color: #018762; }
+  ${HomeButton}:hover { background: #f9f3ff; }
+  [role="status"] { color: #018762; }
   > img { position: absolute; pointer-events: none; width: 120px; height: 135px; }
   > img:first-of-type { right: -1.5rem; top: 35%; transform: rotate(196deg); }
   > img:last-of-type { left: 0; bottom: 4rem; transform: rotate(18deg); }

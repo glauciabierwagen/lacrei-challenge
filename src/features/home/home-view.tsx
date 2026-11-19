@@ -45,11 +45,11 @@ const locations = [
 const purposeCopy = {
   pt: {
     title: "Nosso Propósito",
-    introduction: "Existimos para transformar o acesso à saúde, conectando a comunidade LGBTQIAPN+ a profissionais de saúde qualificados e humanizados. Nosso compromisso é com a promoção de um atendimento seguro, inclusivo e livre de preconceitos, celebrando a diversidade em todas as suas formas e garantindo que cada pessoa seja acolhida em sua integralidade e dignidade.",
+    introduction: "Transformar o acesso à saúde ao conectar a comunidade LGBTQIAPN+ a profissionais humanizados, garantindo um atendimento seguro, digno e livre de preconceitos.",
     values: [
-      { title: "Promover saúde inclusiva", description: "Facilitamos o acesso a serviços de saúde físicos e mentais que respeitam e acolhem a pluralidade de corpos, identidades e vivências, garantindo um acolhimento digno e livre de qualquer tipo de discriminação para toda a comunidade LGBTQIAPN+." },
-      { title: "Valorizar a diversidade", description: "Acreditamos que a pluralidade é nossa maior força. Trabalhamos ativamente para sensibilizar e capacitar profissionais, unindo corações e saberes para construir um ambiente de cuidado que reconhece, respeita e celebra as diferenças individuais de cada paciente." },
-      { title: "Combater o preconceito", description: "Atuamos na desconstrução de barreiras históricas no acesso à saúde por meio da informação e do afeto, promovendo uma educação contínua que transforma a sociedade e viabiliza um atendimento médico verdadeiramente seguro, empático e humanizado para todas as pessoas." },
+      { title: "Promover saúde inclusiva", description: "Facilitar o acesso a cuidados físicos e mentais que respeitam e acolhem todas as identidades, corpos e vivências sem discriminação." },
+      { title: "Valorizar a diversidade", description: "Capacitar profissionais para celebrar a pluralidade e oferecer um cuidado alinhado às necessidades individuais de cada paciente." },
+      { title: "Combater o preconceito", description: "Quebrar barreiras históricas na saúde por meio da educação e do afeto, tornando o atendimento médico verdadeiramente empático e seguro." },
     ],
   },
   en: {
@@ -131,7 +131,9 @@ export function HomeView() {
 
       <S.HomeSection id="proposito" aria-labelledby="purpose-title">
         <S.AboutGrid>
-          <Image src={`${assets}imgVector.png`} alt={en ? "A diverse team of health professionals" : "Equipe diversa de profissionais de saúde"} width={630} height={669} sizes="(min-width: 1024px) 44vw, (min-width: 768px) 630px, 100vw" />
+          <S.AboutImageCard>
+            <Image src={`${assets}medicos/Médicos.png`} alt={en ? "A diverse team of health professionals" : "Equipe diversa de profissionais de saúde"} fill sizes="(min-width: 64rem) 55vw, (min-width: 48rem) 50vw, calc(100vw - 3rem)" />
+          </S.AboutImageCard>
           <S.AboutContent>
             <div><h2 id="purpose-title">{purposeCopy[en ? "en" : "pt"].title}</h2><p>{purposeCopy[en ? "en" : "pt"].introduction}</p></div>
             <S.Values>
