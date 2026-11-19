@@ -38,9 +38,12 @@ describe("DoctorsView", () => {
     renderWithTheme(<DoctorsView />);
     const careIntro = screen.getByRole("heading", { level: 2, name: "Conheça o jeito Lacrei Saúde de cuidar" });
     expect(screen.getByText("Atendimento de qualidade e inclusivo")).toBeVisible();
-    const purpose = within(screen.getByRole("region", { name: "Nossa Missão" }));
+    const purposeRegion = screen.getByRole("region", { name: "Nossa Missão" });
+    const purpose = within(purposeRegion);
     expect(careIntro.compareDocumentPosition(purpose.getByRole("heading", { level: 2, name: "Nossa Missão" })) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(purpose.getByText("Nos preocupamos com cada detalhe de sua experiência")).toBeVisible();
+    const introduction = purposeRegion.querySelector("p");
+    expect(introduction).toHaveTextContent(/Nos preocupamos com cada.*detalhe de sua experiência\./);
+    expect(introduction?.querySelector("br")).toBeInTheDocument();
     for (const name of ["Saúde inclusiva", "Diversidade", "Fim do preconceito"]) {
       expect(purpose.getByRole("heading", { level: 3, name })).toBeVisible();
     }
