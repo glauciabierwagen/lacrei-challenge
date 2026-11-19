@@ -72,8 +72,8 @@ export function DoctorsView() {
 
       <S.Testimonials aria-labelledby="testimonials-title">
         <S.SectionContent>
-          <S.Heading><Home.Handwritten>{en ? "Our volunteers" : "Nossos voluntários"}</Home.Handwritten><h2 id="testimonials-title">{en ? "Inspiring testimonials" : "Depoimentos inspiradores"}</h2></S.Heading>
-          <S.TestimonialGrid>
+          <S.TestimonialHeading><Home.Handwritten>{en ? "Our patients" : "Nossos pacientes"}</Home.Handwritten><h2 id="testimonials-title">{en ? "Inspiring testimonials" : "Depoimentos inspiradores"}</h2></S.TestimonialHeading>
+              <S.TestimonialGrid>
             {volunteers.map(({ name, avatar }) => <S.TestimonialCard key={name} aria-label={en ? `Testimonial from ${name}` : `Depoimento de ${name}`}>
               <header><Image src={`${assets}${avatar}`} width={64} height={64} alt="" /><div><h3>{name}</h3><p>Lorem</p></div></header>
               <p>{lorem}</p><p>{lorem}</p>

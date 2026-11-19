@@ -24,6 +24,9 @@ export const Heading = styled(Home.CenterHeading)`
   gap: 0;
   h2 { line-height: 1.3; }
 `;
+export const TestimonialHeading = styled(Heading)`
+  h2::after { content: ""; display: block; width: 10rem; height: 2px; margin: .75rem auto 0; background: #018762; }
+`;
 
 // Organiza os depoimentos em cartões que se ajustam ao tamanho da tela.
 export const Testimonials = styled(Home.HomeSection)`

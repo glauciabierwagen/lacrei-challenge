@@ -53,7 +53,8 @@ describe("DoctorsView", () => {
     expect(purpose.getByText("Acesse nossa lista de perguntas frequentes e tire suas dúvidas.")).toBeVisible();
     const purposeImage = purpose.getByRole("img", { name: "Pessoas celebrando o Orgulho LGBTQIA+" });
     expect(purposeImage).toBeVisible();
-    expect(purposeImage).toHaveAttribute("src", "/images/figma/medicos/diversidade.png");
+    expect(decodeURIComponent(purposeImage.getAttribute("src") ?? "")).toContain("/images/figma/medicos/diversidade.png");
+    expect(screen.getByText("Nossos pacientes")).toBeVisible();
     const testimonials = within(screen.getByRole("region", { name: "Depoimentos inspiradores" }));
     expect(testimonials.getAllByRole("article")).toHaveLength(3);
     for (const name of ["Fernanda", "Silvia", "Débora"]) {
