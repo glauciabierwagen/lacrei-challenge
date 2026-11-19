@@ -141,7 +141,7 @@ test("banners e mapa atualizam seleção e conteúdo acessível", async ({ page 
   await gotoHome(page);
   const heading = page.getByRole("heading", { level: 1 });
   const banners = page.getByRole("group", { name: "Escolher banner" }).getByRole("button");
-  const titles = [/^Saúde que fortalece\s*e transforma vidas$/, /^Mudamos pessoas,\s*transformamos o mundo\.$/, /^Educação sem fronteiras,\s*transformação sem limites\.$/];
+  const titles = [/^Saúde que fortalece\s*e transforma vidas$/, /^Mudamos pessoas,\s*transformamos o mundo\.$/, /^Saúde sem fronteiras,\s*transformação sem limites\.$/];
   await expect(banners).toHaveCount(3);
   await expect(heading).toHaveAccessibleName(titles[0]);
   await expect(banners.nth(0)).toHaveAttribute("aria-pressed", "true");
@@ -180,30 +180,11 @@ test("próximas histórias desloca a linha do tempo sem overflow da página", as
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 });
 
-test("cadastro abre modal nativo, fecha por botão e Escape e devolve foco", async ({ page }) => {
+test("CTAs do hero direcionam aos portais oficiais de pacientes e profissionais", async ({ page }) => {
   await gotoHome(page);
-  const dialog = page.getByRole("dialog", { name: "Como cadastrar" });
-  const hero = page.getByRole("button", { name: "Como cadastrar", exact: true });
-  const stories = page.getByRole("link", { name: "Crie novas histórias", exact: true });
-  await expect(dialog).not.toBeVisible();
-  for (const trigger of [hero, stories]) {
-    await trigger.click();
-    await expect(dialog).toBeVisible();
-    expect(await dialog.evaluate((element) => element.matches(":modal"))).toBe(true);
-    await expect(dialog).toContainText("Cadastros e agendamentos não estão disponíveis aqui.");
-    const official = dialog.getByRole("link", { name: "Site oficial (nova aba)" });
-    await expect(official).toHaveAttribute("href", "https://lacreisaude.com.br/");
-    await expect(official).toHaveAttribute("target", "_blank");
-    expect(await dialog.evaluate((element) => element.contains(document.activeElement))).toBe(true);
-    await dialog.getByRole("button", { name: "Fechar", exact: true }).click();
-    await expect(dialog).not.toBeVisible();
-    await expect(trigger).toBeFocused();
-    await trigger.press("Enter");
-    await expect(dialog).toBeVisible();
-    await page.keyboard.press("Escape");
-    await expect(dialog).not.toBeVisible();
-    await expect(trigger).toBeFocused();
-  }
+  await expect(page.getByRole("link", { name: "Para Pacientes", exact: true })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
+  await expect(page.getByRole("link", { name: "Para Profissionais", exact: true })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
+  await expect(page.getByRole("dialog")).not.toBeVisible();
 });
 
 test("CTA do cabeçalho reabre cadastro após fechar o mesmo hash", async ({ page }) => {
@@ -211,7 +192,7 @@ test("CTA do cabeçalho reabre cadastro após fechar o mesmo hash", async ({ pag
   const dialog = page.getByRole("dialog", { name: "Como cadastrar" });
   for (const closeWithEscape of [false, true]) {
     const navigation = await openNavigation(page);
-    const trigger = navigation.getByRole("link", { name: "Como cadastrar", exact: true });
+    const trigger = navigation.getByRole("link", { name: "Entrar", exact: true });
     await expect(trigger).toHaveAttribute("href", "/#cadastro");
     await trigger.click();
     await expect(dialog).toBeVisible();
@@ -296,7 +277,8 @@ test("menu aberto e modal de cadastro não têm violações automáticas WCAG AA
     await page.keyboard.press("Escape");
     await expect(toggle).toBeFocused();
   }
-  await page.getByRole("button", { name: "Como cadastrar", exact: true }).click();
+  const navigation = await openNavigation(page);
+  await navigation.getByRole("link", { name: "Entrar", exact: true }).click();
   await expect(page.getByRole("dialog", { name: "Como cadastrar" })).toBeVisible();
   const modalResults = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
   expect(modalResults.violations).toEqual([]);

@@ -93,7 +93,7 @@ describe("DoctorsView", () => {
     for (const name of ["Fernanda", "Silvia", "Débora"]) expect(screen.getByRole("article", { name: `Testimonial from ${name}` })).toBeVisible();
     const navigation = within(screen.getByRole("navigation", { name: "Main navigation" }));
     expect(navigation.getByRole("link", { name: "Doctors" })).toHaveAttribute("href", "/medicos");
-    expect(screen.getAllByRole("link", { name: "How to register" })).toHaveLength(3);
+    expect(screen.getAllByRole("link", { name: "How to register" })).toHaveLength(2);
     expect(screen.getAllByRole("link", { name: "Join us" })).toHaveLength(2);
     for (const name of ["How to register", "Join us"]) {
       for (const link of screen.getAllByRole("link", { name })) expect(link).toHaveAttribute("href", "/#cadastro");

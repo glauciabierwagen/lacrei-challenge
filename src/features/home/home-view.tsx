@@ -7,9 +7,26 @@ import { useLanguage } from "@/components/layout/language-context";
 import * as S from "./home.styles";
 
 const assets = "/images/figma/";
-const lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at risus neque. Cras sit amet ligula ut justo commodo porta id ut enim. Nulla est lectus, mollis sit amet vehicula id, volutpat eget mauris.";
 const years = [2018, 2019, 2020, 2023, 2024, 2025];
 const photos = ["imgFrame4556.png", "imgTextContent.png", "imgTextContent1.png", "imgTextContent.png", "imgFrame4556.png", "imgTextContent.png"];
+const stories = {
+  pt: [
+    { title: "Um cuidado que faz falta", description: "Para muitas pessoas LGBTQIAPN+, buscar atendimento de saúde ainda significava enfrentar barreiras. Crescia a necessidade de um cuidado acolhedor e sem julgamentos." },
+    { title: "Uma ideia começa a ganhar forma", description: "A vontade de mudar essa realidade inspira a criação de uma ponte entre pessoas e profissionais preparados para atender com respeito, escuta e humanidade." },
+    { title: "Nasce a Lacrei Saúde", description: "Com o propósito de promover a inclusão da comunidade LGBTQIAPN+ no atendimento clínico, a Lacrei Saúde nasce para aproximar pacientes e profissionais." },
+    { title: "Conexões com mais acolhimento", description: "Cada encontro pode ser um passo para uma experiência de saúde mais segura, representativa e respeitosa, em que a diversidade é reconhecida." },
+    { title: "Respeito em cada experiência", description: "Seguimos valorizando a pluralidade e o acesso a cuidados que consideram cada pessoa por inteiro, com dignidade, segurança e atenção." },
+    { title: "Um futuro sem fronteiras", description: "O compromisso continua: ampliar caminhos para uma saúde inclusiva e humanizada, fortalecendo a comunidade LGBTQIAPN+ onde quer que ela esteja." },
+  ],
+  en: [
+    { title: "The need for compassionate care", description: "For many LGBTQIAPN+ people, seeking healthcare still meant facing barriers. The need for welcoming, judgment-free care was becoming clear." },
+    { title: "An idea begins to take shape", description: "The desire to change this reality inspires a bridge between people and health professionals prepared to provide respectful, compassionate care." },
+    { title: "Lacrei Saúde is born", description: "Founded to promote clinical inclusion for the LGBTQIAPN+ community, Lacrei Saúde connects patients with health professionals." },
+    { title: "More welcoming connections", description: "Every connection can be a step toward safer, more representative, and respectful healthcare that recognizes and welcomes diversity." },
+    { title: "Respect in every experience", description: "We continue to value plurality and access to care that sees each person as a whole, with dignity, safety, and attention." },
+    { title: "A future without borders", description: "The commitment continues: expanding paths to inclusive, compassionate healthcare and strengthening the LGBTQIAPN+ community wherever they are." },
+  ],
+};
 // Mantém os recortes do Figma, incluindo a remoção de espaços vazios das imagens.
 const crops = [
   { width: "167.66%", height: "206.18%", left: "-33.7%", top: "-45.15%" },
@@ -50,6 +67,9 @@ const purposeCopy = {
 export function HomeView() {
   const { language } = useLanguage();
   const en = language === "en";
+  const impactIntroduction = en
+    ? "Our commitment to inclusive, prejudice-free healthcare knows no borders. From Brazil to the world, we expand access to compassionate care, celebrating diversity and strengthening the LGBTQIAPN+ community across continents."
+    : "O nosso compromisso com uma saúde inclusiva e sem preconceitos não tem fronteiras. Do Brasil para o mundo, ampliamos o acesso a cuidados humanizados, celebrando a diversidade e fortalecendo a comunidade LGBTQIAPN+ em diferentes continentes.";
   const [slide, setSlide] = useState(0);
   const [location, setLocation] = useState<number | null>(null);
   const timeline = useRef<HTMLDivElement>(null);
@@ -72,11 +92,6 @@ export function HomeView() {
       window.removeEventListener("lacrei:register", openFromHash);
     };
   }, []);
-
-  function openRegistration() {
-    registrationLink.current = document.activeElement as HTMLElement;
-    dialog.current?.showModal();
-  }
 
   function closeRegistration() {
     dialog.current?.close();
@@ -103,8 +118,11 @@ export function HomeView() {
       <S.Hero aria-labelledby="home-title" aria-roledescription={en ? "carousel" : "carrossel"}>
         <Image src={`${assets}imgSectionBannerHero.png`} alt="" fill preload sizes="100vw" />
         <S.HeroContent>
-          <h1 id="home-title" aria-live="polite">{titles[slide][0]}<br /><span>{titles[slide][1]}</span></h1>
-          <S.RegisterButton type="button" onClick={openRegistration}>{en ? "How to register" : "Como cadastrar"}<Image src={`${assets}imgWhatsapp.svg`} alt="" width={18} height={18} /></S.RegisterButton>
+          <h1 id="home-title" data-slide={slide} aria-live="polite">{titles[slide][0]}<br /><span>{titles[slide][1]}</span></h1>
+          <S.RegisterActions>
+            <S.RegisterLink href="https://paciente.lacreisaude.com.br/">{en ? "For Patients" : "Para Pacientes"}</S.RegisterLink>
+            <S.RegisterLink href="https://profissional.lacreisaude.com.br/">{en ? "For Professionals" : "Para Profissionais"}</S.RegisterLink>
+          </S.RegisterActions>
         </S.HeroContent>
         <S.Dots role="group" aria-label={en ? "Choose a banner" : "Escolher banner"}>
           {titles.map((title, index) => <button key={index} type="button" aria-label={`${en ? "Banner" : "Banner"} ${index + 1}: ${title.join(" ")}`} aria-pressed={slide === index} onClick={() => setSlide(index)}><span /></button>)}
@@ -130,7 +148,7 @@ export function HomeView() {
 
       <S.ImpactSection id="impacto" aria-labelledby="impact-title">
         <S.ImpactContent>
-          <S.CenterHeading><h2 id="impact-title">{en ? "The impact of Lacrei Saúde" : "Impacto do Lacrei Saúde"}</h2><p>{lorem}</p></S.CenterHeading>
+          <S.CenterHeading><h2 id="impact-title">{en ? "The impact of Lacrei Saúde" : "Impacto do Lacrei Saúde"}</h2><p>{impactIntroduction}</p></S.CenterHeading>
           <S.MapCanvas role="group" aria-label={en ? "Explore the countries highlighted on the map" : "Explore os países destacados no mapa"}>
             {/* Usa SVG em img nativo com as medidas do Figma; a sobra para fora do mapa é intencional. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -147,20 +165,19 @@ export function HomeView() {
       </S.ImpactSection>
 
       <S.HistorySection id="historias" aria-labelledby="history-title">
-        <S.CenterHeading><S.Handwritten>{en ? "Our partners" : "Nossos parceiros"}</S.Handwritten><h2 id="history-title">Lorem Ipsum</h2></S.CenterHeading>
-        <S.TimelineViewport ref={timeline} tabIndex={0} role="region" aria-label={en ? "History timeline — scroll to explore" : "Linha do tempo — role para explorar"}>
-          <S.TimelineTrack>
-            {years.map((year, index) => <li key={year}><time dateTime={`${year}`}>{year}</time><S.StoryCard>
-              <Image src={`${assets}${photos[index]}`} alt="" width={index === 2 ? 768 : 1920} height={index === 2 ? 1024 : 1080} sizes="(min-width: 768px) 740px, 550px" style={{ position: "absolute", ...crops[index] }} />
-              <div><h3>Lorem Ipsum</h3><p>{lorem}</p></div>
-            </S.StoryCard></li>)}
-          </S.TimelineTrack>
-        </S.TimelineViewport>
-        <S.HistoryActions>
-          <button type="button" aria-label={en ? "Previous stories" : "Histórias anteriores"} onClick={() => timeline.current?.scrollBy({ left: -544, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}>←</button>
-          <S.HomeButton href="#cadastro" onClick={(event) => { event.preventDefault(); openRegistration(); }}>{en ? "Create new stories" : "Crie novas histórias"}</S.HomeButton>
-          <button type="button" aria-label={en ? "Next stories" : "Próximas histórias"} onClick={() => timeline.current?.scrollBy({ left: 544, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}>→</button>
-        </S.HistoryActions>
+        <S.CenterHeading><S.Handwritten>{en ? "Our story" : "Nossa história"}</S.Handwritten><h2 id="history-title">{en ? "Care that moves us forward" : "Uma trajetória de acolhimento"}</h2></S.CenterHeading>
+        <S.TimelineCarousel>
+          <S.TimelineArrow type="button" aria-label={en ? "Previous stories" : "Histórias anteriores"} aria-controls="history-timeline" onClick={() => timeline.current?.scrollBy({ left: -544, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}>←</S.TimelineArrow>
+          <S.TimelineViewport id="history-timeline" ref={timeline} tabIndex={0} role="region" aria-label={en ? "History timeline — scroll to explore" : "Linha do tempo — role para explorar"}>
+            <S.TimelineTrack>
+              {years.map((year, index) => <li key={year}><time dateTime={`${year}`}>{year}</time><S.StoryCard>
+                <Image src={`${assets}${photos[index]}`} alt="" width={index === 2 ? 768 : 1920} height={index === 2 ? 1024 : 1080} sizes="(min-width: 768px) 740px, 550px" style={{ position: "absolute", ...crops[index] }} />
+                <div><h3>{stories[en ? "en" : "pt"][index].title}</h3><p>{stories[en ? "en" : "pt"][index].description}</p></div>
+              </S.StoryCard></li>)}
+            </S.TimelineTrack>
+          </S.TimelineViewport>
+          <S.TimelineArrow type="button" aria-label={en ? "Next stories" : "Próximas histórias"} aria-controls="history-timeline" onClick={() => timeline.current?.scrollBy({ left: 544, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}>→</S.TimelineArrow>
+        </S.TimelineCarousel>
       </S.HistorySection>
 
       <S.PartnerSection id="parceiros" aria-labelledby="partners-title"><Container>

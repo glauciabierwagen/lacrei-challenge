@@ -89,8 +89,8 @@ const Languages = styled.div`
 `;
 
 const navigation = {
-  pt: ["Início", "Quem Somos", "Médicos", "Blog", "Unidades", "Como cadastrar"],
-  en: ["Home", "About Us", "Doctors", "Blog", "Locations", "How to register"],
+  pt: ["Início", "Quem Somos", "Médicos", "Blog", "Unidades", "Entrar"],
+  en: ["Home", "About Us", "Doctors", "Blog", "Locations", "Sign in"],
 };
 const destinations = ["/", "https://lacreisaude.com.br/quem-somos/", "/medicos", "/#historias", "/#impacto", "/#cadastro"];
 

@@ -17,20 +17,29 @@ export const Hero = styled.section`
 export const HeroContent = styled(Container)`
   display: grid; gap: 2rem;
   h1 { max-width: 50rem; line-height: 1.3; min-height: 3.9em; }
-  h1 span { color: #65dec6; font-weight: 600; }
+  h1[data-slide="2"] { max-width: 56rem; }
+  h1[data-slide="2"] span { white-space: nowrap; }
+  h1 span { color: ${({ theme }) => theme.colors.primary}; font-weight: 600; }
   @media (min-width: 75rem) { transform: translateY(-2.5rem); }
-  @media (min-width: 48rem) { h1 { min-height: 2.6em; } }
+  @media (min-width: 48rem) {
+    width: min(calc(100% - 2rem), ${({ theme }) => theme.layout.maxWidth});
+    h1 { min-height: 2.6em; }
+  }
 `;
 export const HomeButton = styled(ButtonLink)`
   border-radius: 5px; font-size: 1rem; font-weight: 600;
   width: fit-content; min-height: 3.5rem; padding: .8rem 1rem;
   img { width: auto; height: auto; }
 `;
-export const RegisterButton = styled.button`
+export const RegisterActions = styled.div`
+  display: flex; flex-wrap: wrap; gap: .75rem;
+`;
+export const RegisterLink = styled.a`
   display: inline-flex; gap: .6rem; align-items: center; justify-content: center;
   width: fit-content; min-height: 3.5rem; padding: .8rem 1rem;
   border: 0; border-radius: 5px; background: ${({ theme }) => theme.colors.primary};
   color: #fff; font-size: 1.25rem; font-weight: 600;
+  text-decoration: none;
   &:hover { background: ${({ theme }) => theme.colors.primaryHover}; }
 `;
 export const Dots = styled.div`
@@ -102,9 +111,21 @@ export const HistorySection = styled(HomeSection)`
   padding-top: 0; overflow: clip;
   > div:first-child h2 { font-family: ${({ theme }) => theme.fonts.heading}; }
 `;
+export const TimelineCarousel = styled.div`
+  display: grid; grid-template-columns: 3rem minmax(0, 1fr) 3rem; align-items: center;
+  gap: clamp(.25rem, 2vw, 1rem); width: 100%; margin-block: 2.625rem 1rem;
+`;
+export const TimelineArrow = styled.button`
+  display: grid; place-items: center; width: 3rem; height: 3rem;
+  border: 1px solid #087b6b; border-radius: 50%; background: #fff; color: #087b6b;
+  font-size: 1.5rem; line-height: 1;
+  &:hover { background: #fafbeb; }
+`;
 export const TimelineViewport = styled.div`
+  min-width: 0;
   overflow-x: auto; overscroll-behavior-inline: contain; scroll-snap-type: x mandatory;
-  scrollbar-width: thin; scrollbar-color: #087b6b #f0f0f0; margin-block: 2.625rem 1rem;
+  scrollbar-width: none; -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
   &:focus-visible { outline-offset: -4px; }
 `;
 export const TimelineTrack = styled.ol`
@@ -121,11 +142,6 @@ export const StoryCard = styled.article`
     background: rgba(15,35,29,.84); backdrop-filter: blur(9px); color: #fefefe; }
   h3 { font-size: 1.5rem; font-weight: 600; line-height: 1.3; margin-bottom: .6rem; }
   p { font-family: ${({ theme }) => theme.fonts.heading}; font-size: .875rem; line-height: 1.3; }
-`;
-export const HistoryActions = styled(Container)`
-  display: flex; justify-content: center; flex-wrap: wrap; align-items: center; gap: .75rem;
-  button { width: 3rem; height: 3rem; border-radius: 50%; border: 1px solid #087b6b; background: #fff; color: #087b6b; font-size: 1.5rem; }
-  button:hover { background: #fafbeb; }
 `;
 // Estilos dos parceiros e da janela de aviso sobre cadastro.
 export const PartnerSection = styled(HomeSection)`

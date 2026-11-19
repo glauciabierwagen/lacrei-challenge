@@ -79,7 +79,7 @@ describe("Header", () => {
     await user.click(screen.getByRole("button", { name: "Menu" }));
     const navigation = screen.getByRole("navigation", { name: "Navegação principal" });
     const links = [["Início", "/"], ["Quem Somos", "https://lacreisaude.com.br/quem-somos/"], ["Médicos", "/medicos"],
-      ["Blog", "/#historias"], ["Unidades", "/#impacto"], ["Como cadastrar", "/#cadastro"]];
+      ["Blog", "/#historias"], ["Unidades", "/#impacto"], ["Entrar", "/#cadastro"]];
     expect(within(navigation).getAllByRole("link")).toHaveLength(6);
     for (const [name, href] of links) {
       const link = within(navigation).getByRole("link", { name });
@@ -89,7 +89,7 @@ describe("Header", () => {
     }
   });
 
-  it.each(["Início", "Quem Somos", "Médicos", "Blog", "Unidades", "Como cadastrar", "Lacrei Saúde — início"])("closes after activating %s", async (name) => {
+  it.each(["Início", "Quem Somos", "Médicos", "Blog", "Unidades", "Entrar", "Lacrei Saúde — início"])("closes after activating %s", async (name) => {
     const { user } = renderWithTheme(<Header />);
     const toggle = screen.getByRole("button", { name: "Menu" });
     await user.click(toggle);
@@ -115,7 +115,7 @@ describe("Header", () => {
     for (const count of [1, 2]) {
       await user.click(toggle);
       focus.mockClear();
-      const registration = screen.getByRole("link", { name: "Como cadastrar" });
+      const registration = screen.getByRole("link", { name: "Entrar" });
       // O jsdom não aplica as regras de desktop ao simular matchMedia.
       // Mantém a navegação visível após fechar o estado do menu, como no CSS de desktop.
       if (!matches) screen.getByRole("navigation").style.display = "flex";
@@ -148,7 +148,7 @@ describe("Header", () => {
     const { user } = renderWithTheme(<Header />);
     const toggle = screen.getByRole("button", { name: "Menu" });
     await user.click(toggle);
-    const registration = screen.getByRole("link", { name: "Como cadastrar" });
+    const registration = screen.getByRole("link", { name: "Entrar" });
     expect(registration).toHaveAttribute("href", "/#cadastro");
     registration.addEventListener("click", (event) => event.preventDefault(), { once: true });
     await user.click(registration);
@@ -171,7 +171,7 @@ describe("Header", () => {
     expect(screen.getByRole("link", { name: "Lacrei Saúde — home" })).toHaveAttribute("href", "/");
     expect(screen.getByRole("link", { name: "About Us" })).toHaveAttribute("href", "https://lacreisaude.com.br/quem-somos/");
     expect(screen.getByRole("link", { name: "Doctors" })).toHaveAttribute("href", "/medicos");
-    expect(screen.getByRole("link", { name: "How to register" })).toHaveAttribute("href", "/#cadastro");
+    expect(screen.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", "/#cadastro");
     expect(screen.getByRole("heading", { name: "Subscribe for updates" })).toBeVisible();
     await user.click(screen.getByRole("button", { name: "Close menu" }));
     await user.click(screen.getByRole("button", { name: "Menu" }));
