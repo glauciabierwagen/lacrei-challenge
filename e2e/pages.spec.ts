@@ -71,7 +71,8 @@ test("depoimentos são carregados pela API simulada", async ({ page }) => {
 test("erro da API de depoimentos é informado", async ({ page }) => {
   await page.route("**/api/depoimentos", (route) => route.fulfill({ status: 503 }));
   await page.goto("/medicos");
-  await expect(page.getByRole("alert")).toHaveText("Não foi possível carregar os depoimentos. Recarregue a página.");
+  const section = page.getByRole("region", { name: "Depoimentos inspiradores" });
+  await expect(section.getByRole("alert")).toHaveText("Não foi possível carregar os depoimentos. Recarregue a página.");
   await expect(page.getByRole("article", { name: /Depoimento de/ })).toHaveCount(0);
 });
 

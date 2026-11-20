@@ -91,7 +91,7 @@ As rotas e o layout são Server Components; as views e os componentes interativo
 ## Acessibilidade e desempenho
 
 - O projeto usa HTML semântico, link para pular ao conteúdo, foco visível e suporte a teclado e movimento reduzido. A revisão documentada com leitores de tela segue pendente.
-- As rotas são pré-renderizadas; imagens principais são priorizadas e outras usam carregamento sob demanda. Há também imagens remotas do site oficial na Home.
+- As páginas são pré-renderizadas e a API simulada responde sob demanda; imagens principais são priorizadas e outras usam carregamento sob demanda. Há também imagens remotas do site oficial na Home.
 - Após a correção dos links, a auditoria Lighthouse local de 20/11/2026 aprovou o contraste na Home e em Médicos; a medição anterior e os detalhes estão no relatório.
 
 ### Relatórios
@@ -99,5 +99,6 @@ As rotas e o layout são Server Components; as views e os componentes interativo
 - [Relatório Rollback](docs/relatorio-rollback.md) — setup, deploy, recuperação e justificativas técnicas.
 - [Lighthouse](docs/relatorio-lighthouse.md) — auditoria local atual e resultados públicos históricos.
 - [Relatório de testes](docs/relatorio-testes.md) — resultados dos testes unitários, de navegador e verificações realizadas.
+- [Relatório Mockup API local](docs/relatorio-mockup-api.md) — dados simulados e integração dos depoimentos na página Médicos.
 - [Relatório NVDA](docs/relatorio-nvda.md).
 - [Roteiro de revisão com leitor de tela](docs/screen-reader-review.md).
