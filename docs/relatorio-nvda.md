@@ -2,6 +2,11 @@
 
 Este relatório reúne observações fornecidas sobre uma possível revisão com NVDA e o roteiro para uma execução documentada. Não foram informados data, versão do site, navegador, versão do NVDA ou evidências que permitam confirmar as observações; elas devem ser verificadas em um teste.
 
+Projeto: Lacrei Saúde
+Páginas Testadas: Início (https://lacrei-challenge-three.vercel.app/) 
+Data: 20/11/2026
+Quem avaliou: Gláucia Silva Bierwagen
+
 ## 1. Resumo geral
 
 Segundo as observações fornecidas, foram testados a página inicial, o menu superior e o rodapé do site **Lacrei Saúde** usando o **NVDA**, programa que lê em voz alta o conteúdo da tela para pessoas cegas ou com baixa visão. Essas observações ainda não foram confirmadas por um registro de execução.
@@ -73,6 +78,14 @@ Segundo as observações fornecidas, foram testados a página inicial, o menu su
 1. Corrigir os 3 pontos simples listados acima (banner, botão da linha do tempo e `aria-current` do menu).
 2. Testar o envio do formulário de e-mail no rodapé (clicando em *"Assinar"* com o campo vazio ou inválido) para confirmar se o NVDA lê a mensagem de erro ou confirmação.
 
+## Situação em 20/11/2026
+
+**Pendente — não executada nesta sessão.** O registro anterior, de [17/11/2026](screen-reader-review.md#situação-em-17112026), informa que o ambiente era Windows e que não foram encontrados processo, comando, executável nos caminhos usuais ou registro de instalação do NVDA. Uma instalação portátil em outro local não podia ser descartada. VoiceOver é um recurso dos sistemas Apple e não estava disponível naquele Windows.
+
+Nesse registro, as ferramentas disponíveis não permitiam operar a interface nativa do Windows nem ouvir ou inspecionar a fala do leitor de tela. Por isso, não foi possível declarar a revisão com NVDA/VoiceOver como realizada; não foram instalados programas de acessibilidade nem alteradas configurações do computador. As observações acima foram fornecidas separadamente, sem dados suficientes para confirmar sua execução. A disponibilidade dos leitores não foi reavaliada para este relatório.
+
+O Lighthouse do deploy foi executado e está registrado [nos relatórios de 17/11/2026](audits/2026-11-17-vercel/README.md), mas **não substitui esta revisão**.
+
 ## Preparação pelo responsável
 
 1. Instalar ou iniciar o [NVDA oficial](https://www.nvaccess.org/download/) no Windows e abrir Chrome ou Firefox. Usar o VoiceOver com Safari em macOS/iOS também é válido, mas deve ser registrado como outra combinação.
@@ -81,9 +94,9 @@ Segundo as observações fornecidas, foram testados a página inicial, o menu su
 4. No NVDA, usar modo de navegação para ler títulos/landmarks e alternar para modo de foco quando necessário nos controles. O modificador NVDA costuma ser Insert ou Caps Lock. No VoiceOver com Safari, usar o Rotor (VO+U) para navegar por títulos e landmarks; interagir com controles usando os comandos padrão do VoiceOver.
 5. Se desejar evidência textual, abrir o **Visualizador de fala** no menu de ferramentas do NVDA. Remover informações pessoais de qualquer captura antes de compartilhá-la.
 
-## Roteiro e resultados 
+## Roteiro e resultados esperados
 
-## Situação em 20/11/2026
+Nenhum item abaixo foi marcado como aprovado: são instruções para a revisão que falta executar. Registrar **aprovado, falhou ou não aplicável**, com observações.
 
 | Cenário | Ação sugerida com NVDA | Resultado esperado |
 | --- | --- | --- |
@@ -119,22 +132,3 @@ Executar os fluxos aplicáveis em cada rota e registrar separadamente o resultad
 | Sobre `/sobre` | Acordeão: nome, estado expandido, conteúdo e teclado | Não executado | Não executado | — |
 | Sobre `/sobre` | Conteúdo demonstrativo, links e rodapé | Não executado | Não executado | — |
 
-### Como registrar uma falha
-
-Para cada falha, anotar página/URL e elemento, leitor/navegador/versões, passos para reproduzir, resultado esperado e anúncio/foco observado. Associar a correção ao arquivo ou PR; depois, repetir o mesmo fluxo com o mesmo leitor e registrar a data e o resultado do reteste. Se o problema variar entre NVDA e VoiceOver, manter registros separados. Remover dados pessoais de capturas ou transcrições antes de compartilhá-las.
-
-## Registro da execução real
-
-| Campo | Resultado |
-| --- | --- |
-| Responsável | Não informado |
-| Data e horário da revisão | Não executada |
-| Sistema e versão | A preencher |
-| Navegador e versão | A preencher |
-| Leitor e versão | A preencher |
-| URLs e versão/deployment | A preencher |
-| Cenários aprovados | Não avaliados |
-| Falhas e passos para reproduzir | Não avaliados; preencher na matriz por página acima |
-| Correções realizadas e arquivos/PRs | Nenhuma registrada |
-| Evidências de fala/capturas | Não coletadas |
-| Resultado da revisão e reteste | Pendente; preencher após executar os testes |

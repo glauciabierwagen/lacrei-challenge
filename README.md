@@ -41,20 +41,25 @@ Assets originais foram baixados localmente. Por decisão de tipografia do projet
 
 | Decisão | Justificativa |
 | --- | --- |
-| Hierarquia, fotos e composição orientadas pelos dois frames do Figma | Preservar a identidade visual e a relação entre as páginas, sem substituir assets por imagens genéricas. |
-| Nunito nos textos e TrashHand nas chamadas manuscritas | Padronização solicitada para melhorar a consistência de leitura, mantendo o contraste expressivo das chamadas. |
-| Ajustes de verde, destaque do hero e fundos de texto sobre fotos | Priorizar contraste e legibilidade sem abandonar a paleta do design. A fidelidade visual não deve impedir o atendimento à acessibilidade. |
-| Mobile-first, Grid/Flex e medidas fluidas | Adaptar a hierarquia desktop a telas menores, sem depender de larguras fixas que causem overflow; validar de 320 a 1440 px. |
-| Banners sem autoplay e respeito a movimento reduzido | Evitar troca inesperada de conteúdo e permitir que cada pessoa controle a leitura. |
-| HTML semântico, foco visível, botões nativos e diálogo modal nativo | Favorecer teclado e tecnologias assistivas, reduzindo a necessidade de recriar comportamentos nativos com ARIA. |
-| Next.js App Router e TypeScript | Organizar rotas e metadados, obter pré-renderização e detectar incompatibilidades de tipos antes do deploy. |
-| Styled-Components com tema e registry de SSR | Centralizar decisões visuais e inserir os estilos durante a renderização no servidor, evitando depender apenas da aplicação de CSS após a hidratação. |
-| Fontes e assets locais, `next/image`, dimensões e `sizes` | Evitar dependências externas em runtime, reduzir mudanças de layout e permitir otimização das imagens. A imagem principal recebe prioridade; as demais mantêm lazy loading. |
-| Vitest/Testing Library, Playwright e axe | Combinar testes isolados de componentes com verificação de navegação, responsividade e acessibilidade no navegador real. |
-| Metas automatizadas de Lighthouse e pipeline de qualidade | Detectar regressões; as notas são medições de uma versão e ambiente, não uma certificação permanente. |
-| Cadastro e newsletter explicitamente demonstrativos | Não simular integrações inexistentes nem coletar dados pessoais sem infraestrutura, finalidade e política adequadas. |
+| Composição baseada nos frames Home e Médicos do Figma | Manter a relação visual entre as páginas, com adaptações de conteúdo, imagens e layout para a demonstração. |
+| Cards de Inclusão, Acolhimento e Segurança na Home | Separar os três temas de Nosso Propósito, reutilizando a estrutura visual de Nossa Missão em Médicos, com conteúdo e ícones próprios para cada página. |
+| Nunito nos textos e TrashHand nas chamadas manuscritas | Manter a consistência de leitura e o contraste visual das chamadas. |
+| Cores, destaque do hero e fundos sobre fotos | Favorecer contraste e legibilidade mantendo a paleta do projeto. |
+| Grid/Flex, medidas fluidas e breakpoints | Adaptar os frames desktop a telas menores; a versão mobile é uma interpretação do projeto, não a reprodução de um frame mobile fornecido. |
+| Banners controlados pela pessoa, sem autoplay | Evitar trocas inesperadas; a linha do tempo também respeita a preferência por movimento reduzido. |
+| Links internos para a página de profissionais | Os botões **Conheça nosso time** da Home levam a `/medicos`, enquanto links de atendimento apontam para as plataformas oficiais. |
+| Idioma compartilhado PT/EN | Atualizar textos e controles da Home, de Médicos, do cabeçalho e do rodapé; o idioma do documento acompanha a seleção. |
+| HTML semântico, foco visível, controles nativos e diálogos | Facilitar a navegação por teclado e tecnologias assistivas; os diálogos informam quando um recurso não está disponível na demonstração. |
+| Mapa interativo sem métricas inventadas | Permitir selecionar os países destacados e informar que os dados de impacto ainda não foram disponibilizados. |
+| Next.js App Router e TypeScript | Organizar rotas e metadados e verificar tipos antes do deploy; o protótipo está configurado para não ser indexado. |
+| Styled-Components com tema e registry de SSR | Compartilhar tokens e estilos e disponibilizá-los na renderização no servidor. |
+| Fontes locais, imagens locais e `next/image` | Usar dimensões e `sizes` para apoiar o carregamento responsivo; as imagens principais dos banners são priorizadas. A Home também usa duas imagens remotas do site oficial, sem otimização do Next.js. |
+| Ilustrações genéricas na seção de parceiros | Evitar apresentar marcas ou apoios institucionais não verificados; as fontes e licenças estão em [partner-assets.md](docs/partner-assets.md). |
+| Vitest/Testing Library, Playwright e axe | Combinar testes de componentes com testes em Chromium desktop/mobile e verificações automatizadas de acessibilidade. A cobertura mínima configurada se aplica a quatro componentes compartilhados. |
+| Lighthouse e pipeline de qualidade | Ajudar a detectar regressões de desempenho e acessibilidade; resultados dependem da versão e do ambiente e não substituem revisão manual. |
+| Cadastro, perfis, depoimentos e newsletter demonstrativos | Informar os limites do protótipo: não há cadastro ou agendamento na aplicação, os perfis e depoimentos são ilustrativos e a newsletter não envia nem armazena dados. |
 
-**Limites conhecidos:** textos Lorem Ipsum, nomes e imagens repetidos permanecem conforme o Figma. Ainda são necessárias revisão editorial, validação manual com leitor de tela e auditoria da URL pública. A adaptação mobile foi derivada dos frames desktop disponíveis.
+**Limites conhecidos:** a execução documentada com NVDA e VoiceOver permanece pendente; consulte o [relatório NVDA](docs/relatorio-nvda.md) e o [roteiro de revisão](docs/screen-reader-review.md). O [Lighthouse público de 17/11/2026](docs/audits/2026-11-17-vercel/README.md) é um registro histórico. Antes de uma publicação final, revisar conteúdo, metadados e autorizações de uso das imagens, marcas e fontes.
 
 ## Ambiente e execução
 
