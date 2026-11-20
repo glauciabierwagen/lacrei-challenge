@@ -100,14 +100,15 @@ Naquela execução, `npm run check` passou; foram registrados 57 testes unitári
 
 No Lighthouse mobile da Vercel, a Home marcou 89/96/76 (mediana 89) e `/medicos` 97/80/93 (mediana 93); Acessibilidade foi 100 nas três execuções de cada rota. Uma execução da Home ficou abaixo da meta de Performance 80. Os [seis relatórios e o resumo](docs/audits/2026-11-17-vercel/README.md) preservam os detalhes; o deploy testado não teve commit confirmado.
 
-**Leitor de tela:** revisão manual com NVDA/VoiceOver pendente; veja o [roteiro de validação](docs/screen-reader-review.md). Os resultados automatizados e Lighthouse são registros datados, não certificação permanente.
+**Leitor de tela:** consulte o [relatório NVDA](docs/relatorio-nvda.md) e o [roteiro de validação](docs/screen-reader-review.md), que registra a situação em 17/11/2026. A execução documentada com NVDA e VoiceOver segue pendente. Os resultados automatizados e Lighthouse são registros datados, não certificação permanente.
 
 ## Acessibilidade e desempenho
 
 - HTML semântico, landmarks, link para pular ao conteúdo, foco visível, alvos de toque ≥48 px e suporte a teclado e movimento reduzido.
-- axe verifica WCAG A/AA automaticamente; a revisão manual com NVDA/VoiceOver segue pendente e tem um [roteiro próprio](docs/screen-reader-review.md).
+- axe verifica WCAG A/AA automaticamente; consulte o [relatório NVDA](docs/relatorio-nvda.md) e o [roteiro de revisão manual](docs/screen-reader-review.md). A execução documentada com NVDA e VoiceOver segue pendente.
 - Rotas pré-renderizadas, fontes locais e `next/image`; o hero é priorizado e as imagens abaixo da dobra mantêm lazy loading.
 - [Lighthouse](lighthouserc.cjs) mede `/`, `/medicos` e `/sobre` em mobile, com metas de Performance ≥x`; revisar metadados, identidade, conteúdo provisório e essa opção antes de publicar uma versão final indexável.
+- [Relatório NVDA](docs/relatorio-nvda.md)
 
 
 ### Corrigir o Git e retomar publicações
