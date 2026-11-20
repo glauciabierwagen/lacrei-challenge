@@ -6,36 +6,20 @@ Projeto em **Next.js App Router + TypeScript + Styled-Components**. Páginas do 
 
 **Acesse na Vercel:** [https://lacrei-challenge-three.vercel.app/](https://lacrei-challenge-three.vercel.app/)
 
-- [Deploy público do Vercel](https://github.com/glauciabierwagen/lacrei-challenge#deploy-p%C3%BAblico-na-vercel)
 - [Home](https://lacrei-challenge-three.vercel.app/)
 - [Profissionais](https://lacrei-challenge-three.vercel.app/medicos)
 
-URL pública informada pelo responsável pelo projeto. Auditoria Lighthouse pública registrada em 17/11/2026; veja os [relatórios completos](docs/audits/2026-11-17-vercel/README.md). Os testes locais e o Lighthouse não substituem a revisão manual com leitor de tela.
+## Home e Médicos/Profissionais
 
-## Página Médicos e navegação
+As páginas são baseadas nos [frames do Figma](https://www.figma.com/design/rvDbI6SujvrVj71ldR4c8I/LacreiChallenge?node-id=0-1&t=ZyXy7snGzwZD9qld-1), com adaptação para dispositivos móveis.
 
-A rota `/medicos` implementa o [frame Médicos](https://www.figma.com/design/rvDbI6SujvrVj71ldR4c8I/LacreiChallenge?node-id=6-644): hero, missão, depoimentos, grade de nove profissionais, parceiros e rodapé compartilhado.
-
-- O item **Médicos** da navbar aponta para `/medicos`, com identificação de página atual.
-- Os dois botões **Conheça nosso time** da Home apontam para essa mesma rota, em PT e EN.
-- Os links são internos: abrem a página implementada, não o editor do Figma.
-- Cadastros continuam demonstrativos; os CTAs abrem as orientações já existentes na Home.
-- Nomes repetidos e textos Lorem Ipsum foram mantidos conforme o frame; não representam uma lista verificada de profissionais disponíveis.
-- Validação desta integração: **57 testes unitários**, **38 testes E2E** desktop/mobile, lint, tipos e build aprovados. Os testes cobrem os três pontos de entrada, recarregamento direto de `/medicos`, idiomas, contraste automatizado, teclado e ausência de overflow de 320 a 1440 px.
-
-**Home implementada a partir do [frame Home do Figma](https://www.figma.com/design/rvDbI6SujvrVj71ldR4c8I/LacreiChallenge?node-id=1-476).** A rota `/sobre` continua demonstrativa, aguardando seu próprio frame. Não há cadastro, agendamento ou envio real de newsletter.
-
-## Home baseada no Figma
-
-- Hero com foto original, navegação sobreposta e três mensagens selecionáveis, sem autoplay.
-- Seção Nosso Propósito, mapa com países selecionáveis, linha do tempo rolável e parceiros.
-- Cabeçalho e rodapé compartilhados entre Home, Profissionais.
-- Alternância PT/EN na Home, em Médicos, no cabeçalho e no rodapé. 
-- Newsletter validada no navegador; o status informa explicitamente que não envia nem armazena dados.
-- O frame fornecido é desktop; a adaptação mobile foi derivada de sua hierarquia e testada de 320 a 1440 px, não reproduz um frame mobile específico.
+- A Home apresenta Nosso Propósito, mapa interativo e linha do tempo. Os botões **Conheça nosso time** levam à página `/medicos`.
+- Médicos/Profissionais reúne Nossa Missão, depoimentos e perfis ilustrativos; o menu **Profissionais** também leva a essa página.
+- Ambas compartilham navegação, rodapé, alternância PT/EN e banners selecionáveis sem reprodução automática. Os links de atendimento direcionam às plataformas oficiais.
+- A aplicação é demonstrativa: não realiza cadastro ou agendamento, a newsletter não envia nem armazena dados e o mapa não apresenta métricas de impacto. A seção de parceiros usa ilustrações genéricas; veja as [fontes e licenças](docs/partner-assets.md).
 - [Trabalhar com o Figma MCP](https://github.com/glauciabierwagen/lacrei-challenge#trabalhar-com-o-figma-mcp).
 
-Assets originais foram baixados localmente. Por decisão de tipografia do projeto, todos os textos usam **Nunito**, exceto as chamadas manuscritas, que mantêm **TrashHand**. Nunito é distribuída por `@fontsource`, com licença no respectivo pacote; TrashHand foi obtida de https://fonts.cdnfonts.com/s/441/TrashHand.woff. Revisar a autorização de uso das fotos, marcas e fontes antes do deploy público.
+A aplicação usa imagens locais e duas imagens remotas do site oficial nos cards de pacientes e profissionais da Home. Os textos usam **Nunito**, exceto as chamadas manuscritas, que mantêm **TrashHand**. Nunito é distribuída por `@fontsource`, com licença no respectivo pacote; TrashHand foi obtida de https://fonts.cdnfonts.com/s/441/TrashHand.woff. Revisar a autorização de uso das fotos, marcas e fontes antes de uma publicação final.
 
 ## Escolhas e justificativas visuais e técnicas
 
