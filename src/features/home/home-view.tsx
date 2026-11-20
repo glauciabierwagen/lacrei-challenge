@@ -116,7 +116,29 @@ export function HomeView() {
         <p>{en ? "Quality and inclusive healthcare" : "Atendimento de qualidade e inclusivo"}</p>
       </S.CareIntro>
 
-      <PurposeSection />
+      <PurposeSection values={[
+        {
+          title: en ? "Inclusion" : "Inclusão",
+          description: en
+            ? "Our digital platform is accessible and serves the entire LGBTQIAPN+ community."
+            : "Nossa plataforma digital é acessível e atendemos toda comunidade LGBTQIAPN+.",
+          icon: "/images/purpose/accessibility.svg",
+        },
+        {
+          title: en ? "Welcoming care" : "Acolhimento",
+          description: en
+            ? "Health professionals understand the needs of the LGBTQIAPN+ community."
+            : "As pessoas profissionais da saúde entendem as necessidades da comunidade LGBTQIAPN+.",
+          icon: "/images/partners/heart-care.svg",
+        },
+        {
+          title: en ? "Safety" : "Segurança",
+          description: en
+            ? "We protect your data and verify patients and health professionals."
+            : "Protegemos seus dados e validamos pacientes e profissionais da saúde.",
+          icon: "/images/purpose/security-shield.svg",
+        },
+      ]} />
 
       <S.ImpactSection id="impacto" aria-labelledby="impact-title">
         <S.ImpactContent>

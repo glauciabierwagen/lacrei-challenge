@@ -59,17 +59,16 @@ describe("HomeView", () => {
     expect(purposeImage.compareDocumentPosition(purposeTitle) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(purposeImage.closest("figure")).toBeInTheDocument();
     expect(Array.from(purpose.querySelectorAll('img[src^="/images/purpose/"]')).map((icon) => decodeURIComponent(icon.getAttribute("src") ?? ""))).toEqual([
-      "/images/purpose/security-shield.svg", "/images/purpose/accessibility.svg", "/images/purpose/faq-circle.svg",
+      "/images/purpose/accessibility.svg", "/images/purpose/security-shield.svg",
     ]);
+    expect(purpose.querySelector('img[src="/images/partners/heart-care.svg"]')).toBeInTheDocument();
     expect(within(purpose).getByText("Conectar a comunidade LGBTQIAPN+ a profissionais que oferecem cuidado sem preconceitos.")).toBeVisible();
-    for (const title of ["Segurança", "Acessibilidade", "Dúvidas Frequentes"]) {
-      expect(within(purpose).getByRole("heading", { level: 3, name: title })).toBeVisible();
-    }
-    for (const description of [
-      "Entenda como validamos pacientes e profissionais da saúde.",
-      "Conheça nossos recursos que tornam a plataforma Lacrei Saúde acessível.",
-      "Acesse nossa lista de perguntas frequentes e tire suas dúvidas.",
+    for (const [title, description] of [
+      ["Inclusão", "Nossa plataforma digital é acessível e atendemos toda comunidade LGBTQIAPN+."],
+      ["Acolhimento", "As pessoas profissionais da saúde entendem as necessidades da comunidade LGBTQIAPN+."],
+      ["Segurança", "Protegemos seus dados e validamos pacientes e profissionais da saúde."],
     ]) {
+      expect(within(purpose).getByRole("heading", { level: 3, name: title })).toBeVisible();
       expect(within(purpose).getByText(description)).toBeVisible();
     }
   });

@@ -5,6 +5,12 @@ import { useLanguage } from "@/components/layout/language-context";
 import * as S from "./home.styles";
 
 const purposeIcons = ["security-shield.svg", "accessibility.svg", "faq-circle.svg"] as const;
+type PurposeValue = {
+  title: string;
+  description: string;
+  icon?: `/images/purpose/${(typeof purposeIcons)[number]}` | "/images/partners/heart-care.svg";
+};
+
 const purposeCopy = {
   pt: {
     title: "Nosso Propósito",
@@ -26,15 +32,17 @@ const purposeCopy = {
   },
 };
 
-export function PurposeSection({ title, introductionLines, action, image }: {
+export function PurposeSection({ title, introductionLines, action, image, values }: {
   title?: string;
   introductionLines?: readonly [string, string];
   action?: { label: string; href: string };
   image?: { src: string; alt: string };
+  values?: readonly PurposeValue[];
 }) {
   const { language } = useLanguage();
   const en = language === "en";
   const content = purposeCopy[en ? "en" : "pt"];
+  const displayValues: readonly PurposeValue[] = values ?? content.values;
 
   return (
     <S.HomeSection id="proposito" aria-labelledby="purpose-title">
@@ -48,10 +56,13 @@ export function PurposeSection({ title, introductionLines, action, image }: {
             <p>{introductionLines ? <>{introductionLines[0]}<br />{introductionLines[1]}</> : content.introduction}</p>
           </div>
           <S.Values>
-            {content.values.map(({ title, description }, index) => <li key={title}>
-              <span aria-hidden="true"><Image src={`/images/purpose/${purposeIcons[index]}`} width={48} height={48} alt="" /></span>
-              <div><h3>{title}</h3><p>{description}</p></div>
-            </li>)}
+            {displayValues.map(({ title, description, icon }, index) => {
+              const iconSrc = icon ?? `/images/purpose/${purposeIcons[index] ?? purposeIcons[0]}`;
+              return <li key={title}>
+                <span aria-hidden="true"><Image src={iconSrc} width={48} height={48} alt="" /></span>
+                <div><h3>{title}</h3><p>{description}</p></div>
+              </li>;
+            })}
           </S.Values>
           <S.HomeButton href={action?.href ?? "/medicos"} $variant="secondary">{action?.label ?? (en ? "Meet our team" : "Conheça nosso time")}</S.HomeButton>
           <Image src="/images/figma/imgMisc09.svg" width={24} height={93} alt="" />
