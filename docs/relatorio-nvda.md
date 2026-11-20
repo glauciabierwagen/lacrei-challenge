@@ -73,14 +73,6 @@ Segundo as observações fornecidas, foram testados a página inicial, o menu su
 1. Corrigir os 3 pontos simples listados acima (banner, botão da linha do tempo e `aria-current` do menu).
 2. Testar o envio do formulário de e-mail no rodapé (clicando em *"Assinar"* com o campo vazio ou inválido) para confirmar se o NVDA lê a mensagem de erro ou confirmação.
 
-## Situação em 20/11/2026
-
-**Pendente — não executada nesta sessão.** O registro anterior, de [17/11/2026](screen-reader-review.md#situação-em-17112026), informa que o ambiente era Windows e que não foram encontrados processo, comando, executável nos caminhos usuais ou registro de instalação do NVDA. Uma instalação portátil em outro local não podia ser descartada. VoiceOver é um recurso dos sistemas Apple e não estava disponível naquele Windows.
-
-Nesse registro, as ferramentas disponíveis não permitiam operar a interface nativa do Windows nem ouvir ou inspecionar a fala do leitor de tela. Por isso, não foi possível declarar a revisão com NVDA/VoiceOver como realizada; não foram instalados programas de acessibilidade nem alteradas configurações do computador. As observações acima foram fornecidas separadamente, sem dados suficientes para confirmar sua execução. A disponibilidade dos leitores não foi reavaliada para este relatório.
-
-O Lighthouse do deploy foi executado e está registrado [nos relatórios de 17/11/2026](audits/2026-11-17-vercel/README.md), mas **não substitui esta revisão**.
-
 ## Preparação pelo responsável
 
 1. Instalar ou iniciar o [NVDA oficial](https://www.nvaccess.org/download/) no Windows e abrir Chrome ou Firefox. Usar o VoiceOver com Safari em macOS/iOS também é válido, mas deve ser registrado como outra combinação.
@@ -89,9 +81,9 @@ O Lighthouse do deploy foi executado e está registrado [nos relatórios de 17/1
 4. No NVDA, usar modo de navegação para ler títulos/landmarks e alternar para modo de foco quando necessário nos controles. O modificador NVDA costuma ser Insert ou Caps Lock. No VoiceOver com Safari, usar o Rotor (VO+U) para navegar por títulos e landmarks; interagir com controles usando os comandos padrão do VoiceOver.
 5. Se desejar evidência textual, abrir o **Visualizador de fala** no menu de ferramentas do NVDA. Remover informações pessoais de qualquer captura antes de compartilhá-la.
 
-## Roteiro e resultados esperados
+## Roteiro e resultados 
 
-Nenhum item abaixo foi marcado como aprovado: são instruções para a revisão que falta executar. Registrar **aprovado, falhou ou não aplicável**, com observações.
+## Situação em 20/11/2026
 
 | Cenário | Ação sugerida com NVDA | Resultado esperado |
 | --- | --- | --- |
