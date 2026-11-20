@@ -2,14 +2,16 @@
 
 ## Nova auditoria local após correção de contraste — 20/11/2026
 
-Build de produção local da revisão `8ba992b` com a correção de contraste ainda não commitada. A coleta não representa o deploy público. Foram feitas três execuções por rota com Lighthouse 13.6.0 e Chrome Headless 157 no Windows, emulação mobile e throttling simulado, entre 11:09 e 11:11 UTC.
+Build de produção local da revisão `8ba992b` com a correção de contraste, posteriormente registrada no commit `e78b967`. A coleta não representa o deploy público. Foram feitas três execuções por rota com Lighthouse 13.6.0 e Chrome Headless 157 no Windows, emulação mobile e throttling simulado, entre 11:09 e 11:11 UTC.
 
 | Rota | Performance — três execuções | Mediana | Acessibilidade — três execuções | Mediana | Contraste |
 | --- | --- | --- | --- | --- | --- |
 | Home `/` | 92 / 92 / 95 | **92** | 100 / 100 / 100 | **100** | Aprovado nas três |
 | Médicos `/medicos` | 94 / 94 / 94 | **94** | 100 / 100 / 100 | **100** | Aprovado nas três |
 
-A correção usa o verde do tema nos links afetados e remove a transição de cores que reduzia temporariamente o contraste ao passar o mouse. Um teste com Playwright e axe verificou os três links, nos estados normal e hover, em desktop e mobile. A rota `/sobre` não foi auditada novamente; SEO e Boas Práticas também não foram medidos.
+A correção usa o verde do tema nos links afetados e remove a transição de cores que reduzia temporariamente o contraste ao passar o mouse. As cores apresentam contraste de aproximadamente **5,13:1** no estado normal e **5,18:1** no hover. Um teste com Playwright e axe verificou os três links nesses estados, em desktop e mobile.
+
+A rota `/sobre` não foi auditada novamente; SEO e Boas Práticas também não foram medidos. O Lighthouse avaliou as páginas em seu estado inicial: no [relatório de testes](relatorio-testes.md), uma execução separada do axe identificou contraste insuficiente no seletor de idioma com o menu mobile aberto.
 
 ## Auditoria local anterior — 20/11/2026
 

@@ -96,5 +96,6 @@ As rotas e o layout são Server Components; as views e os componentes interativo
 
 - [Relatório Rollback](docs/relatorio-rollback.md) — setup, deploy, recuperação e justificativas técnicas.
 - [Lighthouse](docs/relatorio-lighthouse.md) — auditoria local atual e resultados públicos históricos.
+- [Relatório de testes](docs/relatorio-testes.md) — resultados dos testes unitários, de navegador e verificações realizadas.
 - [Relatório NVDA](docs/relatorio-nvda.md).
 - [Roteiro de revisão com leitor de tela](docs/screen-reader-review.md).
