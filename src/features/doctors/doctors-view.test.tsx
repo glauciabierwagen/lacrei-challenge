@@ -15,7 +15,7 @@ describe("DoctorsView", () => {
   it("selects each hero banner exclusively by keyboard and announces its heading", async () => {
     const { user } = renderWithTheme(<DoctorsView />);
     const heading = screen.getByRole("heading", { level: 1 });
-    const titles = [/^Saúde que cuida\s*e transforma vidas$/, /^Mudamos pessoas,\s*transformamos o mundo\.$/, /^Educação sem fronteiras,\s*transformação sem limites\.$/];
+    const titles = [/^Saúde que cuida\s*e transforma vidas$/, /^Mudamos pessoas,\s*transformamos o mundo\.$/, /^Saúde sem fronteiras,\s*transformação sem limites\.$/];
     const banners = within(screen.getByRole("group", { name: "Escolher banner" })).getAllByRole("button");
     expect(screen.getByRole("region", { name: titles[0] })).toHaveAttribute("aria-roledescription", "carrossel");
     expect(heading).toHaveAttribute("aria-live", "polite");
@@ -116,16 +116,17 @@ describe("DoctorsView", () => {
     await user.click(screen.getByRole("button", { name: "Menu" }));
     await user.click(screen.getByRole("button", { name: "EN English" }));
     expect(document.documentElement).toHaveAttribute("lang", "en");
-    expect(screen.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Education without borders,\s*transformation without limits\.$/);
-    expect(screen.getByRole("region", { name: /^Education without borders,/ })).toHaveAttribute("aria-roledescription", "carousel");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Health without borders,\s*transformation without limits\.$/);
+    expect(screen.getByRole("region", { name: /^Health without borders,/ })).toHaveAttribute("aria-roledescription", "carousel");
     expect(within(screen.getByRole("group", { name: "Choose a banner" })).getByRole("button", { name: /^Banner 3:/ })).toHaveAttribute("aria-pressed", "true");
     for (const name of ["Our Mission", "Inspiring testimonials", "Meet our professionals", "Together for the cause!"]) {
       expect(screen.getByRole("heading", { level: 2, name })).toBeVisible();
     }
-    for (const name of ["Build a more compassionate world", "Bring hearts together and value lives", "Promote sustainable and inclusive education"]) {
-      expect(screen.getByRole("heading", { level: 3, name })).toBeVisible();
+    const mission = within(screen.getByRole("region", { name: "Our Mission" }));
+    for (const name of ["Security", "Accessibility", "Frequently Asked Questions"]) {
+      expect(mission.getByRole("heading", { level: 3, name })).toBeVisible();
     }
-    expect(screen.getByRole("img", { name: "People together at a Pride event" })).toBeVisible();
+    expect(screen.getByRole("img", { name: "People celebrating Pride together" })).toBeVisible();
     const partners = within(screen.getByRole("region", { name: "Together for the cause!" }));
     expect(partners.getAllByRole("img").map((image) => image.getAttribute("alt"))).toEqual([
       "Healthcare professional", "Healthcare clinic", "Care and wellbeing", "Health",
@@ -136,18 +137,15 @@ describe("DoctorsView", () => {
       expect(card.getByText(profession)).toBeVisible();
     }
     const navigation = within(screen.getByRole("navigation", { name: "Main navigation" }));
-    expect(navigation.getByRole("link", { name: "Doctors" })).toHaveAttribute("href", "/medicos");
+    expect(navigation.getByRole("link", { name: "Professionals" })).toHaveAttribute("href", "/medicos");
     expect(screen.getByRole("link", { name: "For Patients" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
     expect(screen.getByRole("link", { name: "For Professionals" })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
     expect(screen.getByRole("link", { name: "Find care" })).toHaveAttribute("href", "https://paciente.lacreisaude.com.br/");
-    expect(screen.getAllByRole("link", { name: "How to register" })).toHaveLength(1);
-    expect(screen.getAllByRole("link", { name: "Join us" })).toHaveLength(1);
-    for (const name of ["How to register", "Join us"]) {
-      for (const link of screen.getAllByRole("link", { name })) expect(link).toHaveAttribute("href", "/#cadastro");
-    }
+    expect(screen.getByRole("link", { name: "Offer care" })).toHaveAttribute("href", "https://profissional.lacreisaude.com.br/");
+    expect(mission.getByRole("link", { name: "Frequently Asked Questions" })).toHaveAttribute("href", "https://lacreisaude.com.br/ajuda/");
     await user.click(screen.getByRole("button", { name: "PT Português" }));
     expect(document.documentElement).toHaveAttribute("lang", "pt-BR");
-    expect(screen.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Educação sem fronteiras,\s*transformação sem limites\.$/);
+    expect(screen.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Saúde sem fronteiras,\s*transformação sem limites\.$/);
     expect(screen.getByRole("button", { name: /^Banner 3:/ })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("heading", { name: "Nossa Missão" })).toBeVisible();
   });

@@ -207,10 +207,11 @@ describe("Header", () => {
     expect(document.documentElement).toHaveAttribute("lang", "en");
     expect(screen.getByRole("button", { name: "EN English" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("group", { name: "Language" })).toBeVisible();
-    expect(screen.getByRole("link", { name: "Lacrei Saúde — home" })).toHaveAttribute("href", "/");
-    expect(screen.getByRole("link", { name: "About Us" })).toHaveAttribute("href", "https://lacreisaude.com.br/quem-somos/");
-    expect(screen.getByRole("link", { name: "Professionals" })).toHaveAttribute("href", "/medicos");
-    expect(screen.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", "/#cadastro");
+    const header = within(screen.getByRole("banner"));
+    expect(header.getByRole("link", { name: "Lacrei Saúde — home" })).toHaveAttribute("href", "/");
+    expect(header.getByRole("link", { name: "About Us" })).toHaveAttribute("href", "https://lacreisaude.com.br/quem-somos/");
+    expect(header.getByRole("link", { name: "Professionals" })).toHaveAttribute("href", "/medicos");
+    expect(header.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", "/#cadastro");
     expect(screen.getByRole("heading", { name: "Subscribe for updates" })).toBeVisible();
     await user.click(screen.getByRole("button", { name: "Close menu" }));
     await user.click(screen.getByRole("button", { name: "Menu" }));

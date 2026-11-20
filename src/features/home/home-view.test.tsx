@@ -145,7 +145,15 @@ describe("HomeView", () => {
     expect(screen.getByRole("group", { name: "Choose a banner" })).toBeVisible();
     expect(screen.getByRole("button", { name: /^Banner 3:/ })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("heading", { name: "Our Purpose" })).toBeVisible();
-    expect(screen.getByRole("heading", { name: "Promote inclusive healthcare" })).toBeVisible();
+    const purpose = within(screen.getByRole("region", { name: "Our Purpose" }));
+    for (const [title, description] of [
+      ["Inclusion", "Our digital platform is accessible and serves the entire LGBTQIAPN+ community."],
+      ["Welcoming care", "Health professionals understand the needs of the LGBTQIAPN+ community."],
+      ["Safety", "We protect your data and verify patients and health professionals."],
+    ]) {
+      expect(purpose.getByRole("heading", { level: 3, name: title })).toBeVisible();
+      expect(purpose.getByText(description)).toBeVisible();
+    }
     expect(screen.getByText("Inclusive, prejudice-free healthcare for the LGBTQIAPN+ community, from Brazil to the world.")).toBeVisible();
     expect(screen.getByRole("img", { name: "A diverse team of health professionals" })).toBeVisible();
     expect(screen.getByRole("group", { name: "Explore the countries highlighted on the map" })).toBeVisible();
