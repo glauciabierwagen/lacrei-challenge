@@ -15,6 +15,7 @@ As páginas são baseadas nos [frames do Figma](https://www.figma.com/design/rvD
 
 - A Home apresenta Nosso Propósito, mapa interativo e linha do tempo. Os botões **Conheça nosso time** levam à página `/medicos`.
 - Médicos/Profissionais reúne Nossa Missão, depoimentos e perfis ilustrativos; o menu **Profissionais** também leva a essa página.
+- Os depoimentos ilustrativos são carregados por uma API simulada, `GET /api/depoimentos`, a partir de um JSON local. Não há banco de dados nem serviço externo nessa integração.
 - Ambas compartilham navegação, rodapé, alternância PT/EN e banners selecionáveis sem reprodução automática. Os links de atendimento direcionam às plataformas oficiais.
 - A aplicação é demonstrativa: não realiza cadastro ou agendamento, a newsletter não envia nem armazena dados e o mapa não apresenta métricas de impacto. A seção de parceiros usa ilustrações genéricas; veja as [fontes e licenças](docs/partner-assets.md).
 - [Trabalhar com o Figma MCP](https://github.com/glauciabierwagen/lacrei-challenge#trabalhar-com-o-figma-mcp).
@@ -66,6 +67,7 @@ Na preparação inicial foi usado Node portátil na pasta temporária, porque o 
 | [src/features/home/home-view.tsx](src/features/home/home-view.tsx) e [home.styles.ts](src/features/home/home.styles.ts) | Conteúdo, interações e estilos da Home |
 | [src/features/home/purpose-section.tsx](src/features/home/purpose-section.tsx) e [partner-section.tsx](src/features/home/partner-section.tsx) | Seções de propósito/missão e parceiros compartilhadas pela Home e Médicos |
 | [src/features/doctors/doctors-view.tsx](src/features/doctors/doctors-view.tsx) e [doctors.styles.ts](src/features/doctors/doctors.styles.ts) | Conteúdo e estilos da página Médicos/Profissionais |
+| [src/app/api/depoimentos/route.ts](src/app/api/depoimentos/route.ts) e [testimonials.json](src/features/doctors/testimonials.json) | API simulada de leitura e dados locais de depoimentos ilustrativos |
 | [src/features/about/about-view.tsx](src/features/about/about-view.tsx) | Conteúdo da página Sobre demonstrativa |
 | [src/components/layout/header.tsx](src/components/layout/header.tsx) e [footer.tsx](src/components/layout/footer.tsx) | Navegação, avisos e rodapé com newsletter demonstrativa |
 | [src/components/layout/language-context.tsx](src/components/layout/language-context.tsx) | Idioma compartilhado PT/EN e atualização do idioma do documento |

@@ -1,12 +1,21 @@
 import { screen, within } from "@testing-library/react";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "@/components/layout/header";
 import { LanguageProvider } from "@/components/layout/language-context";
 import { renderWithTheme } from "@/test/render";
 import { DoctorsView } from "./doctors-view";
+import testimonials from "./testimonials.json";
+
+beforeEach(() => {
+  vi.stubGlobal("fetch", vi.fn().mockResolvedValue({
+    ok: true,
+    json: async () => testimonials,
+  }));
+});
 
 // Restaura o idioma do documento após cada teste.
 afterEach(() => {
+  vi.unstubAllGlobals();
   document.documentElement.lang = "pt-BR";
 });
 
@@ -34,7 +43,7 @@ describe("DoctorsView", () => {
     }
   });
 
-  it("renders the shared purpose section and named volunteer testimonials separately from doctor cards", () => {
+  it("renders the shared purpose section and named volunteer testimonials separately from doctor cards", async () => {
     renderWithTheme(<DoctorsView />);
     const careIntro = screen.getByRole("heading", { level: 2, name: "Conheça o jeito Lacrei Saúde de cuidar" });
     expect(screen.getByText("Atendimento de qualidade e inclusivo")).toBeVisible();
@@ -56,7 +65,7 @@ describe("DoctorsView", () => {
     expect(decodeURIComponent(purposeImage.getAttribute("src") ?? "")).toContain("/images/figma/medicos/diversidade.png");
     expect(screen.getByText("Nossos pacientes")).toBeVisible();
     const testimonials = within(screen.getByRole("region", { name: "Depoimentos inspiradores" }));
-    expect(testimonials.getAllByRole("article")).toHaveLength(3);
+    expect(await testimonials.findAllByRole("article")).toHaveLength(3);
     expect(testimonials.getByText("Perfis e relatos ilustrativos; não representam depoimentos reais.")).toBeVisible();
     for (const [name, profession, story] of [
       ["Fernanda", "Professora", "Encontrei profissionais competentes, que respeitaram minha identidade e acolheram a diversidade. Me senti segura desde o primeiro contato. A comunicação foi clara, cada etapa foi explicada com cuidado e pude falar sobre minhas necessidades sem receio. Saí mais tranquila e confiante para cuidar da minha saúde. Também recebi orientações claras para decidir com tranquilidade os próximos passos do meu cuidado."],
@@ -133,7 +142,7 @@ describe("DoctorsView", () => {
     ]);
     expect(screen.getByText("Illustrative profiles and stories; these are not real testimonials.")).toBeVisible();
     for (const [name, profession] of [["Fernanda", "Teacher"], ["Silvia", "Psychologist"], ["Débora", "Nurse"]]) {
-      const card = within(screen.getByRole("article", { name: `Testimonial from ${name}` }));
+      const card = within(await screen.findByRole("article", { name: `Testimonial from ${name}` }));
       expect(card.getByText(profession)).toBeVisible();
     }
     const navigation = within(screen.getByRole("navigation", { name: "Main navigation" }));
@@ -148,5 +157,23 @@ describe("DoctorsView", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveAccessibleName(/^Saúde sem fronteiras,\s*transformação sem limites\.$/);
     expect(screen.getByRole("button", { name: /^Banner 3:/ })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("heading", { name: "Nossa Missão" })).toBeVisible();
+  });
+
+  it("shows loading and handles an empty response", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true, json: async () => [] }));
+    renderWithTheme(<DoctorsView />);
+    expect(screen.getByRole("status")).toHaveTextContent("Carregando depoimentos...");
+    expect(await screen.findByText("Nenhum depoimento ilustrativo disponível.")).toHaveAttribute("role", "status");
+  });
+
+  it.each([
+    ["HTTP error", () => Promise.resolve({ ok: false, status: 503 })],
+    ["network error", () => Promise.reject(new Error("network error"))],
+    ["invalid data", () => Promise.resolve({ ok: true, json: async () => [{ name: "Fernanda" }] })],
+  ])("shows an accessible error for %s", async (_scenario, fetchResponse) => {
+    vi.stubGlobal("fetch", vi.fn().mockImplementation(fetchResponse));
+    renderWithTheme(<DoctorsView />);
+    expect(await screen.findByRole("alert")).toHaveTextContent("Não foi possível carregar os depoimentos. Recarregue a página.");
+    expect(screen.queryByRole("article", { name: /Depoimento de/ })).not.toBeInTheDocument();
   });
 });

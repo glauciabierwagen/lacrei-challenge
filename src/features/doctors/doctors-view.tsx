@@ -1,40 +1,35 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/layout/language-context";
 import * as Home from "@/features/home/home.styles";
 import { PartnerSection } from "@/features/home/partner-section";
 import { PurposeSection } from "@/features/home/purpose-section";
+import type testimonialsData from "./testimonials.json";
 import * as S from "./doctors.styles";
 
 const assets = "/images/figma/medicos/";
-const testimonials = [
-  {
-    name: "Fernanda", avatar: "imgEllipse22.png",
-    profession: { pt: "Professora", en: "Teacher" },
-    story: {
-      pt: "Encontrei profissionais competentes, que respeitaram minha identidade e acolheram a diversidade. Me senti segura desde o primeiro contato. A comunicação foi clara, cada etapa foi explicada com cuidado e pude falar sobre minhas necessidades sem receio. Saí mais tranquila e confiante para cuidar da minha saúde. Também recebi orientações claras para decidir com tranquilidade os próximos passos do meu cuidado.",
-      en: "I found skilled professionals who respected my identity and embraced diversity. I felt safe from the very first contact. Communication was clear, each step was explained with care, and I could share my needs without fear. I left feeling calmer and more confident about my health. I also received clear guidance that helped me make the next care decisions with confidence.",
-    },
-  },
-  {
-    name: "Silvia", avatar: "imgEllipse23.png",
-    profession: { pt: "Psicóloga", en: "Psychologist" },
-    story: {
-      pt: "Fui ouvida sem julgamentos e encontrei profissionais preparados e competentes para atender a diversidade. Isso me trouxe segurança em cada etapa. As orientações foram claras e minha identidade foi respeitada durante todo o cuidado. Poder falar abertamente das minhas necessidades fez toda a diferença. Ter espaço para conversar com liberdade e participar das decisões tornou a experiência ainda mais acolhedora.",
-      en: "I was heard without judgment and found skilled professionals prepared to care for diverse people. That gave me confidence at every step. The guidance was clear, and my identity was respected throughout my care. Being able to speak openly about my needs made a real difference. Having room to speak freely and take part in decisions made the experience even more welcoming.",
-    },
-  },
-  {
-    name: "Débora", avatar: "imgEllipse24.png",
-    profession: { pt: "Enfermeira", en: "Nurse" },
-    story: {
-      pt: "Recebi um cuidado competente e respeitoso com a diversidade. Minha identidade foi acolhida, e me senti segura durante todo o atendimento. A equipe explicou as opções com atenção e me incluiu nas decisões. Saí confiante de que minhas necessidades foram compreendidas. Também saí com dúvidas esclarecidas e com a confiança de que posso buscar atendimento sem esconder quem sou.",
-      en: "I received skilled care that respected diversity. My identity was welcomed, and I felt safe throughout the appointment. The team carefully explained my options and included me in decisions. I left confident that my needs had been understood. I also left with answers and the confidence to seek care without hiding who I am.",
-    },
-  },
-];
+type Testimonial = (typeof testimonialsData)[number];
+
+function isTranslation(value: unknown): value is Testimonial["story"] {
+  return typeof value === "object" && value !== null &&
+    "pt" in value && typeof value.pt === "string" &&
+    "en" in value && typeof value.en === "string";
+}
+
+function isTestimonial(value: unknown): value is Testimonial {
+  return typeof value === "object" && value !== null &&
+    "name" in value && typeof value.name === "string" &&
+    "avatar" in value && typeof value.avatar === "string" &&
+    "profession" in value && isTranslation(value.profession) &&
+    "story" in value && isTranslation(value.story);
+}
+
+type TestimonialsState =
+  | { status: "loading" }
+  | { status: "error" }
+  | { status: "loaded"; data: Testimonial[] };
 const doctors = [
   { image: "M1.png", name: { pt: "Ana Ribeiro", en: "Ana Ribeiro" }, specialty: { pt: "Médica de família", en: "Family physician" } },
   { image: "M2.png", name: { pt: "Camila Nunes", en: "Camila Nunes" }, specialty: { pt: "Cardiologia", en: "Cardiology" } },
@@ -51,6 +46,23 @@ const doctors = [
 export function DoctorsView() {
   const { language } = useLanguage();
   const en = language === "en";
+  const [testimonials, setTestimonials] = useState<TestimonialsState>({ status: "loading" });
+  useEffect(() => {
+    const controller = new AbortController();
+    async function loadTestimonials() {
+      try {
+        const response = await fetch("/api/depoimentos", { signal: controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data: unknown = await response.json();
+        if (!Array.isArray(data) || !data.every(isTestimonial)) throw new Error("Invalid testimonials response");
+        if (!controller.signal.aborted) setTestimonials({ status: "loaded", data });
+      } catch {
+        if (!controller.signal.aborted) setTestimonials({ status: "error" });
+      }
+    }
+    void loadTestimonials();
+    return () => controller.abort();
+  }, []);
   // Guarda o banner selecionado sem perder a seleção ao trocar o idioma.
   const [slide, setSlide] = useState(0);
   const patients = en ? "For Patients" : "Para Pacientes";
@@ -103,12 +115,16 @@ export function DoctorsView() {
             <h2 id="testimonials-title">{en ? "Inspiring testimonials" : "Depoimentos inspiradores"}</h2>
             <small>{en ? "Illustrative profiles and stories; these are not real testimonials." : "Perfis e relatos ilustrativos; não representam depoimentos reais."}</small>
           </S.TestimonialHeading>
-          <S.TestimonialGrid>
-            {testimonials.map(({ name, avatar, profession, story }) => <S.TestimonialCard key={name} aria-label={en ? `Testimonial from ${name}` : `Depoimento de ${name}`}>
-              <header><Image src={`${assets}${avatar}`} width={64} height={64} alt="" /><div><h3>{name}</h3><p>{en ? profession.en : profession.pt}</p></div></header>
-              <p>{en ? story.en : story.pt}</p>
-            </S.TestimonialCard>)}
-          </S.TestimonialGrid>
+          {testimonials.status === "loading" && <p role="status">{en ? "Loading testimonials..." : "Carregando depoimentos..."}</p>}
+          {testimonials.status === "error" && <p role="alert">{en ? "Could not load testimonials. Please reload the page." : "Não foi possível carregar os depoimentos. Recarregue a página."}</p>}
+          {testimonials.status === "loaded" && (testimonials.data.length === 0
+            ? <p role="status">{en ? "No illustrative testimonials available." : "Nenhum depoimento ilustrativo disponível."}</p>
+            : <S.TestimonialGrid>
+              {testimonials.data.map(({ name, avatar, profession, story }) => <S.TestimonialCard key={name} aria-label={en ? `Testimonial from ${name}` : `Depoimento de ${name}`}>
+                <header><Image src={`${assets}${avatar}`} width={64} height={64} alt="" /><div><h3>{name}</h3><p>{en ? profession.en : profession.pt}</p></div></header>
+                <p>{en ? story.en : story.pt}</p>
+              </S.TestimonialCard>)}
+            </S.TestimonialGrid>)}
           <S.FindCareButton href="https://paciente.lacreisaude.com.br/" $variant="secondary">{findCare}</S.FindCareButton>
         </S.SectionContent>
       </S.Testimonials>

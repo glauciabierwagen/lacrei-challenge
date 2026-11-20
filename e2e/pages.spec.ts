@@ -54,6 +54,27 @@ test("links de propósito e história mantêm contraste no estado normal e ao pa
   }
 });
 
+test("depoimentos são carregados pela API simulada", async ({ page }) => {
+  const responsePromise = page.waitForResponse((response) =>
+    new URL(response.url()).pathname === "/api/depoimentos" && response.request().method() === "GET",
+  );
+  await page.goto("/medicos");
+  const response = await responsePromise;
+  expect(response.ok()).toBe(true);
+  const data = await response.json();
+  expect(data.map((testimonial: { name: string }) => testimonial.name)).toEqual(["Fernanda", "Silvia", "Débora"]);
+  const section = page.getByRole("region", { name: "Depoimentos inspiradores" });
+  await expect(section.getByRole("article")).toHaveCount(3);
+  await expect(section.getByText("Perfis e relatos ilustrativos; não representam depoimentos reais.")).toBeVisible();
+});
+
+test("erro da API de depoimentos é informado", async ({ page }) => {
+  await page.route("**/api/depoimentos", (route) => route.fulfill({ status: 503 }));
+  await page.goto("/medicos");
+  await expect(page.getByRole("alert")).toHaveText("Não foi possível carregar os depoimentos. Recarregue a página.");
+  await expect(page.getByRole("article", { name: /Depoimento de/ })).toHaveCount(0);
+});
+
 test("navegação e conteúdo interativo funcionam", async ({ page, isMobile }) => {
   await gotoHome(page);
   if (isMobile) await page.getByRole("button", { name: "Menu", exact: true }).click();
