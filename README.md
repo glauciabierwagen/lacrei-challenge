@@ -80,36 +80,21 @@ As rotas e o layout são Server Components; as views e os componentes interativo
 
 ## Qualidade e testes
 
-Os comandos principais são `npm run check` (lint, tipos, cobertura e build), `npm run test:e2e` (Playwright em Chromium desktop/mobile) e `npm run lighthouse` (build pronto e Chrome/Chromium). Use `npm test`, `npm run test:watch` ou `npm run test:coverage` para testes unitários. Para o primeiro E2E, instale o navegador com `npx playwright install chromium`.
-
-A cobertura mínima de 80% vale apenas para quatro componentes compartilhados, não para toda a aplicação. Os E2E cobrem as larguras de 320 a 1440 px; Safari/WebKit e Firefox não fazem parte da configuração atual. O [pipeline](.github/workflows/quality.yml) guarda relatórios como artefatos e não publica automaticamente.
+- `npm run check` executa lint, verificação de tipos, testes unitários com cobertura e build. Use `npm test` ou `npm run test:watch` para testes unitários.
+- `npm run test:e2e` executa Playwright em Chromium desktop e mobile; após instalar as dependências, execute `npx playwright install chromium` e gere o build com `npm run build`.
+- A cobertura mínima de 80% é exigida por arquivo para quatro componentes compartilhados, não para todo o projeto. Os testes E2E incluem larguras de 320 a 1440 px e verificações com axe; Firefox e WebKit não fazem parte da configuração.
+- O [pipeline de qualidade](.github/workflows/quality.yml) executa verificações e Lighthouse e guarda os relatórios como artefatos; não publica a aplicação.
+- O build de produção passou em 20/11/2026. Execute as suítes novamente após alterações.
 
 ## Acessibilidade e desempenho
 
-- HTML semântico, landmarks, link para pular ao conteúdo, foco visível, alvos de toque ≥48 px e suporte a teclado e movimento reduzido.
-- axe verifica WCAG A/AA automaticamente; consulte o [relatório NVDA](docs/relatorio-nvda.md) e o [roteiro de revisão manual](docs/screen-reader-review.md). A execução documentada com NVDA e VoiceOver segue pendente.
-- Rotas pré-renderizadas, fontes locais e `next/image`; o hero é priorizado e as imagens abaixo da dobra mantêm lazy loading.
-- [Lighthouse](lighthouserc.cjs) mede `/`, `/medicos` e `/sobre` em mobile, com metas de Performance ≥x`; revisar metadados, identidade, conteúdo provisório e essa opção antes de publicar uma versão final indexável.
-- [Relatório NVDA](docs/relatorio-nvda.md)
-[roteiro de revisão](docs/screen-reader-review.md). O [Lighthouse público de 17/11/2026]
-Relatório Rollback
+- O projeto usa HTML semântico, link para pular ao conteúdo, foco visível e suporte a teclado e movimento reduzido. A revisão documentada com leitores de tela segue pendente.
+- As rotas são pré-renderizadas; imagens principais são priorizadas e outras usam carregamento sob demanda. Há também imagens remotas do site oficial na Home.
+- A auditoria Lighthouse local de 20/11/2026 atingiu as metas de pontuação, mas identificou **contraste insuficiente** em links da Home e de Médicos.
 
-### Corrigir o Git e retomar publicações
+### Relatórios
 
-O rollback da plataforma **não reverte o código do repositório**. Para evitar republicar a regressão:
-
-1. Abrir uma branch de correção a partir da branch de produção e desfazer a alteração problemática por um **commit de reversão (`git revert`)**, preservando o histórico. Se for um merge, revisar qual alteração deve ser revertida; não escolher parâmetros de merge sem verificar os pais.
-2. Alternativamente, implementar uma correção direta em novo commit quando reverter prejudicaria outras alterações válidas.
-3. Executar `npm run check` e `npm run test:e2e`, revisar a Preview e integrar o pull request aprovado. Evitar `reset --hard` e force push na branch compartilhada.
-4. **Após Instant Rollback, a Vercel desativa a atribuição automática dos domínios de produção.** Um novo push pode gerar um deployment sem substituir a versão restaurada. Conferir esse estado em vez de presumir que o push já foi publicado.
-5. No cartão de produção, usar **Manage**, selecionar o deployment corrigido adequado e confirmar a promoção para desfazer o estado de rollback e reativar a atribuição automática. Validar o resumo, o commit e o domínio antes de confirmar.
-6. Repetir o checklist no domínio público e registrar o encerramento do incidente.
-
-Se não houver um build anterior elegível, o commit de reversão também serve como alternativa de recuperação: gerar um novo build do código restaurado e publicá-lo pelo fluxo normal. Esse caminho depende do tempo de build, não é uma restauração instantânea. Se o projeto já estiver em estado de rollback, ainda é necessário gerenciar a promoção conforme o passo anterior.
-
-### Limitações e ensaio do procedimento
-
-- Instant Rollback reaproveita o build e sua configuração anterior; não recompila com alterações recentes de variáveis de ambiente. Conferir compatibilidade de configuração e serviços externos.
-- Reverter o frontend não restaura bancos de dados, conteúdo de CMS, APIs externas ou dados já enviados. O projeto atual não possui banco, cadastro nem envio de newsletter; integrações futuras exigirão um plano próprio para dados e migrações.
-- Testar o procedimento primeiro em um projeto de homologação: publicar uma versão A conhecida, publicar uma versão B identificável, voltar para A, conferir as rotas e depois promover uma versão corrigida. Registrar evidências e tempo de recuperação observado, sem prometer um prazo que ainda não foi medido.
-- Não executar rollback na produção real sem autorização. A simulação local registrada abaixo não altera a Vercel e não equivale a uma restauração de domínio de produção.
+- [Relatório Rollback](docs/relatorio-rollback.md) — setup, deploy, recuperação e justificativas técnicas.
+- [Lighthouse](docs/relatorio-lighthouse.md) — auditoria local atual e resultados públicos históricos.
+- [Relatório NVDA](docs/relatorio-nvda.md).
+- [Roteiro de revisão com leitor de tela](docs/screen-reader-review.md).
