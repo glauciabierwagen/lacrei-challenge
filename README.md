@@ -90,7 +90,7 @@ As rotas e o layout são Server Components; as views e os componentes interativo
 
 - O projeto usa HTML semântico, link para pular ao conteúdo, foco visível e suporte a teclado e movimento reduzido. A revisão documentada com leitores de tela segue pendente.
 - As rotas são pré-renderizadas; imagens principais são priorizadas e outras usam carregamento sob demanda. Há também imagens remotas do site oficial na Home.
-- A auditoria Lighthouse local de 20/11/2026 atingiu as metas de pontuação, mas identificou **contraste insuficiente** em links da Home e de Médicos.
+- Após a correção dos links, a auditoria Lighthouse local de 20/11/2026 aprovou o contraste na Home e em Médicos; a medição anterior e os detalhes estão no relatório.
 
 ### Relatórios
 
