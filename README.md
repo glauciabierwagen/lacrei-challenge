@@ -19,7 +19,9 @@ As páginas são baseadas nos [frames do Figma](https://www.figma.com/design/rvD
 - A aplicação é demonstrativa: não realiza cadastro ou agendamento, a newsletter não envia nem armazena dados e o mapa não apresenta métricas de impacto. A seção de parceiros usa ilustrações genéricas; veja as [fontes e licenças](docs/partner-assets.md).
 - [Trabalhar com o Figma MCP](https://github.com/glauciabierwagen/lacrei-challenge#trabalhar-com-o-figma-mcp).
 
-A aplicação usa imagens locais e duas imagens remotas do site oficial nos cards de pacientes e profissionais da Home. Os textos usam **Nunito**, exceto as chamadas manuscritas, que mantêm **TrashHand**. Nunito é distribuída por `@fontsource`, com licença no respectivo pacote; TrashHand foi obtida de https://fonts.cdnfonts.com/s/441/TrashHand.woff. Revisar a autorização de uso das fotos, marcas e fontes antes de uma publicação final.
+As imagens incluem materiais do [Canva](https://canva.link/x9qpwn8n4h52j37), fotografias do [Pexels](https://www.pexels.com/) e elementos dos frames do Figma. A aplicação também usa duas imagens remotas do site oficial nos cards de pacientes e profissionais da Home. As ilustrações de parceiros são do [SVG Repo](https://www.svgrepo.com/); veja as [fontes e licenças](docs/partner-assets.md). Revisar as autorizações de uso das fotos, marcas e fontes antes de uma publicação final.
+
+Os textos usam **Nunito**, exceto as chamadas manuscritas, que mantêm **TrashHand**. Nunito é distribuída por `@fontsource`, com licença no respectivo pacote; TrashHand foi obtida de https://fonts.cdnfonts.com/s/441/TrashHand.woff.
 
 ## Escolhas e justificativas visuais e técnicas
 
@@ -59,23 +61,24 @@ Na preparação inicial foi usado Node portátil na pasta temporária, porque o 
 
 | Área | Responsabilidade |
 | --- | --- |
-| [src/app/layout.tsx](src/app/layout.tsx) | Idioma, metadados, skip link e estrutura compartilhada |
+| [src/app/layout.tsx](src/app/layout.tsx) | Metadados, link para pular ao conteúdo e estrutura compartilhada |
 | [src/app/page.tsx](src/app/page.tsx) | Entrada da página inicial |
-| [src/app/medicos/page.tsx](src/app/medicos/page.tsx) | Entrada da página Médicos |
-| [src/app/sobre/page.tsx](src/app/sobre/page.tsx) | Entrada da demonstração adicional |
-| [src/features/home/home-view.tsx](src/features/home/home-view.tsx) | Composição visual da primeira página |
-| [src/features/doctors/doctors-view.tsx](src/features/doctors/doctors-view.tsx) | Composição visual de Médicos |
-| [src/features/about/about-view.tsx](src/features/about/about-view.tsx) | Composição da demonstração adicional |
-| [src/components/layout/header.tsx](src/components/layout/header.tsx) | Navegação responsiva compartilhada |
-| [src/components/layout/footer.tsx](src/components/layout/footer.tsx) | Rodapé compartilhado |
-| [src/components/ui/button-link.tsx](src/components/ui/button-link.tsx) | Link de navegação com aparência de botão |
-| [src/components/ui/accordion.tsx](src/components/ui/accordion.tsx) | Conteúdo interativo acessível |
-| [src/styles/theme.ts](src/styles/theme.ts) | Tokens de cores, espaçamentos, tipografia e breakpoints |
-| [src/styles/registry.tsx](src/styles/registry.tsx) | Coleta de estilos no SSR e streaming |
-| [src/test/render.tsx](src/test/render.tsx) | Renderização com tema para testes |
-| [e2e/pages.spec.ts](e2e/pages.spec.ts) | Navegação, WCAG automatizada e responsividade |
+| [src/app/medicos/page.tsx](src/app/medicos/page.tsx) | Entrada e metadados da página Médicos/Profissionais |
+| [src/app/sobre/page.tsx](src/app/sobre/page.tsx) | Entrada e metadados da página Sobre demonstrativa |
+| [src/features/home/home-view.tsx](src/features/home/home-view.tsx) e [home.styles.ts](src/features/home/home.styles.ts) | Conteúdo, interações e estilos da Home |
+| [src/features/home/purpose-section.tsx](src/features/home/purpose-section.tsx) e [partner-section.tsx](src/features/home/partner-section.tsx) | Seções de propósito/missão e parceiros compartilhadas pela Home e Médicos |
+| [src/features/doctors/doctors-view.tsx](src/features/doctors/doctors-view.tsx) e [doctors.styles.ts](src/features/doctors/doctors.styles.ts) | Conteúdo e estilos da página Médicos/Profissionais |
+| [src/features/about/about-view.tsx](src/features/about/about-view.tsx) | Conteúdo da página Sobre demonstrativa |
+| [src/components/layout/header.tsx](src/components/layout/header.tsx) e [footer.tsx](src/components/layout/footer.tsx) | Navegação, avisos e rodapé com newsletter demonstrativa |
+| [src/components/layout/language-context.tsx](src/components/layout/language-context.tsx) | Idioma compartilhado PT/EN e atualização do idioma do documento |
+| [src/components/ui/](src/components/ui/) | Componentes e elementos visuais reutilizáveis, incluindo link com aparência de botão e acordeão |
+| [src/styles/](src/styles/) | Tema, estilos globais, provedores e integração de Styled-Components com SSR |
+| [public/images/](public/images/) e [public/fonts/](public/fonts/) | Imagens, ícones e fontes locais usados pela aplicação |
+| [src/test/](src/test/) e arquivos `*.test.tsx` em [src/](src/) | Configuração e testes unitários de componentes e páginas |
+| [e2e/pages.spec.ts](e2e/pages.spec.ts) | Testes de navegação, acessibilidade automatizada e responsividade |
+| [docs/](docs/) | Relatórios, roteiro de revisão com leitor de tela e documentação de assets |
 
-Rotas e layout permanecem Server Components; componentes que usam Styled-Components ou estado são Client Components. Novos estilos devem usar tokens e propriedades transitórias como `$variant`, sem enviar props de estilo para o DOM.
+As rotas e o layout são Server Components; as views e os componentes interativos usam Client Components. Os provedores reúnem tema, estilos globais, registro de SSR e idioma. Novos estilos devem usar tokens e propriedades transitórias como `$variant`, sem enviar props de estilo para o DOM.
 
 ## Qualidade e testes
 
