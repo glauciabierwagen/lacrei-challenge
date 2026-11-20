@@ -36,15 +36,16 @@ const teamButtonStyles = css`
   ${HomeButton} {
     min-height: 3rem;
     padding: .5rem .625rem;
-    border: 2px solid #018762;
+    border: 2px solid ${({ theme }) => theme.colors.primary};
     border-radius: 8px;
-    color: #018762;
+    color: ${({ theme }) => theme.colors.primary};
     font-size: 1.125rem;
     font-weight: 700;
     line-height: 1.55;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, .2);
+    transition: none;
   }
-  ${HomeButton}:hover { background: #018762; color: #fff; }
+  ${HomeButton}:hover { background: ${({ theme }) => theme.colors.primary}; color: #fff; }
 `;
 export const RegisterActions = styled.div`
   display: flex; flex-wrap: wrap; gap: 1.5rem;

@@ -34,6 +34,26 @@ for (const route of ["/", "/sobre", "/medicos"]) {
   });
 }
 
+test("links de propósito e história mantêm contraste no estado normal e ao passar o mouse", async ({ page }) => {
+  for (const [route, selectors] of [
+    ["/", ['#proposito a[href="/medicos"]', '#historias a[href="/medicos"]']],
+    ["/medicos", ['#proposito a[href="https://lacreisaude.com.br/ajuda/"]']],
+  ] as const) {
+    await page.goto(route);
+    for (const selector of selectors) {
+      await page.mouse.move(0, 0);
+      await expect(page.locator(selector)).toBeVisible();
+      for (const state of ["normal", "hover"]) {
+        if (state === "hover") await page.locator(selector).hover();
+        const result = await new AxeBuilder({ page }).include(selector).withRules(["color-contrast"]).analyze();
+        expect(result.violations).toEqual([]);
+        expect(result.incomplete).toEqual([]);
+        expect(result.passes.some((check) => check.id === "color-contrast")).toBe(true);
+      }
+    }
+  }
+});
+
 test("navegação e conteúdo interativo funcionam", async ({ page, isMobile }) => {
   await gotoHome(page);
   if (isMobile) await page.getByRole("button", { name: "Menu", exact: true }).click();
