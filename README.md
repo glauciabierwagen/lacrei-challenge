@@ -45,8 +45,6 @@ Os textos usam **Nunito**, exceto as chamadas manuscritas, que mantêm **TrashHa
 | Lighthouse e pipeline de qualidade | Ajudar a detectar regressões de desempenho e acessibilidade; resultados dependem da versão e do ambiente e não substituem revisão manual. |
 | Cadastro, perfis, depoimentos e newsletter demonstrativos | Informar os limites do protótipo: não há cadastro ou agendamento na aplicação, os perfis e depoimentos são ilustrativos e a newsletter não envia nem armazena dados. |
 
-**Limites conhecidos:** a execução documentada com NVDA e VoiceOver permanece pendente; consulte o [relatório NVDA](docs/relatorio-nvda.md) e o [roteiro de revisão](docs/screen-reader-review.md). O [Lighthouse público de 17/11/2026](docs/audits/2026-11-17-vercel/README.md) é um registro histórico. Antes de uma publicação final, revisar conteúdo, metadados e autorizações de uso das imagens, marcas e fontes.
-
 ## Ambiente e execução
 
 - Instalar Node.js **24 LTS**, com npm. A versão está fixada em [.nvmrc](.nvmrc).
@@ -86,14 +84,6 @@ Os comandos principais são `npm run check` (lint, tipos, cobertura e build), `n
 
 A cobertura mínima de 80% vale apenas para quatro componentes compartilhados, não para toda a aplicação. Os E2E cobrem as larguras de 320 a 1440 px; Safari/WebKit e Firefox não fazem parte da configuração atual. O [pipeline](.github/workflows/quality.yml) guarda relatórios como artefatos e não publica automaticamente.
 
-### Baseline registrado — 17/11/2026
-
-Naquela execução, `npm run check` passou; foram registrados 57 testes unitários e 38 E2E aprovados, 100% de cobertura nos quatro componentes selecionados e nenhuma violação axe nos estados auditados. Esses números são históricos e não substituem uma nova execução após mudanças.
-
-No Lighthouse mobile da Vercel, a Home marcou 89/96/76 (mediana 89) e `/medicos` 97/80/93 (mediana 93); Acessibilidade foi 100 nas três execuções de cada rota. Uma execução da Home ficou abaixo da meta de Performance 80. Os [seis relatórios e o resumo](docs/audits/2026-11-17-vercel/README.md) preservam os detalhes; o deploy testado não teve commit confirmado.
-
-**Leitor de tela:** consulte o [relatório NVDA](docs/relatorio-nvda.md) e o [roteiro de validação](docs/screen-reader-review.md), que registra a situação em 17/11/2026. A execução documentada com NVDA e VoiceOver segue pendente. Os resultados automatizados e Lighthouse são registros datados, não certificação permanente.
-
 ## Acessibilidade e desempenho
 
 - HTML semântico, landmarks, link para pular ao conteúdo, foco visível, alvos de toque ≥48 px e suporte a teclado e movimento reduzido.
@@ -101,7 +91,8 @@ No Lighthouse mobile da Vercel, a Home marcou 89/96/76 (mediana 89) e `/medicos`
 - Rotas pré-renderizadas, fontes locais e `next/image`; o hero é priorizado e as imagens abaixo da dobra mantêm lazy loading.
 - [Lighthouse](lighthouserc.cjs) mede `/`, `/medicos` e `/sobre` em mobile, com metas de Performance ≥x`; revisar metadados, identidade, conteúdo provisório e essa opção antes de publicar uma versão final indexável.
 - [Relatório NVDA](docs/relatorio-nvda.md)
-
+[roteiro de revisão](docs/screen-reader-review.md). O [Lighthouse público de 17/11/2026]
+Relatório Rollback
 
 ### Corrigir o Git e retomar publicações
 
